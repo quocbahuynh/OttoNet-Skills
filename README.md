@@ -35,12 +35,20 @@ flowchart TD
 
 ## Skills
 
-| Stage | Skills |
-| --- | --- |
-| Understand project | [dotnet-workspace-inspector](skills/dotnet-workspace-inspector/SKILL.md), [dotnet-project-documentation-reader](skills/dotnet-project-documentation-reader/SKILL.md), [dotnet-repository-explorer](skills/dotnet-repository-explorer/SKILL.md), [dotnet-team-pattern-learner](skills/dotnet-team-pattern-learner/SKILL.md) |
-| Understand task | [dotnet-task-analyzer](skills/dotnet-task-analyzer/SKILL.md), [dotnet-task-context-investigator](skills/dotnet-task-context-investigator/SKILL.md), [dotnet-requirement-gap-analyzer](skills/dotnet-requirement-gap-analyzer/SKILL.md) |
-| Plan and ship | [dotnet-implementation-planner](skills/dotnet-implementation-planner/SKILL.md), [dotnet-step-executor](skills/dotnet-step-executor/SKILL.md), [dotnet-step-reviewer](skills/dotnet-step-reviewer/SKILL.md), [dotnet-final-delivery-reviewer](skills/dotnet-final-delivery-reviewer/SKILL.md) |
-| Orchestrate | [dotnet-company-task-orchestrator](skills/dotnet-company-task-orchestrator/SKILL.md) |
+| Stage | Skill | Role |
+| --- | --- | --- |
+| 1. Understand project | [dotnet-workspace-inspector](skills/dotnet-workspace-inspector/SKILL.md) | Inspect Git state and protect existing work before analysis. |
+| 1. Understand project | [dotnet-project-documentation-reader](skills/dotnet-project-documentation-reader/SKILL.md) | Read repository docs, rules, setup notes, and AI instructions. |
+| 1. Understand project | [dotnet-repository-explorer](skills/dotnet-repository-explorer/SKILL.md) | Map the .NET solution, projects, modules, and request flow. |
+| 1. Understand project | [dotnet-team-pattern-learner](skills/dotnet-team-pattern-learner/SKILL.md) | Learn evidence-backed team coding patterns from existing work. |
+| 2. Understand task | [dotnet-task-analyzer](skills/dotnet-task-analyzer/SKILL.md) | Extract requirements, rules, contracts, tests, and undefined details. |
+| 2. Understand task | [dotnet-task-context-investigator](skills/dotnet-task-context-investigator/SKILL.md) | Inspect task-related code, relationships, and reference implementations. |
+| 2. Understand task | [dotnet-requirement-gap-analyzer](skills/dotnet-requirement-gap-analyzer/SKILL.md) | Identify missing, ambiguous, conflicting, or blocked requirements. |
+| 3. Plan | [dotnet-implementation-planner](skills/dotnet-implementation-planner/SKILL.md) | Create the approved step-by-step HTML implementation plan. |
+| 4. Execute | [dotnet-step-executor](skills/dotnet-step-executor/SKILL.md) | Execute exactly one developer-requested plan step. |
+| 5. Review | [dotnet-step-reviewer](skills/dotnet-step-reviewer/SKILL.md) | Review the completed step before the developer commits. |
+| 6. Final delivery | [dotnet-final-delivery-reviewer](skills/dotnet-final-delivery-reviewer/SKILL.md) | Check full requirement coverage and readiness for manual push. |
+| Orchestrate | [dotnet-company-task-orchestrator](skills/dotnet-company-task-orchestrator/SKILL.md) | Coordinate all skills while enforcing developer-controlled gates. |
 
 ## Usage
 
@@ -60,6 +68,10 @@ Templates are in [templates](templates). The sample task is [examples/certificat
 
 OttoNet does not clone, create or switch branches, reset, rebase, discard changes, merge, force-push, push, or run the whole plan automatically. The developer approves the plan, requests one step at a time, and commits manually.
 
-## Current status
+## Author
 
-Initial workflow version with 12 skills, report templates, an HTML plan template, and one example task.
+Built by [Quoc Ba Huynh](https://github.com/quocbahuynh).
+
+## Donate
+
+If OttoNet helps you save time and ship better .NET tasks, you can support the project on [Buy Me a Coffee](https://buymeacoffee.com/quochb).
