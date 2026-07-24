@@ -1,30 +1,30 @@
 # OttoNet Skills
 
-> Read. Learn. Ship.
+> Ship GitLab task to production-ready code. AI skills think like your team, code like your team.
 
-Agent Skills that help .NET developers understand existing codebases, follow team conventions, and ship production-ready company tasks.
+OttoNet is a collection of Agent Skills for .NET teams delivering Business Analyst, Team Leader, and GitLab tasks in existing company codebases. It establishes evidence-based project understanding before implementation, so every change follows the repository architecture, conventions, and delivery practices already in place.
 
-## Start here
+## Why OttoNet
 
-OttoNet is for .NET developers working on Business Analyst, Team Leader, or GitLab tasks in an established company repository. It learns the project before planning code, so the work follows the repository architecture, local conventions, and team delivery style.
+- **Codebase-aware** — documentation, architecture, active code, and approved patterns are examined before the task is planned.
+- **Evidence-led** — repository rules and resolved requirements take precedence over generic .NET practices.
+- **Developer-controlled** — the developer approves the plan, requests each implementation step, and decides when to commit and push.
 
-Use OttoNet when you want an agent to understand the codebase, surface missing business decisions, and implement only the step you explicitly request. You remain in control of approval, commits, and pushes.
+## Get started
 
-## Start in 60 seconds
-
-From the root of an existing .NET project on your feature branch:
+From the root of an existing .NET project on the feature branch you intend to work on:
 
 ```bash
 npx skills add quocbahuynh/OttoNet-Skills --skill '*' --agent codex
 ```
 
-Then start a new agent task with:
+Start a new agent task with the BA, Team Leader, or GitLab requirement, then use this prompt:
 
 ```text
 Use dotnet-company-task-orchestrator for this GitLab task, but stop at every required developer-controlled gate.
 ```
 
-The agent inspects and learns first, creates an HTML plan for approval, then performs one requested step at a time.
+OttoNet first learns the repository, then creates an HTML implementation plan for approval. After approval, it executes and reviews only the single step the developer requests.
 
 ## Workflow
 
@@ -69,18 +69,18 @@ flowchart TD
 | [dotnet-final-delivery-reviewer](skills/dotnet-final-delivery-reviewer/SKILL.md) | Review complete delivery readiness. | Verify the branch before a manual push. |
 | [dotnet-company-task-orchestrator](skills/dotnet-company-task-orchestrator/SKILL.md) | Coordinate the workflow while enforcing developer-controlled gates. | Manage a GitLab task from inspection to final review. |
 
-## Installation options
+## Installation
 
-This public repository is a source for the `skills` CLI; it is not an npm package. Use the options supported by your installed CLI and agent.
+OttoNet is distributed directly from this public GitHub repository through the `skills` CLI; no npm package or project dependency is required.
 
 ```bash
-# Add the repository interactively
+# Add the repository and choose skills interactively
 npx skills add quocbahuynh/OttoNet-Skills
 
-# View available skills without installing
+# List available skills without installing
 npx skills add quocbahuynh/OttoNet-Skills --list
 
-# Install one skill
+# Install the orchestrator only
 npx skills add quocbahuynh/OttoNet-Skills \
   --skill dotnet-company-task-orchestrator
 
@@ -91,9 +91,13 @@ npx skills add quocbahuynh/OttoNet-Skills \
   --global
 ```
 
+Use the flags supported by your installed `skills` CLI and target agent.
+
 ## Supported AI agents
 
-OttoNet uses portable Agent Skills (`SKILL.md` with `name` and `description`) and does not require agent-specific hooks or metadata. Install it for any supported `skills` CLI target; common targets are:
+OttoNet uses the portable Agent Skills format: each skill is a `SKILL.md` file with `name` and `description` frontmatter. It does not depend on vendor-specific hooks or metadata.
+
+Common `skills` CLI targets include:
 
 | Agent | `--agent` value |
 | --- | --- |
@@ -115,9 +119,9 @@ For example, install all OttoNet skills for Claude Code in the current project:
 npx skills add quocbahuynh/OttoNet-Skills --skill '*' --agent claude-code
 ```
 
-See the [`skills` CLI supported-agent list](https://github.com/vercel-labs/skills#supported-agents) for the current full set of targets. Core skill instructions are portable, but each agent still controls its own tool access, discovery behavior, and feature support.
+The [skills CLI supported-agent list](https://github.com/vercel-labs/skills#supported-agents) is the source of truth for the current full target list. Core OttoNet instructions are portable, while tool access, discovery behavior, and advanced capabilities remain agent-specific.
 
-## Prompt examples
+## Example prompts
 
 ```text
 Use dotnet-project-documentation-reader to understand this repository before reading the task.
@@ -131,29 +135,29 @@ Use dotnet-team-pattern-learner to study completed implementations and identify 
 Read the approved implementation plan and execute Step 3 only.
 ```
 
-Supported agents can select a skill from its frontmatter `description`; use the orchestrator when the full controlled workflow is needed.
+Supported agents can select skills from the frontmatter description. Use `dotnet-company-task-orchestrator` when the full gated workflow is required.
 
-## Safety boundaries
+## Safety model
 
 OttoNet never automatically:
 
-- Clones repositories, creates or switches branches, resets or discards local changes.
-- Commits unless explicitly requested, pushes, or merges.
-- Executes an entire implementation plan without approval.
-- Continues through unresolved business ambiguity.
+- Clones repositories, creates or switches branches, resets changes, or discards local work.
+- Commits unless explicitly instructed, pushes, or merges.
+- Executes an entire implementation plan without developer approval.
+- Continues when a business requirement remains unresolved.
 
-The developer approves the plan, requests one step at a time, and decides when to commit and push.
+The developer remains accountable for plan approval, step selection, commits, and pushes.
 
-## Resources
+## Repository resources
 
-- [Templates](templates) for reports and standalone HTML implementation plans.
-- [Certificate Management example](examples/certificate-management-task.md) for a realistic task.
-- `python3 scripts/validate-skills.py` to validate repository skill metadata.
+- [Templates](templates) for project, task, review, and standalone HTML plan reports.
+- [Certificate Management example](examples/certificate-management-task.md) with a realistic source task.
+- `python3 scripts/validate-skills.py` to validate skill metadata.
 - [MIT License](LICENSE).
 
-## Project status
+## Status
 
-Initial public release: 12 .NET company-task skills, shared report templates, an HTML plan template, and a realistic example task.
+Initial public release: 12 .NET company-task skills, reusable report templates, an HTML plan template, and a realistic example task.
 
 ## Recommended GitHub topics
 
