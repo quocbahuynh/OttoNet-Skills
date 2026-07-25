@@ -4,12 +4,6 @@
 
 OttoNet is a collection of Agent Skills for .NET teams delivering Business Analyst, Team Leader, and GitLab tasks in existing company codebases. It establishes evidence-based project understanding before implementation, so every change follows the repository architecture, conventions, and delivery practices already in place.
 
-## Why OttoNet
-
-- **Codebase-aware** — documentation, architecture, active code, and approved patterns are examined before the task is planned.
-- **Evidence-led** — repository rules and resolved requirements take precedence over generic .NET practices.
-- **Developer-controlled** — the developer approves the plan, requests each implementation step, and decides when to commit and push.
-
 ## Get started
 
 From the root of an existing .NET project on the feature branch you intend to work on:
@@ -153,18 +147,6 @@ OttoNet never automatically:
 - Continues when a business requirement remains unresolved.
 
 The developer remains accountable for plan approval, step selection, commits, and pushes.
-
-## Repository resources
-
-- [Templates](templates) for project, task, review, and standalone HTML plan reports.
-- [Workflow state template](templates/task-workflow-state-template.md) for resumable task memory.
-- [Certificate Management example](examples/certificate-management-task.md) with a realistic source task.
-- `python3 scripts/validate-skills.py` to validate skill metadata.
-- [MIT License](LICENSE).
-
-## Recommended GitHub topics
-
-`agent-skills` · `dotnet` · `codex` · `claude-code` · `developer-tools` · `gitlab` · `software-engineering`
 
 ## Author and support
 
