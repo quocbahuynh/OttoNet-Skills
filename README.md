@@ -1,8 +1,8 @@
 # OttoNet Skills
 
-> Ship GitLab task to production-ready code. AI skills think like your team, code like your team.
+> Ship GitLab tasks to production-ready code. AI skills think like your team, code like your team.
 
-OttoNet is a collection of Agent Skills for .NET teams delivering Business Analyst, Team Leader, and GitLab tasks in existing company codebases. It establishes evidence-based project understanding before implementation, so every change follows the repository architecture, conventions, and delivery practices already in place.
+OttoNet is a collection of Agent Skills for .NET teams that need to deliver Business Analyst, Team Leader, and GitLab tasks inside existing company codebases. It starts with evidence-based project understanding, then moves into implementation only after the repository architecture, conventions, and delivery practices are clear.
 
 ## Get started
 
@@ -34,9 +34,9 @@ The orchestrator chooses the least costly mode that is still safe. The developer
 
 ### Resume safely with workflow memory
 
-For a multi-step task, the orchestrator creates a **task dossier** at `.ottonet/tasks/<task-slug>/`. Its canonical state file is `workflow-state.md`; it indexes the requirement report, architecture and pattern reports, evidence registry, context and gap reports, approved plan, and step reports. It records the current gate, resolved decisions, approved plan, step/review/commit status, source fingerprints, and a short append-only handoff log. This lets a later agent or session resume from verified evidence instead of relying on chat memory.
+For a multi-step task, the orchestrator creates a **task dossier** at `.ottonet/tasks/<task-slug>/`. Its canonical state file is `workflow-state.md`; it indexes the requirement report, architecture and pattern reports, evidence registry, context and gap reports, approved plan, and step reports. It records the current gate, resolved decisions, approved plan, step/review/commit status, source fingerprints, and a short append-only handoff log.
 
-The dossier is a local sidecar by default: OttoNet does not stage, commit, push, delete, or add it to ignore rules. Teams that require task artifacts in version control can explicitly choose a repository-tracked location. Reports should reference evidence IDs and record only conclusions or changes since the last run; they must not repeatedly copy source code, full task text, or Git diffs.
+The dossier is a local sidecar by default: OttoNet does not stage, commit, push, delete, or add it to ignore rules. Teams that require task artifacts in version control can explicitly choose a repository-tracked location. Reports should reference evidence IDs and record only conclusions or changes since the last run; they should reuse current evidence when the source fingerprint is unchanged.
 
 ## Workflow
 
