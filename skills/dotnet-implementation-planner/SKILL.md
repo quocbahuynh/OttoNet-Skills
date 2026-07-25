@@ -25,6 +25,7 @@ Use only after `dotnet-requirement-gap-analyzer` explicitly permits planning. Re
 - Project Documentation, Project Understanding, Team Coding Pattern, Task Context, and Requirement Gap reports.
 - Selected reference implementations.
 - `../../templates/implementation-plan-template.html`.
+- OttoNet workflow-state path when the task is orchestrated.
 
 ## Workflow
 
@@ -34,7 +35,7 @@ Use only after `dotnet-requirement-gap-analyzer` explicitly permits planning. Re
 4. For every step specify: number, title, goal, files to inspect/create/modify, detailed actions, reference implementations, business rules, acceptance criteria, risks, dependencies, validation commands, expected result, and suggested commit message.
 5. Render a standalone HTML plan from the supplied template. Include task summary, requirement status, architecture context, references, table of contents, status-aware step cards, risk badges, validation checklist, commit suggestion, progress status, and final acceptance checklist.
 6. Write the plan to `docs/implementation-plans/<task-slug>-plan.html` in the target project unless project documentation specifies a different approved planning location. Create only the plan artifact required for this task.
-7. Present the plan for developer approval. Do not execute a step, edit production code, or silently revise the plan after approval.
+7. Present the plan for developer approval. When invoked by the orchestrator, return the plan path, task slug, plan version/checksum when practical, and `AWAITING_PLAN_APPROVAL` transition for workflow-state recording. Do not execute a step, edit production code, or silently revise the plan after approval.
 
 ## Evidence priority
 
@@ -46,6 +47,7 @@ Use this order for any interpretation: 1) resolved task requirements, 2) origina
 - Do not write production code, alter migrations, or modify unrelated documentation.
 - Do not conceal assumptions, conflicts, risks, or unavailable validation.
 - Do not auto-approve the plan, auto-execute steps, commit, push, switch branches, or update the plan silently.
+- Do not edit the workflow state directly unless the developer explicitly asks to run this skill without the orchestrator and authorizes that update.
 
 ## Stop conditions
 

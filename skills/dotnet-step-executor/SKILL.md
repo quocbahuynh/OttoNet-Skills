@@ -25,16 +25,17 @@ Use only when the developer explicitly requests a numbered step from an approved
 - HTML implementation plan path and explicit requested step number.
 - Resolved task specification and supporting reports.
 - Workspace Inspection Report or permission to perform a new inspection.
+- OttoNet workflow-state path when the task is orchestrated; otherwise state that no workflow-state update is available.
 
 ## Workflow
 
 1. Run `dotnet-workspace-inspector` behavior first. Record current branch, local changes, staged files, conflicts, and protection boundaries.
-2. Read the requested step from the HTML plan, including goal, files, actions, references, dependencies, risks, validation, and expected result. Confirm the plan was approved.
+2. When a workflow state is available, reconcile its plan approval, current gate, requested step, protected paths, and latest continuity event with the current workspace. Stop on a mismatch that could make the step unsafe. Read the requested step from the HTML plan, including goal, files, actions, references, dependencies, risks, validation, and expected result. Confirm the plan was approved.
 3. Read the referenced project files and selected reference implementations before editing. Confirm dependencies are complete and no unresolved blocking issue applies.
 4. Compare planned files with existing dirty and staged paths. Stop if the step could overwrite, stage over, or obscure unrelated developer changes.
 5. Make only changes required by the requested step. Follow project documentation, resolved requirements, and the highest-evidence team patterns. Do not prepare code for a future step.
 6. Run the plan's applicable validation commands, respecting repository instructions and environment limitations. Inspect the resulting diff and confirm scope.
-7. Report exact files changed, commands actually run, results, deviations, and unresolved issues. Leave commit and plan-status updates to explicit developer instruction.
+7. Report exact files changed, commands actually run, results, deviations, and unresolved issues. If invoked by the orchestrator, provide the precise state transition (`AWAITING_REVIEW` or `BLOCKED`) and evidence paths; the orchestrator records it. Leave commit and HTML-plan-status updates to explicit developer instruction.
 
 ## Evidence priority
 
@@ -47,6 +48,7 @@ Use this order for any interpretation: 1) resolved task requirements, 2) origina
 - Do not refactor unrelated files, create speculative future code, or silently modify the HTML plan.
 - Do not overwrite or stage existing developer changes. Stop on uncertain overlap.
 - Do not claim validation passed unless the actual command ran and its result was inspected.
+- Do not edit the workflow state directly unless the developer explicitly asks to run this skill without the orchestrator and authorizes that update.
 
 ## Stop conditions
 

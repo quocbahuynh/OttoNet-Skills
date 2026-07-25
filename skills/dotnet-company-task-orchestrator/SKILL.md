@@ -19,26 +19,38 @@ Use to run the complete OttoNet workflow for a BA or Team Leader task, or to res
 - The current directory is the target project root.
 - The developer owns task clarification, plan approval, step requests, commits, and pushes.
 - Repository review-system access may not exist; Git history is not proof of approval.
+- Agent conversation context is temporary and cannot be the source of truth for a multi-stage task.
 
 ## Required inputs
 
 - Target repository root.
 - BA or Team Leader task when the task-analysis gate is reached.
 - Any prior OttoNet reports, plan path, clarification answers, and explicit developer decisions when resuming.
+- A task slug for new work, or the existing OttoNet workflow-state path when resuming.
+
+## Workflow memory
+
+Use one canonical state file for each task. It records workflow position, gates, report paths, requirement resolutions, plan approval, step/commit decisions, protection boundaries, and an append-only continuity log. It is memory, not a substitute for evidence: detailed facts remain in the referenced reports and plan.
+
+- Default location: `.ottonet/tasks/<task-slug>/workflow-state.md` in the target repository, created from `../../templates/task-workflow-state-template.md` only after the first workspace inspection is safe enough to continue.
+- Treat the default location as a local, untracked sidecar. Never stage, commit, push, delete, or add it to ignore rules automatically. A developer may explicitly choose a repository-tracked location when team policy requires reviewable task artifacts.
+- On resume, read the state first, then re-run workspace inspection and compare repository root, branch, HEAD, protected paths, current gate, and the latest continuity event. Reconcile differences visibly; never assume an `IN_PROGRESS` stage finished.
+- Record paths, short summaries, identifiers, and decisions only. Never copy secrets, full diffs, credentials, or sensitive task data into state.
+- Update the state only after evidence is produced, when a gate changes, or immediately before a code-editing step begins. Append to the continuity log; do not erase historical evidence.
 
 ## Workflow
 
-1. Run `dotnet-workspace-inspector`.
-2. Run `dotnet-project-documentation-reader`.
-3. Run `dotnet-repository-explorer`.
-4. Run `dotnet-team-pattern-learner`.
-5. Run `dotnet-task-analyzer` only after project understanding and patterns are documented.
-6. Run `dotnet-task-context-investigator`.
-7. Run `dotnet-requirement-gap-analyzer` and stop at clarification when required.
-8. When all blocking questions are resolved, run `dotnet-implementation-planner` and stop for plan approval.
-9. After the developer explicitly requests one step, run `dotnet-step-executor`, then `dotnet-step-reviewer`.
-10. Stop for the developer's commit decision. Repeat only when the developer explicitly requests the next numbered step.
-11. After all required steps are reviewed, run `dotnet-final-delivery-reviewer` and stop for manual push.
+1. Run `dotnet-workspace-inspector`. If safe enough to proceed, create or reconcile the workflow state and record its protection boundary.
+2. Run `dotnet-project-documentation-reader`, record the report path and satisfy Gate 2 only after its evidence is available.
+3. Run `dotnet-repository-explorer`, then record the Project Understanding Report.
+4. Run `dotnet-team-pattern-learner`, record its classifications and satisfy Gate 3.
+5. Run `dotnet-task-analyzer` only after project understanding and patterns are documented; record the source task and requirement report.
+6. Run `dotnet-task-context-investigator` and record related modules, references, and task/code conflicts.
+7. Run `dotnet-requirement-gap-analyzer`, update the resolution ledger, and stop at clarification when required.
+8. When all blocking questions are resolved, run `dotnet-implementation-planner`, register the HTML plan, and stop for explicit plan approval.
+9. After approval, record the approval evidence. After the developer explicitly requests one numbered step, mark only that step `IN_PROGRESS`, run `dotnet-step-executor`, then mark it `AWAITING_REVIEW` and run `dotnet-step-reviewer`.
+10. Record the review outcome. Stop for the developer's commit decision; record either the commit SHA after a new inspection or the developer's explicit decision to continue without a commit. Repeat only when the developer explicitly requests the next numbered step.
+11. After all required steps are reviewed and reconciled with the state, run `dotnet-final-delivery-reviewer`, record its decision, and stop for manual push.
 
 ## Evidence priority
 
@@ -51,6 +63,8 @@ Use this order for every skill decision: 1) resolved task requirements, 2) origi
 - Never hide assumptions or continue through blocking ambiguity.
 - Preserve existing local changes and make each gate decision visible.
 - Do not claim merge-request approval or review resolution from Git history alone.
+- Never treat chat history, a previous model response, or an unverified `IN_PROGRESS` state as proof that a stage or code change completed.
+- Never let the workflow-state file obscure pre-existing user changes; record it as an OttoNet-owned sidecar in the protection boundary.
 
 ## Stop conditions
 
@@ -71,7 +85,7 @@ Stop at each mandatory gate below. Resume only with the stated developer input o
 
 ## Required output
 
-Produce an **OttoNet Workflow Status** after every stage: completed reports, evidence limits, current gate, blocking questions, approved assumptions, plan path and step status when present, and the exact developer action required to continue. Preserve links or paths to all generated reports.
+Produce an **OttoNet Workflow Status** after every stage and update the workflow state: completed reports, evidence limits, current gate, blocking questions, approved assumptions, plan path and step status when present, and the exact developer action required to continue. Preserve links or paths to all generated reports.
 
 ## Handoff to the next skill
 

@@ -26,6 +26,12 @@ Use dotnet-company-task-orchestrator for this GitLab task, but stop at every req
 
 OttoNet first learns the repository, then creates an HTML implementation plan for approval. After approval, it executes and reviews only the single step the developer requests.
 
+### Resume safely with workflow memory
+
+For a multi-step task, the orchestrator maintains one canonical state file at `.ottonet/tasks/<task-slug>/workflow-state.md`. It records the current gate, report paths, resolved decisions, approved plan, step/review/commit status, and a short append-only handoff log. This lets a later agent or session resume from verified evidence instead of relying on chat memory.
+
+The file is a local sidecar by default: OttoNet does not stage, commit, push, delete, or add it to ignore rules. Teams that require task artifacts in version control can explicitly choose a repository-tracked location.
+
 ## Workflow
 
 ```mermaid
@@ -151,13 +157,10 @@ The developer remains accountable for plan approval, step selection, commits, an
 ## Repository resources
 
 - [Templates](templates) for project, task, review, and standalone HTML plan reports.
+- [Workflow state template](templates/task-workflow-state-template.md) for resumable task memory.
 - [Certificate Management example](examples/certificate-management-task.md) with a realistic source task.
 - `python3 scripts/validate-skills.py` to validate skill metadata.
 - [MIT License](LICENSE).
-
-## Status
-
-Initial public release: 12 .NET company-task skills, reusable report templates, an HTML plan template, and a realistic example task.
 
 ## Recommended GitHub topics
 

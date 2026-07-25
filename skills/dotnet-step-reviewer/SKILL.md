@@ -24,6 +24,7 @@ Use after `dotnet-step-executor` finishes a requested step and before the develo
 - Step Execution Report and approved plan step.
 - Resolved task specification, relevant reports, and selected references.
 - Current `git status` and diff for the review boundary.
+- OttoNet workflow-state path when the task is orchestrated.
 
 ## Workflow
 
@@ -33,7 +34,7 @@ Use after `dotnet-step-executor` finishes a requested step and before the develo
 4. Review project consistency: names, folders, architecture/dependency direction, authorization, validation, data access, errors, logging, tests, formatting, and documented rules as applicable.
 5. Review scope: no unrelated changes, future-step work, accidental refactoring, or overwritten developer work.
 6. Check validation evidence. Run only proportionate repository-appropriate read/build/test/format checks when the execution report did not cover them or when a review finding warrants it. Record commands actually run.
-7. State whether the step is ready for commit and list exact required fixes or risks. Do not make changes unless separately and explicitly asked to execute the same step again.
+7. State whether the step is ready for commit and list exact required fixes or risks. When invoked by the orchestrator, return the exact state transition (`AWAITING_COMMIT_DECISION` or `BLOCKED`) with report evidence so it can be recorded. Do not make changes unless separately and explicitly asked to execute the same step again.
 
 ## Evidence priority
 
@@ -45,6 +46,7 @@ Use this order for any interpretation: 1) resolved task requirements, 2) origina
 - Never commit, push, stage, switch branches, reset, rebase, or discard changes.
 - Do not declare a check passed without execution evidence.
 - Treat unexplained diff overlap with pre-existing changes as a review blocker.
+- Do not edit the workflow state directly unless the developer explicitly asks to run this skill without the orchestrator and authorizes that update.
 
 ## Stop conditions
 
