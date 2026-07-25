@@ -24,13 +24,13 @@ Use only after every required plan step is completed and reviewed, and before th
 - Resolved task specification, accepted implementation plan, and all step reports.
 - Project Documentation and Team Coding Pattern reports.
 - Current workspace state, diff, and commit history.
-- OttoNet workflow-state path when the task is orchestrated.
+- Task dossier state and evidence registry when the task is orchestrated.
 
 ## Workflow
 
-1. Compare every resolved requirement, endpoint, contract, business rule, role/permission rule, and acceptance criterion with final source and tests.
-2. Review input validation, output and error contracts, authorization, persistence relationships, uniqueness and delete behavior, naming, folders, dependencies, and team patterns.
-3. When a workflow state is available, reconcile its completed-step and commit-decision records with the current plan, workspace, and commit history. Treat any mismatch as a review finding. Inspect files changed, uncommitted changes, and relevant commit history. Identify work not represented by the task or plan.
+1. When a dossier is available, confirm `READY_FOR_FINAL_REVIEW`, reconcile the requirement-to-step coverage map, all completed-step reviews, commit decisions, source freshness, plan, workspace, and commit history. Treat any mismatch as a review finding.
+2. Compare every resolved requirement, endpoint, contract, business rule, role/permission rule, and acceptance criterion with final source and tests.
+3. Review input validation, output and error contracts, authorization, persistence relationships, uniqueness and delete behavior, naming, folders, dependencies, and team patterns. Inspect files changed, uncommitted changes, and relevant commit history; identify work not represented by the task or plan.
 4. Run only repository-appropriate checks permitted by documentation. Possible commands include `dotnet restore`, `dotnet build`, `dotnet test`, `dotnet format --verify-no-changes`, `git status`, `git diff`, and `git log --oneline`; select rather than assume them.
 5. Record every command actually executed with result. Distinguish skipped, unavailable, failed, and passed checks.
 6. Summarize test coverage, remaining risks, known limitations, and manual verification that cannot be performed safely or locally.

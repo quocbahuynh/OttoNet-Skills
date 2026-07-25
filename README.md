@@ -20,11 +20,23 @@ Use dotnet-company-task-orchestrator for this GitLab task, but stop at every req
 
 OttoNet first learns the repository, then creates an HTML implementation plan for approval. After approval, it executes and reviews only the single step the developer requests.
 
+### Choose an operating mode
+
+The orchestrator chooses the least costly mode that is still safe. The developer may request a stricter mode at any time.
+
+| Mode | Use for | Evidence and investigation depth |
+| --- | --- | --- |
+| `FAST` | A narrow, low-risk fix in a well-understood area. | Reuse a current dossier, inspect the workspace, then verify only task-related documentation, files, and patterns. |
+| `STANDARD` | The normal feature, API, or business-rule task. | Build or refresh the project map, team patterns, task context, and requirement decisions. |
+| `STRICT` | New modules, migrations, authorization, external integrations, sensitive domains, or unclear architecture. | Use Standard coverage plus wider dependency tracing, stronger evidence, and proportionate extra validation. |
+
+`FAST` never bypasses workspace protection, task clarification, plan approval, one-step execution, review, commit, or final-delivery gates. It is unavailable when the dossier is stale, requirements are ambiguous, or the task affects high-risk areas.
+
 ### Resume safely with workflow memory
 
-For a multi-step task, the orchestrator maintains one canonical state file at `.ottonet/tasks/<task-slug>/workflow-state.md`. It records the current gate, report paths, resolved decisions, approved plan, step/review/commit status, and a short append-only handoff log. This lets a later agent or session resume from verified evidence instead of relying on chat memory.
+For a multi-step task, the orchestrator creates a **task dossier** at `.ottonet/tasks/<task-slug>/`. Its canonical state file is `workflow-state.md`; it indexes the requirement report, architecture and pattern reports, evidence registry, context and gap reports, approved plan, and step reports. It records the current gate, resolved decisions, approved plan, step/review/commit status, source fingerprints, and a short append-only handoff log. This lets a later agent or session resume from verified evidence instead of relying on chat memory.
 
-The file is a local sidecar by default: OttoNet does not stage, commit, push, delete, or add it to ignore rules. Teams that require task artifacts in version control can explicitly choose a repository-tracked location.
+The dossier is a local sidecar by default: OttoNet does not stage, commit, push, delete, or add it to ignore rules. Teams that require task artifacts in version control can explicitly choose a repository-tracked location. Reports should reference evidence IDs and record only conclusions or changes since the last run; they must not repeatedly copy source code, full task text, or Git diffs.
 
 ## Workflow
 

@@ -7,20 +7,22 @@
 | Task | |
 | Search terms used | |
 | Investigation date | |
+| Evidence registry | `<path and relevant IDs>` |
+| Dependency boundary | `<explored modules and intentionally unrelated areas>` |
 
 ## Relevant files
 
-| File | Role | Direct or indirect relationship | Key behavior | Evidence |
-| --- | --- | --- | --- | --- |
+| Requirement IDs | File | Role | Direct or indirect relationship | Key behavior | Evidence ID |
+| --- | --- | --- | --- | --- | --- |
 
 ## Related modules and relationships
 
-| Module or entity | Relationship to task | Database or workflow relationship | Evidence |
-| --- | --- | --- | --- |
+| Requirement IDs | Module or entity | Relationship to task | Database or workflow relationship | Evidence ID |
+| --- | --- | --- | --- | --- |
 
 ## Existing reusable components
 
-| Component | What it provides | Safe reuse scope | Evidence |
+| Component | What it provides | Safe reuse scope | Evidence ID |
 | --- | --- | --- | --- |
 
 ## Existing behavior and candidate references

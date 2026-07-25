@@ -25,17 +25,17 @@ Use only after `dotnet-requirement-gap-analyzer` explicitly permits planning. Re
 - Project Documentation, Project Understanding, Team Coding Pattern, Task Context, and Requirement Gap reports.
 - Selected reference implementations.
 - `../../templates/implementation-plan-template.html`.
-- OttoNet workflow-state path when the task is orchestrated.
+- Task dossier state and evidence registry when the task is orchestrated.
 
 ## Workflow
 
-1. Confirm the Requirement Gap Report contains no unresolved `BLOCKING` or `BA_CONFIRMATION_REQUIRED` issue. Stop otherwise.
-2. Select only references that match required structure and document their reuse limits.
+1. Confirm the Requirement Gap Report contains no unresolved `BLOCKING` or `BA_CONFIRMATION_REQUIRED` issue. Reconcile the dossier state, requirement ledger, and evidence freshness first. Stop otherwise.
+2. Select only current references that match required structure and document their reuse limits.
 3. Build an endpoint-and-capability coverage map before dividing work. Map every stated endpoint, acceptance criterion, and non-endpoint behavior to one primary delivery step. Keep a capability separate only when it has a distinct, testable outcome.
 4. Default to one vertical step per endpoint or user-visible business flow. A vertical step includes every necessary layer for that flow—contract, authorization, validation, application/domain behavior, persistence, endpoint wiring, errors, and focused tests—according to repository evidence. Use the repository's actual execution flow; do not assume a particular architecture.
 5. Do not create phase steps such as “create entities”, “add DTOs”, “add handlers”, “add controllers”, or “add tests” for a task that defines endpoint behavior. Such layer-by-layer plans are invalid unless a documented technical prerequisite genuinely blocks multiple flows and has its own small, reviewable outcome. State that exception, its dependency, and why it cannot belong to the first affected flow.
 6. Keep each endpoint's related validation, authorization, error behavior, and tests in its own step. Do not combine endpoints merely because they edit the same files. Combine them only when the resolved task and repository evidence establish one atomic outcome; record the reason in the coverage map.
-7. For every step specify: number, title, primary endpoint or business flow, request-to-result flow, goal, files to inspect/create/modify, detailed actions, reference implementations, business rules, acceptance criteria, risks, dependencies, validation commands, expected result, and suggested commit message. Use the HTTP method and route in an endpoint step title.
+7. For every step specify: number, title, primary endpoint or business flow, request-to-result flow, goal, files to inspect/create/modify, detailed actions, reference implementations, business rules, acceptance criteria, risks, dependencies, validation commands, expected result, and suggested commit message. Cite requirement and evidence IDs. Use the HTTP method and route in an endpoint step title.
 8. Check the coverage map before rendering: no endpoint, acceptance criterion, or test case may be unowned; no endpoint may appear in multiple steps without an explicit dependency reason.
 9. Render a standalone HTML plan from the supplied template. Include task summary, requirement status, architecture context, references, endpoint-and-capability coverage, table of contents, status-aware step cards, risk badges, validation checklist, commit suggestion, progress status, and final acceptance checklist.
 10. Write the plan to `docs/implementation-plans/<task-slug>-plan.html` in the target project unless project documentation specifies a different approved planning location. Create only the plan artifact required for this task.
@@ -66,7 +66,7 @@ Stop for clarification if a planned action requires an unresolved decision. Stop
 
 ## Required output
 
-Produce a **Detailed Implementation Plan** and its standalone HTML file. Report its path, endpoint-and-capability coverage map, all vertical-step details, source reports, assumptions, open non-blocking risks, and the explicit **Plan Approval Gate**. The plan must use `NOT_STARTED`, `IN_PROGRESS`, `COMPLETED`, or `BLOCKED` for each step status.
+Produce a **Detailed Implementation Plan** and its standalone HTML file. Report its path, endpoint-and-capability coverage map, all vertical-step details, source reports, assumptions, open non-blocking risks, and the explicit **Plan Approval Gate**. The plan must use `NOT_STARTED`, `IN_PROGRESS`, `COMPLETED`, or `BLOCKED` for each step status. Do not restate dossier facts in every step; cite their IDs and include only step-specific context.
 
 ## Handoff to the next skill
 

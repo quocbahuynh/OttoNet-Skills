@@ -10,7 +10,7 @@
 
 ## Requirement and acceptance coverage
 
-| Requirement or acceptance criterion | Status | Evidence | Remaining action |
+| Requirement or acceptance ID | Status | Evidence IDs | Remaining action |
 | --- | --- | --- | --- |
 
 ## Changed files and tests

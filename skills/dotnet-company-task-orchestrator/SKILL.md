@@ -27,30 +27,45 @@ Use to run the complete OttoNet workflow for a BA or Team Leader task, or to res
 - BA or Team Leader task when the task-analysis gate is reached.
 - Any prior OttoNet reports, plan path, clarification answers, and explicit developer decisions when resuming.
 - A task slug for new work, or the existing OttoNet workflow-state path when resuming.
+- Optional requested operating mode: `FAST`, `STANDARD`, or `STRICT`.
 
-## Workflow memory
+## Task dossier and workflow memory
 
-Use one canonical state file for each task. It records workflow position, gates, report paths, requirement resolutions, plan approval, step/commit decisions, protection boundaries, and an append-only continuity log. It is memory, not a substitute for evidence: detailed facts remain in the referenced reports and plan.
+Use one task dossier for each task. The canonical state file indexes its evidence registry, reports, plan, workflow position, requirement resolutions, plan approval, step/commit decisions, protection boundaries, source freshness, and append-only continuity log. It is memory, not a substitute for evidence: detailed facts remain in the linked source locations.
 
-- Default location: `.ottonet/tasks/<task-slug>/workflow-state.md` in the target repository, created from `../../templates/task-workflow-state-template.md` only after the first workspace inspection is safe enough to continue.
+- Default location: `.ottonet/tasks/<task-slug>/` in the target repository. Create `workflow-state.md` from `../../templates/task-workflow-state-template.md` and `evidence-registry.md` from `../../templates/evidence-registry-template.md` only after the first workspace inspection is safe enough to continue.
 - Treat the default location as a local, untracked sidecar. Never stage, commit, push, delete, or add it to ignore rules automatically. A developer may explicitly choose a repository-tracked location when team policy requires reviewable task artifacts.
-- On resume, read the state first, then re-run workspace inspection and compare repository root, branch, HEAD, protected paths, current gate, and the latest continuity event. Reconcile differences visibly; never assume an `IN_PROGRESS` stage finished.
+- On resume, read the state, latest continuity event, and evidence registry first. Then re-run workspace inspection and compare repository root, branch, HEAD, protected paths, source freshness, current gate, and plan status. Reconcile differences visibly; never assume an `IN_PROGRESS` stage finished.
+- Give each stable fact an evidence ID. Cite that ID in reports and plans rather than copying source code, full task text, or repeated Git diffs. A report records only its decision, scope, and delta since the last verified artifact.
 - Record paths, short summaries, identifiers, and decisions only. Never copy secrets, full diffs, credentials, or sensitive task data into state.
-- Update the state only after evidence is produced, when a gate changes, or immediately before a code-editing step begins. Append to the continuity log; do not erase historical evidence.
+- Update the state only after evidence is produced, when a gate changes, or immediately before a code-editing step begins. Append to the continuity log; do not erase historical evidence or silently change a decision.
+
+## Operating modes
+
+Select the least costly safe mode before discovery. Record the mode decision and evidence in the dossier; a developer may request a stricter mode. Modes reduce repeated inspection, never developer control or mandatory safety gates.
+
+| Mode | Eligibility | Required behavior |
+| --- | --- | --- |
+| `FAST` | Narrow, low-risk work; a current dossier exists; no requirement ambiguity; no migrations, authorization, external integration, sensitive-domain, or architecture change. | Re-run workspace inspection and revalidate only changed or task-related documents, project areas, patterns, and context. Use the existing evidence registry. |
+| `STANDARD` | Default for features, endpoints, business rules, or a new task dossier. | Establish or refresh all workflow evidence with breadth-first project mapping and task-specific investigation. |
+| `STRICT` | New modules, migrations, authorization, external integrations, sensitive domains, unclear architecture, high-impact deletion/data behavior, or developer request. | Use Standard coverage plus wider dependency tracing, stronger reference sampling, explicit risk review, and proportionate extra validation. |
+
+Reject `FAST` and choose `STANDARD` or `STRICT` when source fingerprints are stale, the task spans an unmodeled area, requirements are ambiguous, or evidence is insufficient. Do not use a mode label as a reason to skip a required gate.
 
 ## Workflow
 
-1. Run `dotnet-workspace-inspector`. If safe enough to proceed, create or reconcile the workflow state and record its protection boundary.
-2. Run `dotnet-project-documentation-reader`, record the report path and satisfy Gate 2 only after its evidence is available.
-3. Run `dotnet-repository-explorer`, then record the Project Understanding Report.
-4. Run `dotnet-team-pattern-learner`, record its classifications and satisfy Gate 3.
-5. Run `dotnet-task-analyzer` only after project understanding and patterns are documented; record the source task and requirement report.
-6. Run `dotnet-task-context-investigator` and record related modules, references, and task/code conflicts.
-7. Run `dotnet-requirement-gap-analyzer`, update the resolution ledger, and stop at clarification when required.
-8. When all blocking questions are resolved, run `dotnet-implementation-planner`, register the HTML plan, and stop for explicit plan approval.
-9. After approval, record the approval evidence. After the developer explicitly requests one numbered step, mark only that step `IN_PROGRESS`, run `dotnet-step-executor`, then mark it `AWAITING_REVIEW` and run `dotnet-step-reviewer`.
-10. Record the review outcome. Stop for the developer's commit decision; record either the commit SHA after a new inspection or the developer's explicit decision to continue without a commit. Repeat only when the developer explicitly requests the next numbered step.
-11. After all required steps are reviewed and reconciled with the state, run `dotnet-final-delivery-reviewer`, record its decision, and stop for manual push.
+1. Run `dotnet-workspace-inspector`. If safe enough to proceed, create or reconcile the dossier, record its protection boundary, and select the operating mode.
+2. Reuse an artifact only when its source freshness register is current and its scope covers the task. Otherwise run the relevant skill and record the delta. Never treat a previous chat response as reusable evidence.
+3. Run `dotnet-project-documentation-reader`, record report and evidence IDs, then satisfy Gate 2 only after applicable documentation and architecture evidence are current.
+4. Run `dotnet-repository-explorer`, then record the Project Understanding Report, project map fingerprint, and actual request-flow evidence.
+5. Run `dotnet-team-pattern-learner`, record classifications, sample limits, and selected references, then satisfy Gate 3.
+6. Run `dotnet-task-analyzer` only after project understanding and patterns are current. Record source revision, requirement IDs, and the requirement report.
+7. Run `dotnet-task-context-investigator` from the task dependency graph; record related modules, reusable references, explored boundary, and task/code conflicts.
+8. Run `dotnet-requirement-gap-analyzer`, update the resolution ledger, and stop at clarification when required.
+9. When all blocking questions are resolved, run `dotnet-implementation-planner`, register the HTML plan and requirement-to-step coverage map, and stop for explicit plan approval.
+10. After approval, record approval evidence. After the developer explicitly requests one numbered step, transition only that step from `NOT_STARTED` to `IN_PROGRESS`, run `dotnet-step-executor`, then transition it to `AWAITING_REVIEW` and run `dotnet-step-reviewer`.
+11. Record the review outcome. Stop for the developer's commit decision; record either the commit SHA after a new inspection or the developer's explicit decision to continue without a commit. Only then allow the next explicitly requested step.
+12. After all required steps are reviewed and reconciled with the state, run `dotnet-final-delivery-reviewer`, record its decision, and stop for manual push.
 
 ## Evidence priority
 
@@ -65,6 +80,8 @@ Use this order for every skill decision: 1) resolved task requirements, 2) origi
 - Do not claim merge-request approval or review resolution from Git history alone.
 - Never treat chat history, a previous model response, or an unverified `IN_PROGRESS` state as proof that a stage or code change completed.
 - Never let the workflow-state file obscure pre-existing user changes; record it as an OttoNet-owned sidecar in the protection boundary.
+- Never re-run broad discovery by default when a current dossier can answer the question; revalidate the relevant evidence boundary instead.
+- Never use `FAST` mode for a task whose risk or stale evidence makes `STANDARD` or `STRICT` necessary.
 
 ## Stop conditions
 
@@ -85,7 +102,7 @@ Stop at each mandatory gate below. Resume only with the stated developer input o
 
 ## Required output
 
-Produce an **OttoNet Workflow Status** after every stage and update the workflow state: completed reports, evidence limits, current gate, blocking questions, approved assumptions, plan path and step status when present, and the exact developer action required to continue. Preserve links or paths to all generated reports.
+Produce an **OttoNet Workflow Status** after every stage and update the dossier: operating mode and rationale, completed or reused artifacts, evidence limits and freshness, current gate, blocking questions, approved assumptions, plan path and step status when present, and the exact developer action required to continue. Preserve paths and IDs to all generated or revalidated evidence.
 
 ## Handoff to the next skill
 

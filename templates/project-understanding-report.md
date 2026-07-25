@@ -8,6 +8,8 @@
 | Branch inspected | |
 | Inspection date | |
 | Evidence coverage | Complete / Partial — explain gaps |
+| Evidence registry | `<path and relevant IDs>` |
+| Report scope | New / Revalidated / Reused with delta |
 
 ## Executive summary
 
@@ -49,6 +51,10 @@ Describe only evidence-backed layers or modules. Include a dependency diagram in
 ## Project rules relevant to future work
 
 List documented rules separately from inferred conventions. State unknowns explicitly.
+
+## Evidence and freshness
+
+List the evidence IDs for architecture, request flow, and cross-cutting claims. State which source fingerprints were revalidated and which evidence remains limited or stale.
 
 ## Open investigation points
 

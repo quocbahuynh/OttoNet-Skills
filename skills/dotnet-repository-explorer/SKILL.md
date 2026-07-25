@@ -1,13 +1,13 @@
 ---
 name: dotnet-repository-explorer
-description: Map the complete .NET base code, its actual module responsibilities, and request execution flows after project documentation is understood. Use before analyzing a BA task to build project understanding from repository evidence.
+description: Map the active .NET base code, its actual module responsibilities, and request execution flows after project documentation is understood. Use before analyzing a BA task to build evidence-based project understanding without assuming an architecture.
 ---
 
 # .NET Repository Explorer
 
 ## Purpose
 
-Create a complete, evidence-based model of the existing base code without assuming any architecture or library.
+Create a coverage-complete, evidence-based model of the active base code without assuming any architecture or library. Complete means every active project and cross-cutting concern is accounted for; it does not require reading every source file line by line.
 
 ## When to use
 
@@ -24,15 +24,16 @@ Use after `dotnet-project-documentation-reader` and before task analysis. Re-run
 - Workspace Inspection Report.
 - Project Documentation Report.
 - Target repository root.
+- Task dossier state and evidence registry when resuming.
 
 ## Workflow
 
-1. Inventory solution files, project files, project references, target frameworks, package references, and configuration roots.
-2. Map every active project and its responsibility. Read startup paths, composition roots, dependency injection registration, host configuration, and primary entry points.
-3. Trace representative real request paths from controller, endpoint, consumer, or UI boundary through application and data access to responses. Describe the actual sequence, for example `Endpoint → service → DbContext → response`, only when evidenced.
-4. Identify controllers/endpoints, commands/queries and handlers if present, domain models, persistence, Entity Framework Core setup if present, authentication, authorization, validation, logging, errors, background jobs, file storage, and external services.
-5. Identify all test projects and the current business modules. Record dependency direction from project references and call paths rather than folder names alone.
-6. Inspect breadth first, then relevant representative files in each active area. Mark generated, deprecated, sample, and legacy areas to avoid treating them as active conventions.
+1. When a dossier exists, compare its architecture fingerprint and project map with the current solution/project files. Revalidate only changed or task-relevant areas unless `STRICT` mode requires wider coverage.
+2. Inventory solution files, project files, project references, target frameworks, package references, and configuration roots.
+3. Map every active project and its responsibility. Read startup paths, composition roots, dependency injection registration, host configuration, and primary entry points.
+4. Trace representative real request paths from controller, endpoint, consumer, or UI boundary through application and data access to responses. Describe the actual sequence, for example `Endpoint → service → DbContext → response`, only when evidenced.
+5. Identify controllers/endpoints, commands/queries and handlers if present, domain models, persistence, Entity Framework Core setup if present, authentication, authorization, validation, logging, errors, background jobs, file storage, and external services.
+6. Identify all test projects and the current business modules. Record dependency direction from project references and call paths rather than folder names alone. Mark generated, deprecated, sample, and legacy areas to avoid treating them as active conventions.
 7. Do not inspect a BA task or recommend implementation; explain only the current system.
 
 ## Evidence priority
@@ -52,7 +53,7 @@ Stop and report limited coverage when solutions cannot restore or parse, modules
 
 ## Required output
 
-Produce a **Project Understanding Report**, using `../../templates/project-understanding-report.md` as the report structure. Include solution/project map, target frameworks and dependencies, architecture and dependency direction, actual request flows, cross-cutting implementation map, tests, active business modules, evidence paths, and uncertainties.
+Produce a **Project Understanding Report**, using `../../templates/project-understanding-report.md` as the report structure. Include solution/project map, target frameworks and dependencies, architecture and dependency direction, actual request flows, cross-cutting implementation map, tests, active business modules, evidence paths, and uncertainties. Cite evidence-registry IDs and identify whether each area is new, revalidated, or reused.
 
 ## Handoff to the next skill
 

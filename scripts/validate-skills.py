@@ -10,6 +10,7 @@ from pathlib import Path
 
 SKILL_NAME = re.compile(r"^[a-z0-9]+(?:-[a-z0-9]+)*$")
 KEY_VALUE = re.compile(r"^([A-Za-z][A-Za-z0-9_-]*):[ \t]*(.*)$")
+MARKDOWN_LINK = re.compile(r"\[[^\]]+\]\(([^)\s]+)(?:\s+[^)]*)?\)")
 
 
 def error(errors: list[str], path: Path, message: str) -> None:
@@ -70,6 +71,27 @@ def validate_skill(path: Path, errors: list[str], names: dict[str, Path]) -> Non
         error(errors, path, "frontmatter is missing a non-empty 'description'")
 
 
+def validate_local_links(repository: Path, path: Path, errors: list[str]) -> None:
+    """Check local Markdown links without treating external URLs as repository files."""
+    content = path.read_text(encoding="utf-8")
+    for target in MARKDOWN_LINK.findall(content):
+        target = target.strip().strip("<>")
+        link_path = target.split("#", 1)[0]
+        if not link_path or link_path.startswith(("/", "#", "//")):
+            continue
+        if re.match(r"^[A-Za-z][A-Za-z0-9+.-]*:", link_path):
+            continue
+
+        destination = (path.parent / link_path).resolve()
+        try:
+            destination.relative_to(repository)
+        except ValueError:
+            error(errors, path, f"local link escapes repository: '{target}'")
+            continue
+        if not destination.exists():
+            error(errors, path, f"broken local link: '{target}'")
+
+
 def main() -> int:
     repository = Path(__file__).resolve().parents[1]
     skills_root = repository / "skills"
@@ -98,6 +120,14 @@ def main() -> int:
 
     for skill in direct_skills:
         validate_skill(skill, errors, names)
+
+    markdown_files = [repository / "README.md"]
+    markdown_files.extend(sorted((repository / "templates").glob("*.md")))
+    markdown_files.extend(sorted((repository / "examples").glob("*.md")))
+    markdown_files.extend(direct_skills)
+    for markdown_file in markdown_files:
+        if markdown_file.is_file():
+            validate_local_links(repository, markdown_file, errors)
 
     if errors:
         print("Skill validation failed:")

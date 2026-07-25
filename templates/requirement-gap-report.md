@@ -10,14 +10,14 @@
 
 ## Issue register
 
-| ID | Topic | Issue | Classification | Evidence | Resolution or required owner |
-| --- | --- | --- | --- | --- | --- |
+| ID | Requirement IDs | Topic | Issue | Classification | Evidence IDs | Resolution or required owner |
+| --- | --- | --- | --- | --- | --- | --- |
 
 Use one classification for every issue: `BLOCKING`, `NON_BLOCKING`, `ASSUMPTION_ALLOWED`, `REPOSITORY_RESOLVED`, or `BA_CONFIRMATION_REQUIRED`.
 
 ## Repository-resolved conventions
 
-| Topic | Resolved behavior | Evidence | Limits of the conclusion |
+| Topic | Resolved behavior | Evidence IDs | Limits of the conclusion |
 | --- | --- | --- | --- |
 
 ## Clarification Questions for BA
@@ -29,7 +29,7 @@ For each required question, include the unclear point, why implementation is aff
 
 ## Allowed assumptions
 
-| Assumption | Why it is safe | Evidence | Must be visible in plan |
+| Assumption | Why it is safe | Evidence IDs | Must be visible in plan |
 | --- | --- | --- | --- |
 
 ## Handoff

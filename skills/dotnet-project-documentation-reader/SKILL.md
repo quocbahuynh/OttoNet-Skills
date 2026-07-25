@@ -23,15 +23,16 @@ Use after a safe workspace inspection and before the BA task, repository explora
 
 - Workspace Inspection Report.
 - Target repository root.
+- Task dossier state and evidence registry when the workflow is being resumed.
 
 ## Workflow
 
-1. Locate and read applicable `AGENTS.md` files first, including nested files that govern subdirectories.
-2. Search for and review `README.md`, `CONTRIBUTING.md`, `docs/**`, `architecture/**`, `adr/**`, and relevant `*.md` files. Use file location and recency to distinguish active guidance from historical context.
-3. Inspect project-level configuration: `.editorconfig`, `Directory.Build.props`, `Directory.Packages.props`, `global.json`, `docker-compose*`, `appsettings*.json`, and `launchSettings.json`. Redact secrets; record configuration keys and behavior, not secret values.
-4. Extract the project purpose, domain terminology, architecture and coding rules, build and test instructions, database guidance, authentication/authorization notes, integrations, AI-specific instructions, and explicit prohibitions.
-5. Resolve conflicting documents by scope and explicitness. Record unresolved conflicts rather than selecting a rule silently.
-6. Do not deeply trace controllers, entities, handlers, or business modules; identify them only as documentation references for the next skill.
+1. When a dossier exists, check its documentation fingerprint and evidence registry first. Reuse only claims whose source paths and revisions remain current; inspect changed or task-relevant documents instead of blindly re-reading every file.
+2. Locate and read applicable `AGENTS.md` files first, including nested files that govern subdirectories.
+3. Search for and review `README.md`, `CONTRIBUTING.md`, `docs/**`, `architecture/**`, `adr/**`, and relevant `*.md` files. Use file location and recency to distinguish active guidance from historical context.
+4. Inspect project-level configuration: `.editorconfig`, `Directory.Build.props`, `Directory.Packages.props`, `global.json`, `docker-compose*`, `appsettings*.json`, and `launchSettings.json`. Redact secrets; record configuration keys and behavior, not secret values.
+5. Extract the project purpose, domain terminology, architecture and coding rules, build and test instructions, database guidance, authentication/authorization notes, integrations, AI-specific instructions, and explicit prohibitions.
+6. Resolve conflicting documents by scope and explicitness. Record unresolved conflicts rather than selecting a rule silently. Do not deeply trace controllers, entities, handlers, or business modules; identify them only as documentation references for the next skill.
 
 ## Evidence priority
 
@@ -50,7 +51,7 @@ Stop when required repository instructions are unreadable, contradictory without
 
 ## Required output
 
-Produce a **Project Documentation Report** with sources read, scoped rules, project purpose and terminology, build/test/database instructions, security and integration notes, AI instructions, explicit prohibitions, documentation conflicts, and open questions. Clearly separate documented facts from inferences.
+Produce a **Project Documentation Report** with sources read or revalidated, scoped rules, project purpose and terminology, build/test/database instructions, security and integration notes, AI instructions, explicit prohibitions, documentation conflicts, and open questions. Clearly separate documented facts from inferences. Cite evidence-registry IDs when available; record only new or changed facts rather than duplicating stable content.
 
 ## Handoff to the next skill
 

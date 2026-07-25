@@ -24,15 +24,16 @@ Use after `dotnet-repository-explorer` and before `dotnet-task-analyzer`. Use fo
 - Project Documentation Report.
 - Project Understanding Report.
 - Read-only Git history and, only when available, merge request or review evidence.
+- Task dossier state and evidence registry when resuming.
 
 ## Workflow
 
-1. Inspect recent history, changed paths, final merged diffs, authors when useful, and current active implementations. Prefer comparable modules and recent code over isolated examples.
-2. When available, inspect approved merge requests, approval state, resolved review comments, and resolved discussions. State the source and accessibility limits.
-3. Learn naming, folders, request/response and DTO organization, handlers/services, dependency injection, validation, authorization, data-access and transaction style, errors, logging, and tests.
-4. Classify each finding: `REQUIRED` for documented/configured/enforced rules; `APPROVED` only for explicit approval or resolved-review evidence; `ESTABLISHED` for consistent recent active repetition; `COMMON` for frequent but non-universal use; `LEGACY` for old code not normally copied; `UNKNOWN` for insufficient evidence.
-5. Select references for their reusable structural characteristics. Explicitly exclude source-module statuses, permissions, dates, magic values, and business conditions unless the task itself requires them.
-6. Explain that Git history confirms historical merge state, while approval evidence requires actual approval or resolved-review data; never claim review occurred from a merge commit alone.
+1. When a dossier exists, check its commit range, selected references, and evidence freshness. Revalidate changed samples or task-relevant pattern areas; do not repeat an unbounded history scan when the recorded evidence remains current.
+2. Inspect recent history, changed paths, final merged diffs, authors when useful, and current active implementations. Prefer comparable modules and recent code over isolated examples.
+3. When available, inspect approved merge requests, approval state, resolved review comments, and resolved discussions. State the source and accessibility limits.
+4. Learn naming, folders, request/response and DTO organization, handlers/services, dependency injection, validation, authorization, data-access and transaction style, errors, logging, and tests.
+5. Classify each finding: `REQUIRED` for documented/configured/enforced rules; `APPROVED` only for explicit approval or resolved-review evidence; `ESTABLISHED` for consistent recent active repetition; `COMMON` for frequent but non-universal use; `LEGACY` for old code not normally copied; `UNKNOWN` for insufficient evidence.
+6. Select references for their reusable structural characteristics. Explicitly exclude source-module statuses, permissions, dates, magic values, and business conditions unless the task itself requires them. Explain that Git history confirms historical merge state, while approval evidence requires actual approval or resolved-review data; never claim review occurred from a merge commit alone.
 
 ## Evidence priority
 
@@ -51,7 +52,7 @@ Stop classification at `UNKNOWN` if evidence is insufficient. If only legacy exa
 
 ## Required output
 
-Produce a **Team Coding Pattern Report**, using `../../templates/team-pattern-report.md`. Include each finding's classification, direct evidence, reusable boundary, selected references, non-transferable business behavior, available approval evidence, and data-access limitations.
+Produce a **Team Coding Pattern Report**, using `../../templates/team-pattern-report.md`. Include each finding's classification, direct evidence, reusable boundary, selected references, non-transferable business behavior, available approval evidence, and data-access limitations. Cite evidence-registry IDs, sample size or enforcement source, and any revalidation delta.
 
 ## Handoff to the next skill
 

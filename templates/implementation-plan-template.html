@@ -80,6 +80,7 @@
       <p>{{task_summary}}</p>
       <div class="meta">
         <div><span class="label">Requirement status</span><span class="value">{{task_status}}</span></div>
+        <div><span class="label">Operating mode</span><span class="value">{{operating_mode}}</span></div>
         <div><span class="label">Generated</span><span class="value">{{generated_date}}</span></div>
         <div><span class="label">Progress</span><span class="value">{{progress}}</span></div>
       </div>
@@ -104,13 +105,14 @@
         <article class="card"><span class="label">Architecture summary</span><p>{{architecture_summary}}</p></article>
         <article class="card"><span class="label">Resolved assumptions</span><p>{{resolved_assumptions}}</p></article>
         <article class="card"><span class="label">Open risks</span><p>{{open_risks}}</p></article>
+        <article class="card"><span class="label">Dossier and evidence</span><p>{{dossier_path}}<br>{{evidence_registry_reference}}</p></article>
       </div>
     </section>
 
     <section id="references" aria-labelledby="references-title">
       <h2 id="references-title">Selected references</h2>
       <table>
-        <thead><tr><th scope="col">Reference</th><th scope="col">Why selected</th><th scope="col">Reuse boundary</th></tr></thead>
+        <thead><tr><th scope="col">Reference / evidence ID</th><th scope="col">Why selected</th><th scope="col">Reuse boundary</th></tr></thead>
         <tbody>{{selected_references}}</tbody>
       </table>
     </section>
@@ -140,6 +142,7 @@
             <section><span class="label">Dependencies</span><p>{{dependencies}}</p></section>
             <section><span class="label">References</span><p>{{step_references}}</p></section>
             <section><span class="label">Requirements covered</span><p>{{requirements_covered}}</p></section>
+            <section><span class="label">Evidence IDs</span><p>{{step_evidence_ids}}</p></section>
             <section><span class="label">Risks</span><p>{{step_risks}}</p></section>
           </div>
           <section><span class="label">Detailed actions</span><ol>{{detailed_actions}}</ol></section>

@@ -24,15 +24,16 @@ Use after project documentation, repository exploration, and team-pattern learni
 - Complete BA or Team Leader task, including linked material that is in scope.
 - Project Understanding Report.
 - Team Coding Pattern Report.
+- Task dossier state and evidence registry when the task is part of an orchestrated workflow.
 
 ## Workflow
 
-1. Read the task in full and preserve the original source or a stable reference to it.
+1. Read the task in full and preserve the original source or a stable reference to it. When the task has changed since a prior analysis, record the revision and mark superseded requirements rather than blending versions.
 2. Extract task name, overview, objective, scope, out of scope, endpoints, inputs, outputs, request/response contracts, field rules, validation rules, business rules, roles, permissions, test cases, acceptance criteria, dependencies, notes, and undefined information.
-3. Attribute each extracted fact to its source section. Keep wording exact for rules, contract fields, and acceptance criteria where possible.
+3. Assign stable IDs to requirements, acceptance criteria, and undefined decisions. Attribute each extracted fact to its source section. Keep wording exact for rules, contract fields, and acceptance criteria where possible.
 4. Record omissions explicitly. Do not invent roles, permissions, fields, endpoints, pagination, search, sorting, delete strategy, status behavior, or error contracts.
 5. Classify preliminary readiness: `READY` when stated requirements appear complete; `READY_WITH_ASSUMPTIONS` when only clearly bounded technical assumptions may be needed; `BLOCKED` when the task itself contains a material unresolved decision. Mark this as subject to task-context investigation.
-6. Do not select implementation files or resolve repository conflicts in this stage.
+6. Do not select implementation files or resolve repository conflicts in this stage. Return requirement IDs and source references for the dossier; do not duplicate task text in unrelated reports.
 
 ## Evidence priority
 
@@ -51,7 +52,7 @@ Stop with `BLOCKED` if the supplied source is incomplete, contradictory, or lack
 
 ## Required output
 
-Produce a **Task Requirement Report**, using `../../templates/task-requirement-report.md`. Include the complete extracted requirement model, source attribution, undefined information, and preliminary `READY`, `READY_WITH_ASSUMPTIONS`, or `BLOCKED` classification.
+Produce a **Task Requirement Report**, using `../../templates/task-requirement-report.md`. Include the complete extracted requirement model, stable requirement IDs, source attribution, undefined information, and preliminary `READY`, `READY_WITH_ASSUMPTIONS`, or `BLOCKED` classification. Add task-source evidence to the registry and cite those IDs from later artifacts.
 
 ## Handoff to the next skill
 

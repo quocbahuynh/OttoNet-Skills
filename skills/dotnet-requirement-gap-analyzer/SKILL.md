@@ -24,16 +24,17 @@ Use after `dotnet-task-context-investigator` and before implementation planning.
 - Task Requirement Report.
 - Project Documentation, Project Understanding, Team Coding Pattern, and Task Context reports.
 - Any explicit clarification responses, which become resolved task requirements.
+- Task dossier state and evidence registry when resuming.
 
 ## Workflow
 
-1. Compare every task rule and acceptance criterion against documentation, current code, related modules, data relationships, and selected patterns.
+1. Compare every requirement ID and acceptance criterion against documentation, current code, related modules, data relationships, and selected patterns.
 2. Identify missing information, ambiguous or conflicting rules, task/code and task/documentation conflicts, missing relationships, permissions, delete/status/uniqueness/error behavior, incomplete acceptance criteria, and impossible or unsupported requirements.
-3. Classify every issue exactly once: `BLOCKING`, `NON_BLOCKING`, `ASSUMPTION_ALLOWED`, `REPOSITORY_RESOLVED`, or `BA_CONFIRMATION_REQUIRED`.
+3. Classify every issue exactly once: `BLOCKING`, `NON_BLOCKING`, `ASSUMPTION_ALLOWED`, `REPOSITORY_RESOLVED`, or `BA_CONFIRMATION_REQUIRED`. Give each issue a stable ID and link it to requirement and evidence IDs.
 4. Resolve a technical convention as `REPOSITORY_RESOLVED` only with direct repository evidence. Do not ask questions the repository already answers.
 5. Require business confirmation when a decision changes product behavior, even if another module suggests an analogy. Do not resolve such ambiguity by copying that module.
 6. For each blocking or BA-confirmation issue, produce a focused question that states what is unclear, why it affects implementation, repository evidence, and suggested options where useful.
-7. Permit planning only when no unresolved blocking question remains. Carry all allowed assumptions visibly into the plan.
+7. Permit planning only when no unresolved blocking question remains. Record the resolution in the dossier ledger and carry all allowed assumptions visibly into the plan.
 
 ## Evidence priority
 
@@ -52,7 +53,7 @@ Stop at the clarification gate whenever an unresolved blocking issue exists. Res
 
 ## Required output
 
-Produce a **Requirement Gap Report**, using `../../templates/requirement-gap-report.md`. Include the full issue register, classification, evidence, allowed assumptions, and a planning decision. When needed, add **Clarification Questions for BA** with rationale, evidence, and options.
+Produce a **Requirement Gap Report**, using `../../templates/requirement-gap-report.md`. Include the full issue register, classification, requirement and evidence IDs, allowed assumptions, and a planning decision. When needed, add **Clarification Questions for BA** with rationale, evidence, and options. Preserve prior resolutions as superseded history rather than reopening a settled issue without new evidence.
 
 ## Handoff to the next skill
 

@@ -19,7 +19,7 @@ State the approved goal and the work actually completed.
 
 ## Requirement coverage
 
-| Business rule or acceptance criterion | Coverage | Evidence |
+| Requirement or acceptance ID | Coverage | Evidence IDs |
 | --- | --- | --- |
 
 ## Validation

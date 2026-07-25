@@ -8,6 +8,8 @@
 | Evidence period examined | |
 | Sources available | Git history / merge requests / reviews / code |
 | Approval evidence available | Yes / No — explain |
+| Evidence registry | `<path and relevant IDs>` |
+| Sample freshness | `<commit range / revalidation date>` |
 
 ## Evidence-quality note
 
@@ -15,9 +17,9 @@ Git history proves that changes were merged into the inspected history; it does 
 
 ## Pattern findings
 
-| Area | Finding | Classification | Evidence | Reuse guidance |
-| --- | --- | --- | --- | --- |
-| Naming | | REQUIRED / APPROVED / ESTABLISHED / COMMON / LEGACY / UNKNOWN | | |
+| Area | Finding | Classification | Evidence ID and source | Sample or enforcement basis | Reuse guidance |
+| --- | --- | --- | --- | --- | --- |
+| Naming | | REQUIRED / APPROVED / ESTABLISHED / COMMON / LEGACY / UNKNOWN | | | |
 | Folder placement | | | | |
 | Requests and responses | | | | |
 | Dependency injection | | | | |
@@ -50,4 +52,4 @@ Record statuses, permissions, dates, values, and conditions that are specific to
 
 ## Handoff
 
-State which findings are suitable for the task context investigator and planner, and which remain unknown.
+State which findings are suitable for the task context investigator and planner, which remain unknown, and what must be revalidated if the source fingerprint changes.

@@ -23,15 +23,16 @@ Use first in a company-task workflow, before every requested implementation step
 
 - Current target repository path.
 - Optional intended task name or plan step, used only to label the report.
+- Existing task dossier state when resuming an OttoNet task.
 
 ## Workflow
 
 1. Confirm the directory is a Git worktree without modifying it.
 2. Run read-only checks such as `git status --short --branch`, `git branch --show-current`, `git diff`, `git diff --staged`, and `git log -10 --oneline`. Use a path/status summary when reporting so existing work is protected without exposing secret values.
 3. Inspect repository metadata, when present, for merge, rebase, cherry-pick, revert, or conflict state. Detect unmerged paths with `git diff --name-only --diff-filter=U`.
-4. Record the current branch, detached HEAD state, dirty and staged changes, untracked files, conflict state, and in-progress operations. Identify likely protected branch names including `main`, `master`, `develop`, and `development`.
-5. Describe existing changes by path and status. Do not infer their intent or overwrite them.
-6. Mark the workspace safe to continue only when there is no unresolved Git operation or conflict and the next activity can avoid changing protected existing work. A dirty workspace can be safe with explicit protection boundaries.
+4. Record the current branch, HEAD, detached HEAD state, dirty and staged changes, untracked files, conflict state, and in-progress operations. Identify likely protected branch names including `main`, `master`, `develop`, and `development`.
+5. When a dossier exists, compare branch, HEAD, protection boundaries, and active plan step with its baseline. Mark affected evidence stale when a mismatch can affect it; do not infer that the mismatch is harmless.
+6. Describe existing changes by path and status. Do not infer their intent or overwrite them. Mark the workspace safe to continue only when there is no unresolved Git operation or conflict and the next activity can avoid changing protected existing work. A dirty workspace can be safe with explicit protection boundaries.
 
 ## Evidence priority
 
@@ -50,7 +51,7 @@ Stop and report `NOT_SAFE` when there are merge conflicts, an in-progress Git op
 
 ## Required output
 
-Produce a **Workspace Inspection Report** containing: repository path, branch or detached HEAD status, protected-branch warning, working-tree status, staged and untracked files, conflicts or in-progress operations, recorded protection boundaries, commands run, and `Safe to continue: Yes/No/With constraints`.
+Produce a **Workspace Inspection Report** containing: repository path, branch, HEAD or detached HEAD status, protected-branch warning, working-tree status, staged and untracked files, conflicts or in-progress operations, recorded protection boundaries, dossier-baseline reconciliation, commands run, and `Safe to continue: Yes/No/With constraints`.
 
 ## Handoff to the next skill
 

@@ -6,6 +6,7 @@
 | --- | --- |
 | Task name | |
 | Source | |
+| Source revision or timestamp | |
 | Preliminary readiness | READY / READY_WITH_ASSUMPTIONS / BLOCKED |
 | Preservation note | Requirements below are transcribed or precisely attributed; no business behavior is invented. |
 
@@ -15,34 +16,34 @@
 
 ## Endpoints and contracts
 
-| Endpoint | Inputs | Output | Stated errors or notes |
-| --- | --- | --- | --- |
+| Requirement ID | Endpoint | Inputs | Output | Stated errors or notes |
+| --- | --- | --- | --- | --- |
 
 ## Fields and validation rules
 
-| Field | Type | Required | Exact rule | Source |
-| --- | --- | --- | --- |
+| Requirement ID | Field | Type | Required | Exact rule | Source |
+| --- | --- | --- | --- | --- | --- |
 
 ## Business rules
 
-1. Record each rule exactly as supplied and attribute it to the task source.
+1. `R-<id>` — Record each rule exactly as supplied and attribute it to the task source.
 
 ## Roles and permissions
 
-| Function | Role or permission | Access | Source |
-| --- | --- | --- | --- |
+| Requirement ID | Function | Role or permission | Access | Source |
+| --- | --- | --- | --- | --- |
 
 ## Test cases and acceptance criteria
 
-| Identifier | Requirement or criterion | Expected result | Source |
-| --- | --- | --- | --- |
+| Requirement ID | Identifier | Requirement or criterion | Expected result | Source |
+| --- | --- | --- | --- | --- |
 
 ## Dependencies and notes
 
 ## Undefined information
 
-| Topic | Missing detail | Why it matters | Preliminary status |
-| --- | --- | --- | --- |
+| Requirement ID | Topic | Missing detail | Why it matters | Preliminary status |
+| --- | --- | --- | --- | --- |
 
 ## Handoff
 

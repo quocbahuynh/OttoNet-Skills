@@ -24,17 +24,18 @@ Use after `dotnet-step-executor` finishes a requested step and before the develo
 - Step Execution Report and approved plan step.
 - Resolved task specification, relevant reports, and selected references.
 - Current `git status` and diff for the review boundary.
-- OttoNet workflow-state path when the task is orchestrated.
+- Task dossier state and evidence registry when the task is orchestrated.
 
 ## Workflow
 
-1. Reconfirm the step goal, stated requirements, acceptance criteria, files, risks, and expected result from the plan.
-2. Inspect the current diff and distinguish pre-existing protected changes from the step's changes.
-3. Review requirement compliance: goal complete, stated business rules covered, acceptance criteria covered where this step owns them, and no invented requirement.
-4. Review project consistency: names, folders, architecture/dependency direction, authorization, validation, data access, errors, logging, tests, formatting, and documented rules as applicable.
-5. Review scope: no unrelated changes, future-step work, accidental refactoring, or overwritten developer work.
-6. Check validation evidence. Run only proportionate repository-appropriate read/build/test/format checks when the execution report did not cover them or when a review finding warrants it. Record commands actually run.
-7. State whether the step is ready for commit and list exact required fixes or risks. When invoked by the orchestrator, return the exact state transition (`AWAITING_COMMIT_DECISION` or `BLOCKED`) with report evidence so it can be recorded. Do not make changes unless separately and explicitly asked to execute the same step again.
+1. When a dossier is available, confirm the current state is `AWAITING_REVIEW`, the plan and requested step match the execution report, and no freshness or protection-boundary mismatch exists. Stop on an unsafe mismatch.
+2. Reconfirm the step goal, stated requirements, acceptance criteria, files, risks, and expected result from the plan.
+3. Inspect the current diff and distinguish pre-existing protected changes from the step's changes.
+4. Review requirement compliance: goal complete, stated business rules covered, acceptance criteria covered where this step owns them, and no invented requirement.
+5. Review project consistency: names, folders, architecture/dependency direction, authorization, validation, data access, errors, logging, tests, formatting, and documented rules as applicable.
+6. Review scope: no unrelated changes, future-step work, accidental refactoring, or overwritten developer work.
+7. Check validation evidence. Run only proportionate repository-appropriate read/build/test/format checks when the execution report did not cover them or when a review finding warrants it. Record commands actually run.
+8. State whether the step is ready for commit and list exact required fixes or risks. When invoked by the orchestrator, return the exact state transition (`AWAITING_COMMIT_DECISION` or `BLOCKED`) with report evidence so it can be recorded. Do not make changes unless separately and explicitly asked to execute the same step again.
 
 ## Evidence priority
 
@@ -54,7 +55,7 @@ Stop with `Ready for commit: No` when requirement coverage is incomplete, scope 
 
 ## Required output
 
-Produce a **Step Completion Report**, using `../../templates/step-completion-report.md`. Include step executed, changed files, requirements covered, validation commands and results, build/test status, warnings, plan deviations, unresolved issues, `Ready for commit: Yes/No`, and a suggested commit message.
+Produce a **Step Completion Report**, using `../../templates/step-completion-report.md`. Include step executed, changed files, requirements and evidence IDs covered, validation commands and results, build/test status, warnings, plan deviations, unresolved issues, `Ready for commit: Yes/No`, and a suggested commit message.
 
 ## Handoff to the next skill
 
