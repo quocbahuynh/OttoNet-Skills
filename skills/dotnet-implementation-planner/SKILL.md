@@ -7,7 +7,7 @@ description: Create a detailed, developer-approved, stepwise HTML implementation
 
 ## Purpose
 
-Turn a resolved task and its repository context into small, independently understandable implementation steps. Produce a lightweight standalone HTML plan; do not write production code.
+Turn a resolved task and its repository context into small, independently understandable vertical slices. Each slice delivers one testable endpoint or business capability across every repository layer it requires. Produce a lightweight standalone HTML plan; do not write production code.
 
 ## When to use
 
@@ -31,11 +31,21 @@ Use only after `dotnet-requirement-gap-analyzer` explicitly permits planning. Re
 
 1. Confirm the Requirement Gap Report contains no unresolved `BLOCKING` or `BA_CONFIRMATION_REQUIRED` issue. Stop otherwise.
 2. Select only references that match required structure and document their reuse limits.
-3. Divide required work into small, controllable steps with no fixed maximum. Keep unrelated concerns separate and do not add future work.
-4. For every step specify: number, title, goal, files to inspect/create/modify, detailed actions, reference implementations, business rules, acceptance criteria, risks, dependencies, validation commands, expected result, and suggested commit message.
-5. Render a standalone HTML plan from the supplied template. Include task summary, requirement status, architecture context, references, table of contents, status-aware step cards, risk badges, validation checklist, commit suggestion, progress status, and final acceptance checklist.
-6. Write the plan to `docs/implementation-plans/<task-slug>-plan.html` in the target project unless project documentation specifies a different approved planning location. Create only the plan artifact required for this task.
-7. Present the plan for developer approval. When invoked by the orchestrator, return the plan path, task slug, plan version/checksum when practical, and `AWAITING_PLAN_APPROVAL` transition for workflow-state recording. Do not execute a step, edit production code, or silently revise the plan after approval.
+3. Build an endpoint-and-capability coverage map before dividing work. Map every stated endpoint, acceptance criterion, and non-endpoint behavior to one primary delivery step. Keep a capability separate only when it has a distinct, testable outcome.
+4. Default to one vertical step per endpoint or user-visible business flow. A vertical step includes every necessary layer for that flow—contract, authorization, validation, application/domain behavior, persistence, endpoint wiring, errors, and focused tests—according to repository evidence. Use the repository's actual execution flow; do not assume a particular architecture.
+5. Do not create phase steps such as “create entities”, “add DTOs”, “add handlers”, “add controllers”, or “add tests” for a task that defines endpoint behavior. Such layer-by-layer plans are invalid unless a documented technical prerequisite genuinely blocks multiple flows and has its own small, reviewable outcome. State that exception, its dependency, and why it cannot belong to the first affected flow.
+6. Keep each endpoint's related validation, authorization, error behavior, and tests in its own step. Do not combine endpoints merely because they edit the same files. Combine them only when the resolved task and repository evidence establish one atomic outcome; record the reason in the coverage map.
+7. For every step specify: number, title, primary endpoint or business flow, request-to-result flow, goal, files to inspect/create/modify, detailed actions, reference implementations, business rules, acceptance criteria, risks, dependencies, validation commands, expected result, and suggested commit message. Use the HTTP method and route in an endpoint step title.
+8. Check the coverage map before rendering: no endpoint, acceptance criterion, or test case may be unowned; no endpoint may appear in multiple steps without an explicit dependency reason.
+9. Render a standalone HTML plan from the supplied template. Include task summary, requirement status, architecture context, references, endpoint-and-capability coverage, table of contents, status-aware step cards, risk badges, validation checklist, commit suggestion, progress status, and final acceptance checklist.
+10. Write the plan to `docs/implementation-plans/<task-slug>-plan.html` in the target project unless project documentation specifies a different approved planning location. Create only the plan artifact required for this task.
+11. Present the plan for developer approval. When invoked by the orchestrator, return the plan path, task slug, plan version/checksum when practical, and `AWAITING_PLAN_APPROVAL` transition for workflow-state recording. Do not execute a step, edit production code, or silently revise the plan after approval.
+
+## Vertical-slice example
+
+For the Certificate Management task, a normal plan shape is one step for `POST /api/certificates`, one for `GET /api/certificates`, one for `PUT /api/certificates/{id}`, and one for `DELETE /api/certificates/{id}`. The create step may include the Certificate persistence model and any required schema change because they are needed to make creation work; it must also include create-specific uniqueness, authorization, response/error behavior, and tests. The delete step owns the assigned-user check and its test. Add a separate User-module step only if task-context investigation shows the acceptance criterion needs a change beyond the list endpoint.
+
+This is a planning-shape example, not permission to assume endpoint contracts, data access, authorization, errors, or implementation technologies.
 
 ## Evidence priority
 
@@ -46,6 +56,7 @@ Use this order for any interpretation: 1) resolved task requirements, 2) origina
 - Never plan from unresolved blocking ambiguity.
 - Do not write production code, alter migrations, or modify unrelated documentation.
 - Do not conceal assumptions, conflicts, risks, or unavailable validation.
+- Do not segment an endpoint task by technical layer or separate an endpoint's tests from its behavior without a documented, explicit reason.
 - Do not auto-approve the plan, auto-execute steps, commit, push, switch branches, or update the plan silently.
 - Do not edit the workflow state directly unless the developer explicitly asks to run this skill without the orchestrator and authorizes that update.
 
@@ -55,7 +66,7 @@ Stop for clarification if a planned action requires an unresolved decision. Stop
 
 ## Required output
 
-Produce a **Detailed Implementation Plan** and its standalone HTML file. Report its path, all step details, source reports, assumptions, open non-blocking risks, and the explicit **Plan Approval Gate**. The plan must use `NOT_STARTED`, `IN_PROGRESS`, `COMPLETED`, or `BLOCKED` for each step status.
+Produce a **Detailed Implementation Plan** and its standalone HTML file. Report its path, endpoint-and-capability coverage map, all vertical-step details, source reports, assumptions, open non-blocking risks, and the explicit **Plan Approval Gate**. The plan must use `NOT_STARTED`, `IN_PROGRESS`, `COMPLETED`, or `BLOCKED` for each step status.
 
 ## Handoff to the next skill
 

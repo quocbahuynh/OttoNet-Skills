@@ -90,6 +90,7 @@
       <ol>
         <li><a href="#context">Context and decisions</a></li>
         <li><a href="#references">Selected references</a></li>
+        <li><a href="#coverage">Endpoint and capability coverage</a></li>
         <li><a href="#steps">Implementation steps</a></li>
         <li><a href="#validation">Validation checklist</a></li>
         <li><a href="#acceptance">Final acceptance checklist</a></li>
@@ -114,9 +115,17 @@
       </table>
     </section>
 
+    <section id="coverage" aria-labelledby="coverage-title">
+      <h2 id="coverage-title">Endpoint and capability coverage</h2>
+      <table>
+        <thead><tr><th scope="col">Endpoint or capability</th><th scope="col">Primary step</th><th scope="col">Rules and acceptance criteria</th><th scope="col">Validation</th></tr></thead>
+        <tbody>{{endpoint_capability_coverage}}</tbody>
+      </table>
+    </section>
+
     <section id="steps" aria-labelledby="steps-title">
       <h2 id="steps-title">Implementation steps</h2>
-      <!-- Repeat this article for each approved, independently executable step. -->
+      <!-- Repeat this article for each approved vertical slice: normally one endpoint or one independently testable business capability. -->
       <article class="step" id="step-{{step_number}}">
         <header>
           <div><div class="step-number">Step {{step_number}}</div><h3>{{step_title}}</h3></div>
@@ -124,6 +133,8 @@
         </header>
         <div class="step-body">
           <div class="step-grid">
+            <section><span class="label">Endpoint or business flow</span><p>{{primary_endpoint_or_flow}}</p></section>
+            <section><span class="label">End-to-end flow</span><p>{{request_to_result_flow}}</p></section>
             <section><span class="label">Goal</span><p>{{step_goal}}</p></section>
             <section><span class="label">Files</span><p><strong>Inspect:</strong> {{files_to_inspect}}<br><strong>Create:</strong> {{files_to_create}}<br><strong>Modify:</strong> {{files_to_modify}}</p></section>
             <section><span class="label">Dependencies</span><p>{{dependencies}}</p></section>
