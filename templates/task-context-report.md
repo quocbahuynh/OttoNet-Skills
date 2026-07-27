@@ -8,6 +8,7 @@
 | Search terms used | |
 | Investigation date | |
 | Evidence registry | `<path and relevant IDs>` |
+| Project index | `<path and freshness>` |
 | Dependency boundary | `<explored modules and intentionally unrelated areas>` |
 
 ## Relevant files

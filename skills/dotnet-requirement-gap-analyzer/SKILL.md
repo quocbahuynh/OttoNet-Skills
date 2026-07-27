@@ -25,10 +25,11 @@ Use after `dotnet-task-context-investigator` and before implementation planning.
 - Project Documentation, Project Understanding, Team Coding Pattern, and Task Context reports.
 - Any explicit clarification responses, which become resolved task requirements.
 - Task dossier state and evidence registry when resuming.
+- Cached project index when resuming.
 
 ## Workflow
 
-1. Compare every requirement ID and acceptance criterion against documentation, current code, related modules, data relationships, and selected patterns.
+1. Compare every requirement ID and acceptance criterion against documentation, the cached project index, current code, related modules, data relationships, and selected patterns.
 2. Identify missing information, ambiguous or conflicting rules, task/code and task/documentation conflicts, missing relationships, permissions, delete/status/uniqueness/error behavior, incomplete acceptance criteria, and impossible or unsupported requirements.
 3. Classify every issue exactly once: `BLOCKING`, `NON_BLOCKING`, `ASSUMPTION_ALLOWED`, `REPOSITORY_RESOLVED`, or `BA_CONFIRMATION_REQUIRED`. Give each issue a stable ID and link it to requirement and evidence IDs.
 4. Resolve a technical convention as `REPOSITORY_RESOLVED` only with direct repository evidence. Do not ask questions the repository already answers.

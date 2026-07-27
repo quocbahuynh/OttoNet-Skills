@@ -26,10 +26,11 @@ Use only after `dotnet-requirement-gap-analyzer` explicitly permits planning. Re
 - Selected reference implementations.
 - `../../templates/implementation-plan-template.html`.
 - Task dossier state and evidence registry when the task is orchestrated.
+- Cached project index when resuming.
 
 ## Workflow
 
-1. Confirm the Requirement Gap Report contains no unresolved `BLOCKING` or `BA_CONFIRMATION_REQUIRED` issue. Reconcile the dossier state, requirement ledger, and evidence freshness first. Stop otherwise.
+1. Confirm the Requirement Gap Report contains no unresolved `BLOCKING` or `BA_CONFIRMATION_REQUIRED` issue. Reconcile the dossier state, requirement ledger, project index, and evidence freshness first. Stop otherwise.
 2. Select only current references that match required structure and document their reuse limits.
 3. Build an endpoint-and-capability coverage map before dividing work. Map every stated endpoint, acceptance criterion, and non-endpoint behavior to one primary delivery step. Keep a capability separate only when it has a distinct, testable outcome.
 4. Default to one vertical step per endpoint or user-visible business flow. A vertical step includes every necessary layer for that flow—contract, authorization, validation, application/domain behavior, persistence, endpoint wiring, errors, and focused tests—according to repository evidence. Use the repository's actual execution flow; do not assume a particular architecture.
@@ -38,7 +39,7 @@ Use only after `dotnet-requirement-gap-analyzer` explicitly permits planning. Re
 7. For every step specify: number, title, primary endpoint or business flow, request-to-result flow, goal, files to inspect/create/modify, detailed actions, reference implementations, business rules, acceptance criteria, risks, dependencies, validation commands, expected result, and suggested commit message. Cite requirement and evidence IDs. Use the HTTP method and route in an endpoint step title.
 8. Check the coverage map before rendering: no endpoint, acceptance criterion, or test case may be unowned; no endpoint may appear in multiple steps without an explicit dependency reason.
 9. Render a standalone HTML plan from the supplied template. Include task summary, requirement status, architecture context, references, endpoint-and-capability coverage, table of contents, status-aware step cards, risk badges, validation checklist, commit suggestion, progress status, and final acceptance checklist.
-10. Write the plan to `docs/implementation-plans/<task-slug>-plan.html` in the target project unless project documentation specifies a different approved planning location. Create only the plan artifact required for this task.
+10. Write the plan to `.otto/plans/<task-slug>-plan.html` in the target project unless project documentation specifies a different approved planning location. Create only the plan artifact required for this task.
 11. Present the plan for developer approval. When invoked by the orchestrator, return the plan path, task slug, plan version/checksum when practical, and `AWAITING_PLAN_APPROVAL` transition for workflow-state recording. Do not execute a step, edit production code, or silently revise the plan after approval.
 
 ## Vertical-slice example

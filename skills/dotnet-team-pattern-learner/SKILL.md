@@ -25,10 +25,11 @@ Use after `dotnet-repository-explorer` and before `dotnet-task-analyzer`. Use fo
 - Project Understanding Report.
 - Read-only Git history and, only when available, merge request or review evidence.
 - Task dossier state and evidence registry when resuming.
+- Cached project index when it helps scope active modules.
 
 ## Workflow
 
-1. When a dossier exists, check its commit range, selected references, and evidence freshness. Revalidate changed samples or task-relevant pattern areas; do not repeat an unbounded history scan when the recorded evidence remains current.
+1. When a dossier exists, check its commit range, selected references, `.otto/project-index.md`, and evidence freshness. Revalidate changed samples or task-relevant pattern areas; do not repeat an unbounded history scan when the recorded evidence remains current.
 2. Inspect recent history, changed paths, final merged diffs, authors when useful, and current active implementations. Prefer comparable modules and recent code over isolated examples.
 3. When available, inspect approved merge requests, approval state, resolved review comments, and resolved discussions. State the source and accessibility limits.
 4. Learn naming, folders, request/response and DTO organization, handlers/services, dependency injection, validation, authorization, data-access and transaction style, errors, logging, and tests.

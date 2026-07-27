@@ -25,12 +25,12 @@ Use only when the developer explicitly requests a numbered step from an approved
 - HTML implementation plan path and explicit requested step number.
 - Resolved task specification and supporting reports.
 - Workspace Inspection Report or permission to perform a new inspection.
-- Task dossier state and evidence registry when the task is orchestrated; otherwise state that no workflow-state update is available.
+- Task dossier state and evidence registry under `.otto/tasks/<task-slug>/` when the task is orchestrated; otherwise state that no workflow-state update is available.
 
 ## Workflow
 
 1. Run `dotnet-workspace-inspector` behavior first. Record current branch, local changes, staged files, conflicts, and protection boundaries.
-2. When a dossier is available, reconcile its plan approval, source freshness, `AWAITING_STEP_REQUEST` state, requested step, protected paths, and latest continuity event with the current workspace. Stop on a mismatch that could make the step unsafe. Read the requested step from the HTML plan, including goal, files, actions, references, dependencies, risks, validation, and expected result. Confirm the plan was approved.
+2. When a dossier is available, reconcile its plan approval, source freshness, `AWAITING_STEP_REQUEST` state, requested step, protected paths, and latest continuity event with the current workspace. Stop on a mismatch that could make the step unsafe. Read the requested step from the HTML plan, including goal, files, actions, references, dependencies, risks, validation, and expected result. Confirm the plan was approved and that Otto-owned artifacts remain in `.otto/`.
 3. Read only the step's cited requirements, evidence, project files, and selected reference implementations before editing. Confirm dependencies are complete and no unresolved blocking issue applies; expand the context only when the step reveals a documented dependency.
 4. Compare planned files with existing dirty and staged paths. Stop if the step could overwrite, stage over, or obscure unrelated developer changes.
 5. Make only changes required by the requested step. Follow project documentation, resolved requirements, and the highest-evidence team patterns. Do not prepare code for a future step.
@@ -46,7 +46,7 @@ Use this order for any interpretation: 1) resolved task requirements, 2) origina
 - Execute exactly one explicitly requested step; never auto-run future steps.
 - Never commit, push, create/switch branches, reset, rebase, discard changes, or rewrite history.
 - Do not refactor unrelated files, create speculative future code, or silently modify the HTML plan.
-- Do not overwrite or stage existing developer changes. Stop on uncertain overlap.
+- Do not overwrite or stage existing developer changes. Stop on uncertain overlap. Keep `.otto/` artifacts untracked unless the user explicitly asks to track them.
 - Do not claim validation passed unless the actual command ran and its result was inspected.
 - Do not edit the workflow state directly unless the developer explicitly asks to run this skill without the orchestrator and authorizes that update.
 

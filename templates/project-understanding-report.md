@@ -9,6 +9,7 @@
 | Inspection date | |
 | Evidence coverage | Complete / Partial — explain gaps |
 | Evidence registry | `<path and relevant IDs>` |
+| Project index | `<path and freshness>` |
 | Report scope | New / Revalidated / Reused with delta |
 
 ## Executive summary

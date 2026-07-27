@@ -24,11 +24,11 @@ Use after `dotnet-step-executor` finishes a requested step and before the develo
 - Step Execution Report and approved plan step.
 - Resolved task specification, relevant reports, and selected references.
 - Current `git status` and diff for the review boundary.
-- Task dossier state and evidence registry when the task is orchestrated.
+- Task dossier state and evidence registry under `.otto/tasks/<task-slug>/` when the task is orchestrated.
 
 ## Workflow
 
-1. When a dossier is available, confirm the current state is `AWAITING_REVIEW`, the plan and requested step match the execution report, and no freshness or protection-boundary mismatch exists. Stop on an unsafe mismatch.
+1. When a dossier is available, confirm the current state is `AWAITING_REVIEW`, the plan and requested step match the execution report, and no freshness or protection-boundary mismatch exists. Stop on an unsafe mismatch. Treat staged or tracked `.otto/` artifacts as a blocker unless the user explicitly asked to track them.
 2. Reconfirm the step goal, stated requirements, acceptance criteria, files, risks, and expected result from the plan.
 3. Inspect the current diff and distinguish pre-existing protected changes from the step's changes.
 4. Review requirement compliance: goal complete, stated business rules covered, acceptance criteria covered where this step owns them, and no invented requirement.

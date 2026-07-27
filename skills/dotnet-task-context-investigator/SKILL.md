@@ -26,11 +26,12 @@ Use after `dotnet-task-analyzer`. Re-run when clarification changes a task rule 
 - Team Coding Pattern Report.
 - Repository root and workspace protection boundaries.
 - Task dossier state and evidence registry when resuming.
+- Cached project index when resuming.
 
 ## Workflow
 
 1. Build search terms from requirement IDs, domain names, endpoint names, entity names, related entities, permissions, roles, statuses, business terminology, and database terminology in the task.
-2. When a dossier exists, reuse only current architecture and pattern claims. Start from the task's dependency graph and expand one relationship at a time when evidence requires it; do not reopen unrelated modules merely because they share technical layers.
+2. When a dossier exists, reuse only current architecture and pattern claims from `.otto/project-index.md` or the latest project reports. Start from the task's dependency graph and expand one relationship at a time when evidence requires it; do not reopen unrelated modules merely because they share technical layers.
 3. Search definitions and references. Inspect directly related documentation, entities, mappings/configurations, DTOs, endpoints, handlers or services, authorization, validations, tests, migrations, workflows, relationships, and analogous behavior.
 4. Follow indirect relationships. For example, a task that prevents deletion for assigned records requires inspection of the assignment owner, relationship mapping, queries, and assignment creation paths—not merely the record's delete endpoint.
 5. Identify existing reusable components and candidate references, documenting what is structurally reusable and what differs in business meaning.

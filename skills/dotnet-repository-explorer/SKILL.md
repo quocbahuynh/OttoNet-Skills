@@ -25,10 +25,11 @@ Use after `dotnet-project-documentation-reader` and before task analysis. Re-run
 - Project Documentation Report.
 - Target repository root.
 - Task dossier state and evidence registry when resuming.
+- Cached project index when resuming.
 
 ## Workflow
 
-1. When a dossier exists, compare its architecture fingerprint and project map with the current solution/project files. Revalidate only changed or task-relevant areas unless `STRICT` mode requires wider coverage.
+1. When a dossier exists, compare its architecture fingerprint and `.otto/project-index.md` with the current solution/project files. Revalidate only changed or task-relevant areas unless `STRICT` mode requires wider coverage.
 2. Inventory solution files, project files, project references, target frameworks, package references, and configuration roots.
 3. Map every active project and its responsibility. Read startup paths, composition roots, dependency injection registration, host configuration, and primary entry points.
 4. Trace representative real request paths from controller, endpoint, consumer, or UI boundary through application and data access to responses. Describe the actual sequence, for example `Endpoint → service → DbContext → response`, only when evidenced.
@@ -53,7 +54,7 @@ Stop and report limited coverage when solutions cannot restore or parse, modules
 
 ## Required output
 
-Produce a **Project Understanding Report**, using `../../templates/project-understanding-report.md` as the report structure. Include solution/project map, target frameworks and dependencies, architecture and dependency direction, actual request flows, cross-cutting implementation map, tests, active business modules, evidence paths, and uncertainties. Cite evidence-registry IDs and identify whether each area is new, revalidated, or reused.
+Produce a **Project Understanding Report**, using `../../templates/project-understanding-report.md` as the report structure, and refresh `.otto/project-index.md` as the cached summary. Include solution/project map, target frameworks and dependencies, architecture and dependency direction, actual request flows, cross-cutting implementation map, tests, active business modules, evidence paths, and uncertainties. Cite evidence-registry IDs and identify whether each area is new, revalidated, or reused.
 
 ## Handoff to the next skill
 

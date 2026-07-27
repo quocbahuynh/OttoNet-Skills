@@ -4,7 +4,7 @@
 
 ## State rules
 
-- Create one task dossier per task at `.ottonet/tasks/<task-slug>/` by default. Its canonical state file is `workflow-state.md`; reports and the evidence registry are sibling artifacts.
+- Create one task dossier per task at `.otto/tasks/<task-slug>/` by default. Its canonical state file is `.otto/tasks/<task-slug>/workflow-state.md`; reports and the evidence registry are sibling artifacts. Generated plans live under `.otto/plans/`. The cached project index lives at `.otto/project-index.md`.
 - Treat this file as a local sidecar unless the developer explicitly chooses a repository-tracked location.
 - Never stage, commit, push, or silently delete this file.
 - Update it after a stage completes, when a gate changes, or immediately before a code-editing step begins. Append continuity events; do not rewrite prior evidence or silently change a decision.
@@ -85,6 +85,7 @@ Allowed gate states: `NOT_REACHED`, `IN_PROGRESS`, `WAITING_FOR_DEVELOPER`, `BLO
 | --- | --- | --- | --- |
 | Workspace inspection | `<path>` | `<complete / limited / unavailable>` | `<timestamp>` |
 | Evidence registry | `<path>` | `<source fingerprint / freshness>` | `<timestamp>` |
+| Project index | `<path>` | `<source fingerprint / freshness>` | `<timestamp>` |
 | Project documentation | `<path>` | `<new / reused / delta>` | `<timestamp>` |
 | Project understanding | `<path>` | `<new / reused / delta>` | `<timestamp>` |
 | Team patterns | `<path>` | `<new / reused / delta>` | `<timestamp>` |
@@ -103,6 +104,7 @@ Use this to decide whether an earlier artifact can be reused. A changed fingerpr
 | Source area | Fingerprint or revision | Last verified | Reuse decision | Evidence |
 | --- | --- | --- | --- | --- |
 | Repository baseline | `<HEAD / branch / workspace report>` | `<timestamp>` | `<current / stale>` | `<evidence ID>` |
+| Project index | `<path + fingerprint>` | `<timestamp>` | `<current / stale>` | `<evidence ID>` |
 | Documentation and configuration | `<paths + revision>` | `<timestamp>` | `<current / stale>` | `<evidence ID>` |
 | Architecture map | `<solution/project files + revision>` | `<timestamp>` | `<current / stale>` | `<evidence ID>` |
 | Team-pattern sample | `<commit range / references>` | `<timestamp>` | `<current / stale>` | `<evidence ID>` |

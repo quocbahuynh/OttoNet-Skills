@@ -1,8 +1,10 @@
 # OttoNet Skills
 
-> Ship GitLab tasks to production-ready code. AI skills think like your team, code like your team.
+> Ship GitLab task to production-ready code. AI skills think like your team, code like your team.
 
 OttoNet is a collection of Agent Skills for .NET teams that need to deliver Business Analyst, Team Leader, and GitLab tasks inside existing company codebases. It starts with evidence-based project understanding, then moves into implementation only after the repository architecture, conventions, and delivery practices are clear.
+
+Official website: [ottonetskill.help](https://www.ottonetskill.help/)
 
 ## Get started
 
@@ -34,9 +36,9 @@ The orchestrator chooses the least costly mode that is still safe. The developer
 
 ### Resume safely with workflow memory
 
-For a multi-step task, the orchestrator creates a **task dossier** at `.ottonet/tasks/<task-slug>/`. Its canonical state file is `workflow-state.md`; it indexes the requirement report, architecture and pattern reports, evidence registry, context and gap reports, approved plan, and step reports. It records the current gate, resolved decisions, approved plan, step/review/commit status, source fingerprints, and a short append-only handoff log.
+For a multi-step task, the orchestrator creates a **task dossier** under `.otto/tasks/<task-slug>/`. Its canonical state file is `.otto/tasks/<task-slug>/workflow-state.md`; the evidence registry lives beside it as `.otto/tasks/<task-slug>/evidence-registry.md`. Generated plans live under `.otto/plans/`, and the cached project index lives at `.otto/project-index.md`. The dossier indexes the requirement report, architecture and pattern reports, context and gap reports, approved plan, and step reports. It records the current gate, resolved decisions, approved plan, step/review/commit status, source fingerprints, and a short append-only handoff log.
 
-The dossier is a local sidecar by default: OttoNet does not stage, commit, push, delete, or add it to ignore rules. Teams that require task artifacts in version control can explicitly choose a repository-tracked location. Reports should reference evidence IDs and record only conclusions or changes since the last run; they should reuse current evidence when the source fingerprint is unchanged.
+The dossier is a local sidecar by default and should stay outside ordinary commits. OttoNet does not stage, commit, push, delete, or move it into project folders such as `docs/`. Keep Otto-owned artifacts together in `.otto/` so they remain easy to leave untracked. Teams that require task artifacts in version control can explicitly choose a repository-tracked location. Reports should reference evidence IDs and record only conclusions or changes since the last run; they should reuse current evidence when the source fingerprint is unchanged.
 
 ## Workflow
 
@@ -155,6 +157,7 @@ OttoNet never automatically:
 
 - Clones repositories, creates or switches branches, resets changes, or discards local work.
 - Commits unless explicitly instructed, pushes, or merges.
+- Stages or commits Otto-owned artifacts under `.otto/` unless the developer explicitly asks to track them.
 - Executes an entire implementation plan without developer approval.
 - Continues when a business requirement remains unresolved.
 

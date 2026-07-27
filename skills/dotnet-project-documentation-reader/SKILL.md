@@ -24,10 +24,11 @@ Use after a safe workspace inspection and before the BA task, repository explora
 - Workspace Inspection Report.
 - Target repository root.
 - Task dossier state and evidence registry when the workflow is being resumed.
+- Cached project index when resuming.
 
 ## Workflow
 
-1. When a dossier exists, check its documentation fingerprint and evidence registry first. Reuse only claims whose source paths and revisions remain current; inspect changed or task-relevant documents instead of blindly re-reading every file.
+1. When a dossier exists, check the documentation fingerprint, evidence registry, and `.otto/project-index.md` first. Reuse only claims whose source paths and revisions remain current; inspect changed or task-relevant documents instead of blindly re-reading every file.
 2. Locate and read applicable `AGENTS.md` files first, including nested files that govern subdirectories.
 3. Search for and review `README.md`, `CONTRIBUTING.md`, `docs/**`, `architecture/**`, `adr/**`, and relevant `*.md` files. Use file location and recency to distinguish active guidance from historical context.
 4. Inspect project-level configuration: `.editorconfig`, `Directory.Build.props`, `Directory.Packages.props`, `global.json`, `docker-compose*`, `appsettings*.json`, and `launchSettings.json`. Redact secrets; record configuration keys and behavior, not secret values.
