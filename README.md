@@ -174,6 +174,24 @@ OttoNet never automatically:
 
 The developer remains accountable for plan approval, step selection, commits, and pushes.
 
+## Changelog
+
+### 2026-08-01
+
+- Added the specialized .NET skill recommendation gate for advanced, unfamiliar, or high-risk tasks.
+- Added explicit approval, source-evidence, and instruction-reading requirements before using an external skill.
+- Added specialist-skill tracking to workflow state, implementation plans, step reviews, and final delivery review.
+
+### 2026-07-27
+
+- Added resumable workflow memory, evidence freshness, project indexing, and `.otto/` sidecar protection.
+- Improved endpoint-oriented planning, API documentation requirements, reuse-first guidance, database-field readiness, rollback guidance, and scope control.
+
+### 2026-07-25
+
+- Published the initial 12-skill OttoNet workflow with report templates, an HTML implementation-plan template, and the Certificate Management example.
+- Added developer-controlled gates for clarification, plan approval, one-step execution, review, commit, and manual push.
+
 ## Author and support
 
 Built by [Quoc Ba Huynh](https://github.com/quocbahuynh). If OttoNet helps you save time and ship better .NET tasks, you can support the project on [Buy Me a Coffee](https://buymeacoffee.com/quochb).
