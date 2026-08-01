@@ -34,8 +34,10 @@ Use after `dotnet-task-analyzer`. Re-run when clarification changes a task rule 
 2. When a dossier exists, reuse only current architecture and pattern claims from `.otto/project-index.md` or the latest project reports. Start from the task's dependency graph and expand one relationship at a time when evidence requires it; do not reopen unrelated modules merely because they share technical layers.
 3. Search definitions and references. Inspect directly related documentation, entities, mappings/configurations, DTOs, endpoints, handlers or services, authorization, validations, tests, migrations, workflows, relationships, and analogous behavior.
 4. Follow indirect relationships. For example, a task that prevents deletion for assigned records requires inspection of the assignment owner, relationship mapping, queries, and assignment creation paths—not merely the record's delete endpoint.
-5. Identify existing reusable components and candidate references, documenting what is structurally reusable and what differs in business meaning.
-6. Compare observed behavior with task wording. Record task/code conflicts, missing codebase support, unsupported dependencies, and missing database relationships without resolving business ambiguity. Keep investigation read-only and do not plan or implement changes.
+5. Identify existing reusable components and candidate references. Search for existing services, repositories, handlers, validators, utility methods, storage implementations, extension methods, shared error/response builders, and business logic before proposing a new implementation. Document what is structurally reusable, why it satisfies the requirement, and what differs in business meaning.
+6. For every new or changed API, inspect the local controller or endpoint documentation style, request/response examples, validation descriptions, error response conventions, and any existing API documentation tests. Record whether documentation can be improved locally without changing global Swagger, Scalar, or OpenAPI configuration.
+7. For every field that may require a table column or persisted attribute, trace its purpose, business meaning, type, nullability, constraints, relationships, default, update behavior, and business rules through task, documentation, entities, mappings, migrations, and usage. Mark any missing item as unknown; do not approve a schema change from analogy.
+8. Compare observed behavior with task wording. Record task/code conflicts, missing codebase support, unsupported dependencies, missing database relationships, documentation gaps, and scope boundaries without resolving business ambiguity. Keep investigation read-only and do not plan or implement changes.
 
 ## Evidence priority
 
@@ -54,7 +56,7 @@ Stop when the repository is unreadable, a required related component is unavaila
 
 ## Required output
 
-Produce a **Task Context Report**, using `../../templates/task-context-report.md`. Include relevant files, related modules and relationships, reusable components, current behavior, candidate references, conflicts, missing support, search terms, and direct evidence. Map findings to requirement IDs and evidence-registry IDs; record the explored dependency boundary and any uninspected but unrelated areas.
+Produce a **Task Context Report**, using `../../templates/task-context-report.md`. Include relevant files, related modules and relationships, reusable components, current behavior, candidate references, API documentation conventions and gaps, database-field findings, conflicts, missing support, search terms, and direct evidence. Map findings to requirement IDs and evidence-registry IDs; record the explored dependency boundary and any uninspected but unrelated areas.
 
 ## Handoff to the next skill
 

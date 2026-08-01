@@ -26,6 +26,16 @@
 | Component | What it provides | Safe reuse scope | Evidence ID |
 | --- | --- | --- | --- |
 
+## API documentation conventions and gaps
+
+| Requirement IDs | API / endpoint | Controller or endpoint file | Current documentation style | Required local additions | Global configuration change needed? | Evidence ID |
+| --- | --- | --- | --- | --- | --- | --- |
+
+## Database-field readiness
+
+| Requirement IDs | Field / table | Purpose and business meaning | Type / nullability | Constraints / relationships | Default / update behavior | Status | Evidence ID |
+| --- | --- | --- | --- | --- | --- | --- |
+
 ## Existing behavior and candidate references
 
 | Behavior | Current implementation | Candidate reference | Similarity | Differences that require a decision |

@@ -33,9 +33,10 @@ Use after `dotnet-project-documentation-reader` and before task analysis. Re-run
 2. Inventory solution files, project files, project references, target frameworks, package references, and configuration roots.
 3. Map every active project and its responsibility. Read startup paths, composition roots, dependency injection registration, host configuration, and primary entry points.
 4. Trace representative real request paths from controller, endpoint, consumer, or UI boundary through application and data access to responses. Describe the actual sequence, for example `Endpoint → service → DbContext → response`, only when evidenced.
-5. Identify controllers/endpoints, commands/queries and handlers if present, domain models, persistence, Entity Framework Core setup if present, authentication, authorization, validation, logging, errors, background jobs, file storage, and external services.
-6. Identify all test projects and the current business modules. Record dependency direction from project references and call paths rather than folder names alone. Mark generated, deprecated, sample, and legacy areas to avoid treating them as active conventions.
-7. Do not inspect a BA task or recommend implementation; explain only the current system.
+5. Identify controllers/endpoints, commands/queries and handlers if present, domain models, persistence, Entity Framework Core setup if present, authentication, authorization, validation, logging, errors, background jobs, file storage, external services, and local API documentation mechanisms.
+6. Inventory reusable services, repositories, handlers, validators, utility methods, storage implementations, extension methods, shared response/error builders, and business logic that later tasks should prefer over duplicate implementations.
+7. Identify all test projects and the current business modules. Record dependency direction from project references and call paths rather than folder names alone. Mark generated, deprecated, sample, and legacy areas to avoid treating them as active conventions.
+8. Do not inspect a BA task or recommend implementation; explain only the current system.
 
 ## Evidence priority
 
@@ -54,7 +55,7 @@ Stop and report limited coverage when solutions cannot restore or parse, modules
 
 ## Required output
 
-Produce a **Project Understanding Report**, using `../../templates/project-understanding-report.md` as the report structure, and refresh `.otto/project-index.md` as the cached summary. Include solution/project map, target frameworks and dependencies, architecture and dependency direction, actual request flows, cross-cutting implementation map, tests, active business modules, evidence paths, and uncertainties. Cite evidence-registry IDs and identify whether each area is new, revalidated, or reused.
+Produce a **Project Understanding Report**, using `../../templates/project-understanding-report.md` as the report structure, and refresh `.otto/project-index.md` as the cached summary. Include solution/project map, target frameworks and dependencies, architecture and dependency direction, actual request flows, cross-cutting implementation map, local API documentation mechanisms, reusable component inventory, tests, active business modules, evidence paths, and uncertainties. Cite evidence-registry IDs and identify whether each area is new, revalidated, or reused.
 
 ## Handoff to the next skill
 

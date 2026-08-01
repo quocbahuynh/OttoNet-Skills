@@ -90,8 +90,10 @@
       <strong>Contents</strong>
       <ol>
         <li><a href="#context">Context and decisions</a></li>
+        <li><a href="#order">Recommended execution order</a></li>
         <li><a href="#references">Selected references</a></li>
         <li><a href="#coverage">Endpoint and capability coverage</a></li>
+        <li><a href="#api-documentation">API documentation</a></li>
         <li><a href="#steps">Implementation steps</a></li>
         <li><a href="#validation">Validation checklist</a></li>
         <li><a href="#acceptance">Final acceptance checklist</a></li>
@@ -105,8 +107,18 @@
         <article class="card"><span class="label">Architecture summary</span><p>{{architecture_summary}}</p></article>
         <article class="card"><span class="label">Resolved assumptions</span><p>{{resolved_assumptions}}</p></article>
         <article class="card"><span class="label">Open risks</span><p>{{open_risks}}</p></article>
+        <article class="card"><span class="label">Specialized .NET skill</span><p>{{specialized_skill_decision}}<br>{{specialized_skill_evidence}}</p></article>
         <article class="card"><span class="label">Dossier and evidence</span><p>{{dossier_path}}<br>{{evidence_registry_reference}}</p></article>
       </div>
+    </section>
+
+    <section id="order" aria-labelledby="order-title">
+      <h2 id="order-title">Recommended execution order</h2>
+      <p>{{execution_order_summary}}</p>
+      <table>
+        <thead><tr><th scope="col">Ordinal</th><th scope="col">Step or outcome</th><th scope="col">Depends on</th><th scope="col">Why this order</th><th scope="col">Review and QA value</th></tr></thead>
+        <tbody>{{recommended_execution_order}}</tbody>
+      </table>
     </section>
 
     <section id="references" aria-labelledby="references-title">
@@ -125,6 +137,15 @@
       </table>
     </section>
 
+    <section id="api-documentation" aria-labelledby="api-documentation-title">
+      <h2 id="api-documentation-title">API documentation</h2>
+      <p>Local controller or endpoint documentation planned for each API introduced by this task. Global Swagger, Scalar, and OpenAPI configuration is out of scope unless the developer explicitly approves it.</p>
+      <table>
+        <thead><tr><th scope="col">Endpoint</th><th scope="col">Controller or endpoint file</th><th scope="col">Summary and description</th><th scope="col">Request and field validation</th><th scope="col">Responses and errors</th><th scope="col">Mock examples</th><th scope="col">Status</th></tr></thead>
+        <tbody>{{api_documentation_matrix}}</tbody>
+      </table>
+    </section>
+
     <section id="steps" aria-labelledby="steps-title">
       <h2 id="steps-title">Implementation steps</h2>
       <!-- Repeat this article for each approved vertical slice: normally one endpoint or one independently testable business capability. -->
@@ -138,9 +159,11 @@
             <section><span class="label">Endpoint or business flow</span><p>{{primary_endpoint_or_flow}}</p></section>
             <section><span class="label">End-to-end flow</span><p>{{request_to_result_flow}}</p></section>
             <section><span class="label">Goal</span><p>{{step_goal}}</p></section>
+            <section><span class="label">API documentation</span><p>{{api_documentation}}</p></section>
             <section><span class="label">Files</span><p><strong>Inspect:</strong> {{files_to_inspect}}<br><strong>Create:</strong> {{files_to_create}}<br><strong>Modify:</strong> {{files_to_modify}}</p></section>
             <section><span class="label">Dependencies</span><p>{{dependencies}}</p></section>
             <section><span class="label">References</span><p>{{step_references}}</p></section>
+            <section><span class="label">Reuse decision</span><p>{{reuse_decision}}</p></section>
             <section><span class="label">Requirements covered</span><p>{{requirements_covered}}</p></section>
             <section><span class="label">Evidence IDs</span><p>{{step_evidence_ids}}</p></section>
             <section><span class="label">Risks</span><p>{{step_risks}}</p></section>
@@ -149,6 +172,7 @@
           <div class="step-grid" style="margin-top:16px">
             <section><span class="label">Validation</span><p>{{validation_commands}}</p></section>
             <section><span class="label">Expected result</span><p>{{expected_result}}</p></section>
+            <section><span class="label">Recovery guidance</span><p>{{rollback_guidance}}</p></section>
             <section><span class="label">Suggested commit message</span><p><code>{{suggested_commit_message}}</code></p></section>
           </div>
         </div>

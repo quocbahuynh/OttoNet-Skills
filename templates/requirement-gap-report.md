@@ -22,15 +22,22 @@ Use one classification for every issue: `BLOCKING`, `NON_BLOCKING`, `ASSUMPTION_
 
 ## Clarification Questions for BA
 
-For each required question, include the unclear point, why implementation is affected, repository evidence, and suggested options where helpful.
+For each required question, include the affected feature, affected business flow, unclear point, why the information is needed, repository evidence, implementation impact, current assumption, and suggested options where helpful. Questions must be detailed enough for the BA or Team Leader to make a decision without another generic follow-up.
 
-| ID | Question | Why it matters | Repository evidence | Suggested options |
-| --- | --- | --- | --- |
+| ID | Affected feature and flow | Detailed question | Why it matters | Repository evidence | Implementation impact | Current assumption | Suggested options |
+| --- | --- | --- | --- | --- | --- | --- | --- |
 
 ## Allowed assumptions
 
 | Assumption | Why it is safe | Evidence IDs | Must be visible in plan |
 | --- | --- | --- | --- |
+
+## Specialized .NET skill assessment
+
+Record whether the current OttoNet workflow is sufficient. If searching is recommended, name the technical area and the reason; do not install a skill from this report.
+
+| Technical area | Why advanced, unfamiliar, or risky | Current OttoNet coverage | Search recommendation | Official candidate / evidence | Approval state |
+| --- | --- | --- | --- | --- | --- |
 
 ## Handoff
 

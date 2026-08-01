@@ -28,11 +28,16 @@
 | Area | Status | Evidence or warning |
 | --- | --- | --- |
 | Endpoint and contract behavior | | |
+| Specialized skill approval and use | | |
+| API documentation completeness | | |
 | Validation and errors | | |
 | Authorization and permissions | | |
 | Persistence and delete behavior | | |
+| Database-field readiness | | |
+| Existing code reuse | | |
 | Architecture and conventions | | |
 | Test coverage | | |
+| Scope boundary and unrelated failures | | |
 | Workspace and commit history | | |
 
 ## Known limitations and manual verification

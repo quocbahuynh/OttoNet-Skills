@@ -40,19 +40,23 @@
 | --- | --- |
 | Operating mode | `<FAST / STANDARD / STRICT>` |
 | Mode decision and evidence | `<why this mode is safe; evidence ID>` |
-| Workflow status | `<DISCOVERY / BLOCKED / AWAITING_PLAN_APPROVAL / AWAITING_STEP_REQUEST / AWAITING_REVIEW / AWAITING_COMMIT_DECISION / READY_FOR_FINAL_REVIEW / COMPLETE>` |
-| Current gate | `<1–10 and gate name>` |
+| Workflow status | `<DISCOVERY / AWAITING_FRESH_SESSION / BLOCKED / AWAITING_PLAN_APPROVAL / AWAITING_STEP_REQUEST / AWAITING_REVIEW / AWAITING_COMMIT_DECISION / READY_FOR_FINAL_REVIEW / COMPLETE>` |
+| Current gate | `<0–10, 5a, and gate name>` |
 | Last confirmed stage | `<skill name and timestamp>` |
 | Next authorized action | `<exact developer or skill action>` |
 | Blocking issue count | `<number>` |
 | Open risk count | `<number>` |
+| Specialized skill decision | `<NOT_ASSESSED / NO_INSTALL_NEEDED / SEARCH_RECOMMENDED / APPROVAL_PENDING / APPROVED / DECLINED / INSTALLED>` |
+| Specialized skill scope | `<technical area, candidate, and reason>` |
+| Installed skill evidence | `<instructions path/revision or not applicable>` |
 
 ### Authorized state transitions
 
 Only advance when the matching evidence and developer input exist. Do not skip a state because an earlier report looks complete.
 
 ```text
-DISCOVERY → BLOCKED | AWAITING_PLAN_APPROVAL
+DISCOVERY → AWAITING_FRESH_SESSION | BLOCKED | AWAITING_PLAN_APPROVAL
+AWAITING_FRESH_SESSION → DISCOVERY
 AWAITING_PLAN_APPROVAL → AWAITING_STEP_REQUEST
 AWAITING_STEP_REQUEST → AWAITING_REVIEW
 AWAITING_REVIEW → AWAITING_COMMIT_DECISION | BLOCKED
@@ -66,11 +70,13 @@ READY_FOR_FINAL_REVIEW → COMPLETE | BLOCKED
 
 | Gate | State | Evidence | Developer action required |
 | --- | --- | --- | --- |
+| 0. Fresh session boundary | `NOT_REACHED` | `<task identity comparison>` | `<start /new and remove stale .otto/ manually, or continue as new task>` |
 | 1. Workspace protection | `NOT_REACHED` | `<report path>` | `<action>` |
 | 2. Project understanding | `NOT_REACHED` | `<report paths>` | `<action>` |
 | 3. Team patterns | `NOT_REACHED` | `<report path>` | `<action>` |
 | 4. Task extraction | `NOT_REACHED` | `<report path>` | `<action>` |
 | 5. Clarification | `NOT_REACHED` | `<gap report / clarification reference>` | `<action>` |
+| 5a. Specialized skill recommendation | `NOT_REACHED` | `<assessment, search, or approval evidence>` | `<action>` |
 | 6. Plan approval | `NOT_REACHED` | `<plan path and approval evidence>` | `<action>` |
 | 7. Step request | `NOT_REACHED` | `<explicit requested step>` | `<action>` |
 | 8. Step review | `NOT_REACHED` | `<step completion report>` | `<action>` |
@@ -92,7 +98,13 @@ Allowed gate states: `NOT_REACHED`, `IN_PROGRESS`, `WAITING_FOR_DEVELOPER`, `BLO
 | Task requirements | `<path>` | `<new / revised>` | `<timestamp>` |
 | Task context | `<path>` | `<new / revised>` | `<timestamp>` |
 | Requirement gaps | `<path>` | `<new / resolved / blocked>` | `<timestamp>` |
+| Specialized skill assessment | `<path or state section>` | `<not needed / approval pending / approved / declined>` | `<timestamp>` |
+| Installed skill instructions | `<path or unavailable>` | `<read / not applicable>` | `<timestamp>` |
 | Implementation plan | `<path>` | `<draft / approved / superseded>` | `<timestamp>` |
+| Recommended execution order | `<path or plan section>` | `<current / stale>` | `<timestamp>` |
+| API documentation matrix | `<path or plan section>` | `<current / incomplete / blocked>` | `<timestamp>` |
+| Reuse assessment | `<path or report section>` | `<current / incomplete>` | `<timestamp>` |
+| Database-field readiness | `<path or report section>` | `<ready / blocked / not applicable>` | `<timestamp>` |
 | Step execution reports | `<paths>` | `<complete / partial / unavailable>` | `<timestamp>` |
 | Step completion reports | `<paths>` | `<complete / partial / unavailable>` | `<timestamp>` |
 | Final delivery report | `<path>` | `<complete / limited / unavailable>` | `<timestamp>` |
@@ -129,6 +141,13 @@ Use this to decide whether an earlier artifact can be reused. A changed fingerpr
 | Approved plan | `<path or not approved>` |
 | Plan approval evidence | `<explicit developer approval and timestamp>` |
 | Plan version / checksum | `<identifier or unavailable>` |
+| Recommended execution order | `<plan section or unavailable>` |
+| API documentation status | `<complete / partial / blocked / not applicable>` |
+| Reuse assessment | `<complete / partial / blocked>` |
+| Database-field readiness | `<ready / blocked / not applicable>` |
+| Specialized skill | `<candidate / no installation / not applicable>` |
+| Specialized skill approval | `<explicit developer decision and timestamp>` |
+| Installed skill instructions read | `<path/revision or not applicable>` |
 | Last plan reconciliation | `<timestamp and summary>` |
 
 | Step | Title | Execution state | Review | Commit decision | Evidence |

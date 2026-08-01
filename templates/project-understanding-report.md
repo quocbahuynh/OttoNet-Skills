@@ -39,10 +39,16 @@ Describe only evidence-backed layers or modules. Include a dependency diagram in
 | Persistence and migrations | | | |
 | Authentication and authorization | | | |
 | Validation | | | |
+| API documentation | | | |
 | Logging and errors | | | |
 | Background processing | | | |
 | File storage and external services | | | |
 | Tests | | | |
+
+## Reusable component inventory
+
+| Component type | Existing location | Responsibility | Safe reuse boundary | Evidence |
+| --- | --- | --- | --- | --- |
 
 ## Existing business modules
 

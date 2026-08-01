@@ -31,11 +31,15 @@ Use after `dotnet-step-executor` finishes a requested step and before the develo
 1. When a dossier is available, confirm the current state is `AWAITING_REVIEW`, the plan and requested step match the execution report, and no freshness or protection-boundary mismatch exists. Stop on an unsafe mismatch. Treat staged or tracked `.otto/` artifacts as a blocker unless the user explicitly asked to track them.
 2. Reconfirm the step goal, stated requirements, acceptance criteria, files, risks, and expected result from the plan.
 3. Inspect the current diff and distinguish pre-existing protected changes from the step's changes.
-4. Review requirement compliance: goal complete, stated business rules covered, acceptance criteria covered where this step owns them, and no invented requirement.
-5. Review project consistency: names, folders, architecture/dependency direction, authorization, validation, data access, errors, logging, tests, formatting, and documented rules as applicable.
-6. Review scope: no unrelated changes, future-step work, accidental refactoring, or overwritten developer work.
-7. Check validation evidence. Run only proportionate repository-appropriate read/build/test/format checks when the execution report did not cover them or when a review finding warrants it. Record commands actually run.
-8. State whether the step is ready for commit and list exact required fixes or risks. When invoked by the orchestrator, return the exact state transition (`AWAITING_COMMIT_DECISION` or `BLOCKED`) with report evidence so it can be recorded. Do not make changes unless separately and explicitly asked to execute the same step again.
+4. Reconcile any approved specialized-skill instructions used by the executor. Confirm they were read, applied only within scope, and did not override repository evidence or introduce an unapproved dependency or architecture.
+5. Review requirement compliance: goal complete, stated business rules covered, acceptance criteria covered where this step owns them, and no invented requirement.
+6. Review every introduced API's local controller or endpoint documentation: summary, description, request payload, field validation, response format, applicable `400`, `401`, `403`, `404`, `409`, and other repository-supported errors, mock request, mock success response, and mock error responses. Flag undocumented or misleading behavior. Treat an unapproved global Swagger, Scalar, or OpenAPI change as a blocker.
+7. Review project consistency: names, folders, architecture/dependency direction, authorization, validation, data access, errors, logging, tests, formatting, and documented rules as applicable.
+8. Review reuse: confirm existing services, repositories, handlers, validators, utilities, storage, extension methods, and business logic were considered before new code. Require a scope-specific justification for each new implementation.
+9. If persisted fields changed, verify the approved field-understanding matrix covers purpose, business meaning, type, nullability, constraints, relationships, default, update behavior, and business rules. Unknown semantics are a blocker.
+10. Review scope: no unrelated changes, future-step work, accidental refactoring, unrelated bug fixes, or overwritten developer work. Existing failures outside this task must be reported, not fixed.
+11. Check validation evidence. Run only proportionate repository-appropriate read/build/test/format checks when the execution report did not cover them or when a review finding warrants it. Record commands actually run.
+12. State whether the step is ready for commit and list exact required fixes or risks. When invoked by the orchestrator, return the exact state transition (`AWAITING_COMMIT_DECISION` or `BLOCKED`) with report evidence so it can be recorded. Do not make changes unless separately and explicitly asked to execute the same step again.
 
 ## Evidence priority
 
@@ -47,6 +51,9 @@ Use this order for any interpretation: 1) resolved task requirements, 2) origina
 - Never commit, push, stage, switch branches, reset, rebase, or discard changes.
 - Do not declare a check passed without execution evidence.
 - Treat unexplained diff overlap with pre-existing changes as a review blocker.
+- Treat missing local API documentation, unresolved persisted-field semantics, unjustified duplicate logic, unrelated fixes, and unapproved global API-documentation configuration as review blockers.
+- Do not fix unrelated failures or expand the step while reviewing; report them with scope evidence.
+- Treat an unapproved or unread specialized-skill instruction set as a review blocker when the plan says a specialist was used.
 - Do not edit the workflow state directly unless the developer explicitly asks to run this skill without the orchestrator and authorizes that update.
 
 ## Stop conditions
@@ -55,7 +62,7 @@ Stop with `Ready for commit: No` when requirement coverage is incomplete, scope 
 
 ## Required output
 
-Produce a **Step Completion Report**, using `../../templates/step-completion-report.md`. Include step executed, changed files, requirements and evidence IDs covered, validation commands and results, build/test status, warnings, plan deviations, unresolved issues, `Ready for commit: Yes/No`, and a suggested commit message.
+Produce a **Step Completion Report**, using `../../templates/step-completion-report.md`. Include step executed, changed files, requirements and evidence IDs covered, specialized-skill review, API documentation review, reuse review, database-field readiness, validation commands and results, build/test status, scope-boundary findings, warnings, plan deviations, unresolved issues, `Ready for commit: Yes/No`, and a suggested commit message.
 
 ## Handoff to the next skill
 

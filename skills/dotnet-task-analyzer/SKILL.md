@@ -29,9 +29,9 @@ Use after project documentation, repository exploration, and team-pattern learni
 ## Workflow
 
 1. Read the task in full and preserve the original source or a stable reference to it. When the task has changed since a prior analysis, record the revision and mark superseded requirements rather than blending versions.
-2. Extract task name, overview, objective, scope, out of scope, endpoints, inputs, outputs, request/response contracts, field rules, validation rules, business rules, roles, permissions, test cases, acceptance criteria, dependencies, notes, and undefined information.
+2. Extract task name, overview, objective, scope, out of scope, endpoints, inputs, outputs, request/response contracts, field rules, validation rules, business rules, roles, permissions, test cases, acceptance criteria, dependencies, notes, and undefined information. For every field that could become a database column or table attribute, separately record its purpose, business meaning, type, nullability, constraints, relationships, default value, update behavior, and governing business rules; mark each item as stated or unknown.
 3. Assign stable IDs to requirements, acceptance criteria, and undefined decisions. Attribute each extracted fact to its source section. Keep wording exact for rules, contract fields, and acceptance criteria where possible.
-4. Record omissions explicitly. Do not invent roles, permissions, fields, endpoints, pagination, search, sorting, delete strategy, status behavior, or error contracts.
+4. Record omissions explicitly. Do not invent roles, permissions, fields, endpoints, pagination, search, sorting, delete strategy, status behavior, error contracts, or database-field semantics.
 5. Classify preliminary readiness: `READY` when stated requirements appear complete; `READY_WITH_ASSUMPTIONS` when only clearly bounded technical assumptions may be needed; `BLOCKED` when the task itself contains a material unresolved decision. Mark this as subject to task-context investigation.
 6. Do not select implementation files or resolve repository conflicts in this stage. Return requirement IDs and source references for the dossier; do not duplicate task text in unrelated reports.
 
@@ -52,7 +52,7 @@ Stop with `BLOCKED` if the supplied source is incomplete, contradictory, or lack
 
 ## Required output
 
-Produce a **Task Requirement Report**, using `../../templates/task-requirement-report.md`. Include the complete extracted requirement model, stable requirement IDs, source attribution, undefined information, and preliminary `READY`, `READY_WITH_ASSUMPTIONS`, or `BLOCKED` classification. Add task-source evidence to the registry and cite those IDs from later artifacts.
+Produce a **Task Requirement Report**, using `../../templates/task-requirement-report.md`. Include the complete extracted requirement model, stable requirement IDs, source attribution, the field-understanding matrix, undefined information, and preliminary `READY`, `READY_WITH_ASSUMPTIONS`, or `BLOCKED` classification. Add task-source evidence to the registry and cite those IDs from later artifacts.
 
 ## Handoff to the next skill
 

@@ -40,6 +40,10 @@ For a multi-step task, the orchestrator creates a **task dossier** under `.otto/
 
 The dossier is a local sidecar by default and should stay outside ordinary commits. OttoNet does not stage, commit, push, delete, or move it into project folders such as `docs/`. Keep Otto-owned artifacts together in `.otto/` so they remain easy to leave untracked. Teams that require task artifacts in version control can explicitly choose a repository-tracked location. Reports should reference evidence IDs and record only conclusions or changes since the last run; they should reuse current evidence when the source fingerprint is unchanged.
 
+### Optional specialist skills
+
+For advanced or unfamiliar .NET work, OttoNet can recommend using the agent's `find-skills`/`find-skill` capability to search the official [.NET skills repository](https://github.com/dotnet/skills). It first checks whether the current workflow is sufficient, then asks for explicit approval before installing a specific skill. Installed guidance is read before coding and remains secondary to the target repository's conventions and task requirements.
+
 ## Workflow
 
 ```mermaid
@@ -149,6 +153,12 @@ Use dotnet-team-pattern-learner to study completed implementations and identify 
 Read the approved implementation plan and execute Step 3 only.
 ```
 
+For an advanced .NET task, ask OttoNet to assess whether a specialist is needed:
+
+```text
+Assess whether this task needs a specialized .NET skill. If yes, search the official dotnet/skills repository with find-skills and stop for my approval before installing anything.
+```
+
 Supported agents can select skills from the frontmatter description. Use `dotnet-company-task-orchestrator` when the full gated workflow is required.
 
 ## Safety model
@@ -160,6 +170,7 @@ OttoNet never automatically:
 - Stages or commits Otto-owned artifacts under `.otto/` unless the developer explicitly asks to track them.
 - Executes an entire implementation plan without developer approval.
 - Continues when a business requirement remains unresolved.
+- Installs or uses specialized .NET skills only after explicit approval and reading their instructions; project conventions remain authoritative.
 
 The developer remains accountable for plan approval, step selection, commits, and pushes.
 

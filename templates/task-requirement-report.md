@@ -24,6 +24,13 @@
 | Requirement ID | Field | Type | Required | Exact rule | Source |
 | --- | --- | --- | --- | --- | --- |
 
+## Database-field understanding
+
+Complete this matrix for every field that may become a table column or persisted attribute. Use `UNKNOWN` when the task does not state the detail; do not infer it from a similar module.
+
+| Requirement ID | Field | Purpose and business meaning | Data type | Nullable / required | Constraints | Relationships | Default value | Update behavior | Business rules | Status / evidence |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+
 ## Business rules
 
 1. `R-<id>` — Record each rule exactly as supplied and attribute it to the task source.
