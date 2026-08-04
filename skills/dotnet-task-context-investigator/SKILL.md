@@ -56,7 +56,7 @@ Stop when the repository is unreadable, a required related component is unavaila
 
 ## Required output
 
-Produce a **Task Context Report**, using `../../templates/task-context-report.md`. Include relevant files, related modules and relationships, reusable components, current behavior, candidate references, API documentation conventions and gaps, database-field findings, conflicts, missing support, search terms, and direct evidence. Map findings to requirement IDs and evidence-registry IDs; record the explored dependency boundary and any uninspected but unrelated areas.
+Produce a **Task Context Report**, using `../../templates/task-context-report.md`. Include relevant files, related modules and relationships, reusable components, current behavior, candidate references, API documentation conventions and gaps, database-field findings, conflicts, missing support, search terms, direct evidence, and an explicit modification boundary. Map findings to requirement IDs and evidence-registry IDs; record the explored dependency boundary, paths authorized for later modification, paths that are inspection-only, and any uninspected but unrelated areas.
 
 ## Handoff to the next skill
 

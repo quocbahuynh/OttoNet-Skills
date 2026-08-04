@@ -34,7 +34,8 @@ Use first in a company-task workflow, before every requested implementation step
 5. When a dossier exists, compare branch, HEAD, protection boundaries, and active plan step with its baseline. Mark affected evidence stale when a mismatch can affect it; do not infer that the mismatch is harmless.
 6. Describe existing changes by path and status. Do not infer their intent or overwrite them. Mark the workspace safe to continue only when there is no unresolved Git operation or conflict and the next activity can avoid changing protected existing work. A dirty workspace can be safe with explicit protection boundaries.
 7. Decide whether the requested work is significant enough to warrant a recovery point before code changes. Treat migrations, authorization, external integrations, destructive data behavior, broad multi-file changes, or developer-requested checkpoints as significant. Recommend a recovery point and record the baseline commit; do not create commits or tags automatically.
-8. Provide optional, non-executed rollback guidance appropriate to the observed state. Explain that the developer must inspect status and approve each command:
+8. When inspecting a requested plan step, reconcile its exact scope contract: allowed paths, forbidden paths, allowed operations, shared-file exceptions, and explicit deletions. If the contract is missing or overlaps existing protected work, report `NOT_SAFE` and stop before execution.
+9. Provide optional, non-executed rollback guidance appropriate to the observed state. Explain that the developer must inspect status and approve each command:
    - Roll back the latest commit with a new inverse commit: `git revert HEAD`.
    - Roll back a specific commit with a new inverse commit: `git revert <commit>`.
    - Restore selected files from a known commit only after protecting uncommitted work: `git restore --source=<commit> -- <path>`.
@@ -52,6 +53,7 @@ Use this order for any interpretation: 1) resolved task requirements, 2) origina
 - Treat an unknown branch as non-protected unless project documentation says otherwise; still report it.
 - Do not expose secret values found in diffs; report file paths and a high-level change type instead.
 - Recovery guidance is advisory only. Never create a recovery commit, restore files, abort an operation, or delete `.otto/` automatically.
+- A path-level scope contract is mandatory before a requested step can be marked safe. All unlisted paths and other modules are protected.
 
 ## Stop conditions
 
@@ -59,7 +61,7 @@ Stop and report `NOT_SAFE` when there are merge conflicts, an in-progress Git op
 
 ## Required output
 
-Produce a **Workspace Inspection Report** containing: repository path, branch, HEAD or detached HEAD status, protected-branch warning, working-tree status, staged and untracked files, conflicts or in-progress operations, recorded protection boundaries, dossier-baseline reconciliation, recovery-point recommendation, rollback options (not executed), commands run, and `Safe to continue: Yes/No/With constraints`.
+Produce a **Workspace Inspection Report** containing: repository path, branch, HEAD or detached HEAD status, protected-branch warning, working-tree status, staged and untracked files, conflicts or in-progress operations, recorded protection boundaries, step scope contract audit, dossier-baseline reconciliation, recovery-point recommendation, rollback options (not executed), commands run, and `Safe to continue: Yes/No/With constraints`.
 
 ## Handoff to the next skill
 

@@ -30,7 +30,7 @@ Use after `dotnet-task-context-investigator` and before implementation planning.
 ## Workflow
 
 1. Compare every requirement ID and acceptance criterion against documentation, the cached project index, current code, related modules, data relationships, and selected patterns.
-2. Identify missing information, ambiguous or conflicting rules, task/code and task/documentation conflicts, missing relationships, permissions, delete/status/uniqueness/error behavior, incomplete acceptance criteria, and impossible or unsupported requirements.
+2. Identify missing information, ambiguous or conflicting rules, task/code and task/documentation conflicts, missing relationships, permissions, delete/status/uniqueness/error behavior, incomplete acceptance criteria, impossible or unsupported requirements, and any requirement that appears to cross a module or out-of-scope boundary.
 3. Classify every issue exactly once: `BLOCKING`, `NON_BLOCKING`, `ASSUMPTION_ALLOWED`, `REPOSITORY_RESOLVED`, or `BA_CONFIRMATION_REQUIRED`. Give each issue a stable ID and link it to requirement and evidence IDs.
 4. Resolve a technical convention as `REPOSITORY_RESOLVED` only with direct repository evidence. Do not ask questions the repository already answers.
 5. Require business confirmation when a decision changes product behavior, even if another module suggests an analogy. Do not resolve such ambiguity by copying that module.
@@ -53,6 +53,7 @@ Use this order for any interpretation: 1) resolved task requirements, 2) origina
 - Do not approve global Swagger, Scalar, or OpenAPI configuration changes without explicit developer authorization.
 - Do not recommend a specialized skill without naming the technical area, the evidence gap or risk, and why current project guidance is insufficient.
 - Do not claim a candidate skill exists, is relevant, or is installed without repository/search evidence and explicit developer approval.
+- Do not treat a cross-module dependency as permission to modify that module. Record the dependency and require an explicit scope decision in the task and plan.
 - Do not create a plan while an unresolved `BLOCKING` or `BA_CONFIRMATION_REQUIRED` issue remains.
 
 ## Stop conditions

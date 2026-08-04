@@ -17,6 +17,16 @@ State the approved goal and the work actually completed.
 | File | Change | Step scope justification |
 | --- | --- | --- |
 
+## Scope audit
+
+| Check | Result | Evidence / paths |
+| --- | --- | --- |
+| Pre-step snapshot captured | Pass / Needs work | |
+| Every changed path is allowlisted | Pass / Needs work | |
+| Every deleted, renamed, or moved path was explicitly approved | Pass / Needs work / Not applicable | |
+| Other modules and shared files protected | Pass / Needs work | |
+| Post-step diff contains no scope violation | Pass / Needs work / `BLOCKED_SCOPE_VIOLATION` | |
+
 ## Requirement coverage
 
 | Requirement or acceptance ID | Coverage | Evidence IDs |

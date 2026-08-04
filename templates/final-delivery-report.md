@@ -38,6 +38,7 @@
 | Architecture and conventions | | |
 | Test coverage | | |
 | Scope boundary and unrelated failures | | |
+| Per-step scope audit | | |
 | Workspace and commit history | | |
 
 ## Known limitations and manual verification

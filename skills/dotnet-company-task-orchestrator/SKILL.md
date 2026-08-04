@@ -33,14 +33,23 @@ Use to run the complete OttoNet workflow for a BA or Team Leader task, or to res
 
 ## Task dossier and workflow memory
 
-Use one task dossier for each task. The canonical state file indexes its evidence registry, reports, plan, workflow position, requirement resolutions, plan approval, step/commit decisions, protection boundaries, source freshness, and append-only continuity log. It is memory, not a substitute for evidence: detailed facts remain in the linked source locations.
+Use one task dossier for each task. The canonical state file indexes its evidence registry, reports, plan, workflow position, requirement resolutions, plan approval, step/commit decisions, protection boundaries, source freshness, per-step scope contracts, scope violations, and append-only continuity log. It is memory, not a substitute for evidence: detailed facts remain in the linked source locations.
 
 - Default location: `.otto/tasks/<task-slug>/` in the target repository. Create `workflow-state.md` from `../../templates/task-workflow-state-template.md`, `evidence-registry.md` from `../../templates/evidence-registry-template.md`, refresh `.otto/project-index.md` after repository exploration, and generate plans under `.otto/plans/` only after the first workspace inspection is safe enough to continue.
 - Treat the default location as a local, untracked sidecar. Never stage, commit, push, delete, or add it to ignore rules automatically. A developer may explicitly choose a repository-tracked location when team policy requires reviewable task artifacts.
-- On resume, read the state, latest continuity event, and evidence registry first. Then re-run workspace inspection and compare repository root, branch, HEAD, protected paths, source freshness, current gate, and plan status. Reconcile differences visibly; never assume an `IN_PROGRESS` stage finished.
+- On resume, read `Resume state` first, then the latest continuity event and the current gate artifact. Re-run workspace inspection and compare repository root, branch, HEAD, protected paths, source freshness, current gate, and plan status. Reconcile differences visibly; never assume an `IN_PROGRESS` stage finished.
 - Give each stable fact an evidence ID. Cite that ID in reports and plans rather than copying source code, full task text, or repeated Git diffs. A report records only its decision, scope, and delta since the last verified artifact.
 - Record paths, short summaries, identifiers, and decisions only. Never copy secrets, full diffs, credentials, or sensitive task data into state.
 - Update the state only after evidence is produced, when a gate changes, or immediately before a code-editing step begins. Append to the continuity log; do not erase historical evidence or silently change a decision.
+
+## Resume checkpoint for small models
+
+Treat the conversation as temporary. The `Resume state` block in `.otto/tasks/<task-slug>/workflow-state.md` is the only required memory checkpoint.
+
+- Read `Resume state`, the latest continuity event, and the current gate artifact before expanding context.
+- Update `Resume state` after every gate, clarification, execution, review, and validation with the exact next action and short evidence IDs.
+- If it is missing or conflicts with evidence, use the existing `BLOCKED` state, run workspace inspection, and reconcile before analysis or editing. Never guess from chat history.
+- This checkpoint reduces rereading; it never removes workflow gates, evidence requirements, scope audits, or developer decisions.
 
 ## Fresh-session boundary
 
@@ -90,10 +99,11 @@ Reject `FAST` and choose `STANDARD` or `STRICT` when source fingerprints are sta
 7. Run `dotnet-task-context-investigator` from the task dependency graph; record related modules, reusable components, API documentation conventions, database-field readiness, explored boundary, and task/code conflicts.
 8. Run `dotnet-requirement-gap-analyzer`, update the resolution ledger, and stop at clarification when required. Do not permit schema work with unresolved field semantics or global API-documentation configuration changes.
 9. Run the Specialized .NET Skill Recommendation Gate. Record why the current workflow is sufficient or identify the specific candidate search and approval state. Stop before planning or implementation when developer approval to install a relevant skill is pending.
-10. When all blocking questions and specialist decisions are resolved, run `dotnet-implementation-planner`, register the HTML plan, recommended ordinal execution order, API documentation matrix, reuse decisions, specialist-skill evidence, and requirement-to-step coverage map, then stop for explicit plan approval.
-11. After approval, record approval evidence. Before the first significant code change, show the non-executed recovery options from workspace inspection and let the developer decide whether to create a recovery point. After the developer explicitly requests one numbered step, transition only that step from `NOT_STARTED` to `IN_PROGRESS`, run `dotnet-step-executor`, then transition it to `AWAITING_REVIEW` and run `dotnet-step-reviewer`.
-12. Record the review outcome. Before any commit or push, re-run workspace inspection and verify no Otto-owned `.otto/` artifact is staged or unexpectedly tracked; if one is, stop and keep it uncommitted. Stop for the developer's commit decision; record either the commit SHA after a new inspection or the developer's explicit decision to continue without a commit. Only then allow the next explicitly requested step.
-13. After all required steps are reviewed and reconciled with the state, run `dotnet-final-delivery-reviewer`, record its decision, and stop for manual push.
+10. When all blocking questions and specialist decisions are resolved, run `dotnet-implementation-planner`, register the HTML plan, recommended ordinal execution order, API documentation matrix, reuse decisions, specialist-skill evidence, per-step scope contracts, and requirement-to-step coverage map, then stop for explicit plan approval.
+11. After approval, record approval evidence. Before the first significant code change, show the non-executed recovery options from workspace inspection and let the developer decide whether to create a recovery point. Before each requested step, require an exact path allowlist, forbidden-path boundary, allowed operations, and explicit deletion list. If the plan does not contain that scope contract, stop and return it to planning.
+12. After the developer explicitly requests one numbered step, transition only that step from `NOT_STARTED` to `IN_PROGRESS`, run `dotnet-step-executor`, and require pre/post scope snapshots. If any path outside the allowlist changes or any unapproved deletion/rename/move occurs, mark `BLOCKED_SCOPE_VIOLATION`, preserve the diff, and stop; never auto-restore or continue.
+13. Transition a clean step to `AWAITING_REVIEW` and run `dotnet-step-reviewer`. Before any commit or push, re-run workspace inspection and verify no Otto-owned `.otto/` artifact is staged or unexpectedly tracked; if one is, stop and keep it uncommitted. Stop for the developer's commit decision; record either the commit SHA after a new inspection or the developer's explicit decision to continue without a commit. Only then allow the next explicitly requested step.
+14. After all required steps are reviewed and reconciled with the state, run `dotnet-final-delivery-reviewer`, record its decision, and stop for manual push.
 
 ## Evidence priority
 
@@ -110,11 +120,16 @@ Use this order for every skill decision: 1) resolved task requirements, 2) origi
 - Never let Otto-owned `.otto/` artifacts obscure pre-existing user changes; record them as sidecars in the protection boundary and keep them out of staged commits unless the user explicitly chooses a repository-tracked location.
 - Never re-run broad discovery by default when a current dossier can answer the question; revalidate the relevant evidence boundary instead.
 - Never use `FAST` mode for a task whose risk or stale evidence makes `STANDARD` or `STRICT` necessary.
+- Never rely on chat history as task memory. If `Resume state` is missing or conflicting, stop with `BLOCKED` until it is reconciled.
 - Never continue an unrelated task in the current session; stop at the Fresh Session Gate and do not delete `.otto/` automatically.
 - Never plan or implement a new database field while its purpose, meaning, type, nullability, constraints, relationships, default, update behavior, or business rules are unresolved.
 - Never change global Swagger, Scalar, or OpenAPI configuration without explicit developer approval; prefer local controller or endpoint documentation.
 - Never create or execute rollback commands automatically; present safe recovery options for developer approval only.
 - Never expand beyond task scope to fix unrelated failures, refactor unrelated code, or change existing behavior without explicit approval.
+- Never execute a step without an explicit path allowlist and forbidden-path boundary.
+- Never allow a step to modify another module, shared file, generated file, or project-wide configuration unless the exact path is in the approved scope contract with a dependency justification.
+- Never allow deletion, rename, move, or bulk replacement unless the exact operation and paths are explicitly approved in the plan and step request.
+- Treat any out-of-scope path change as `BLOCKED_SCOPE_VIOLATION`; preserve the diff and require developer inspection instead of auto-restoring it.
 - Never install or use an external or specialized skill without explicit developer approval and a recorded candidate/scope decision.
 - Never let an installed skill override repository instructions, resolved requirements, evidence priority, or established project patterns.
 - Never recommend installation merely because a task uses .NET; require an advanced, unfamiliar, or risk-reducing technical justification.
@@ -134,14 +149,15 @@ Stop at each mandatory gate below. Resume only with the stated developer input o
 | 5a. Specialized skill recommendation | Current workflow suffices, or a candidate is approved/declined | Recorded decision; explicit developer approval before installation when needed |
 | 6. Plan approval | Detailed HTML plan presented | Explicit developer approval |
 | 7. Step request | One step selected | Explicit numbered request |
-| 8. Step review | Requested step reviewed | Review pass or corrective request |
+| 8. Step review | Requested step reviewed with a clean scope audit | Review pass or corrective request |
+| Scope violation | No unallowlisted path or unapproved deletion/rename/move changed | Developer inspects preserved diff and explicitly revises plan or authorizes recovery |
 | 9. Commit | Developer controls Git commit | Developer decision, then next explicit step request |
 | 10. Final delivery | Final review complete | Developer manually pushes or requests follow-up |
 
 ## Required output
 
-Produce an **OttoNet Workflow Status** after every stage and update the dossier: session-boundary result, operating mode and rationale, completed or reused artifacts, evidence limits and freshness, recovery-point recommendation, current gate, blocking questions, approved assumptions, specialized-skill assessment and approval state, installed-skill instruction evidence when applicable, plan path, execution order, API documentation status, reuse decisions, database-field readiness, step status when present, and the exact developer action required to continue. Preserve paths and IDs to all generated or revalidated evidence.
+Produce an **OttoNet Workflow Status** after every stage and update the dossier: session-boundary result, operating mode and rationale, completed or reused artifacts, evidence limits and freshness, recovery-point recommendation, current gate, blocking questions, approved assumptions, the `Resume state` checkpoint, specialized-skill assessment and approval state, installed-skill instruction evidence when applicable, plan path, execution order, API documentation status, reuse decisions, database-field readiness, per-step scope contract, pre/post scope snapshots, scope-violation status, step status when present, and the exact developer action required to continue. Preserve paths and IDs to all generated or revalidated evidence.
 
 ## Handoff to the next skill
 
-Dispatch only the next permitted named skill listed in the workflow. At a developer-controlled gate, hand off to the developer rather than another skill.
+Dispatch only the next permitted named skill listed in the workflow. At a developer-controlled gate, hand off to the developer rather than another skill. Update `Resume state` before the handoff.

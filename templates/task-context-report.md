@@ -46,6 +46,13 @@
 | Type | Finding | Impact | Evidence |
 | --- | --- | --- | --- |
 
+## Scope boundary and cross-module dependencies
+
+| Requirement IDs | In-scope module/path | Related module/path | Dependency needed | Modification authorized? | Evidence ID |
+| --- | --- | --- | --- | --- | --- |
+
+Related modules are evidence to inspect, not permission to modify. Any cross-module modification must be explicitly resolved in the task and named in the implementation-plan scope contract.
+
 ## Handoff
 
 Pass repository-resolved facts, conflicts, reusable elements, and remaining decision points to the requirement-gap analyzer.
