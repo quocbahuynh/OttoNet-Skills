@@ -5,7 +5,7 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![.NET](https://img.shields.io/badge/.NET-4.5%20to%2010.0-512BD4)](https://dotnet.microsoft.com/)
 [![Python](https://img.shields.io/badge/Python-3.9%2B-3776AB)](https://www.python.org/)
-[![Multi-Agent](https://img.shields.io/badge/AI%20Agents-Antigravity%20%7C%20Cursor%20%7C%20Claude%20%7C%20Copilot%20%7C%20Windsurf%20%7C%20Cline%20%7C%20OpenCode%20%7C%20Codex-success)](#multi-agent-compatibility)
+[![Multi-Agent](https://img.shields.io/badge/AI%20Agents-Antigravity%20%7C%20Cursor%20%7C%20Claude%20%7C%20Copilot%20%7C%20Windsurf%20%7C%20Cline%20%7C%20OpenCode%20%7C%20Codex-success)](#installation)
 
 ```bash
 npx skills add quocbahuynh/OttoNet-Skills --skill '*'
@@ -56,10 +56,10 @@ Benchmarked across **13 real-world open-source enterprise ASP.NET repositories**
 
 ---
 
-## Installation & Setup
+## Installation
 
-### 1. Instant Install via Agent Skills CLI (Recommended)
-Installs Ottonet directly into your project and configures active AI agents:
+Install Ottonet Skill directly into your active coding agent or project using [skills.sh](https://skills.sh):
+
 ```bash
 # Install to current repository (auto-detects Cursor, Antigravity, Claude, Copilot, etc.)
 npx skills add quocbahuynh/OttoNet-Skills --skill '*'
@@ -69,68 +69,6 @@ npx skills add quocbahuynh/OttoNet-Skills -g --skill '*'
 
 # Non-interactive install for all skills & all agents without prompts
 npx skills add quocbahuynh/OttoNet-Skills --all
-```
-
-### 2. Standalone Python CLI Setup (No Node.js Required)
-```bash
-git clone https://github.com/quocbahuynh/OttoNet-Skills.git ~/.ottonet
-echo 'alias ottonet="python3 ~/.ottonet/ottonet.py"' >> ~/.zshrc && source ~/.zshrc
-
-# Optional: compile native Roslyn parser for maximum throughput
-dotnet build ~/.ottonet/tools/Ottonet.Roslyn/Ottonet.Roslyn.csproj -c Release
-```
-
----
-
-## Multi-Agent Compatibility
-
-Ottonet equips AI coding agents to operate with **zero-click autonomy** (the agent executes `ottonet scan` and `ottonet inspect` in the background without user intervention):
-
-| AI Coding Agent | Config File | Setup Command | Autonomous Action |
-| :--- | :--- | :--- | :--- |
-| **Google Antigravity** | `skills/ottonet-skill/SKILL.md` | `ln -s ~/.ottonet/skills/ottonet-skill ~/.gemini/antigravity/skills/` | Native Skill auto-activation on .NET code |
-| **Cursor** | `.cursorrules` | `python3 ~/.ottonet/skills/ottonet-skill/scripts/install_adapters.py . --agents cursor` | Enforces Master Keys & background inspect |
-| **Claude Code** | `CLAUDE.md` | `python3 ~/.ottonet/skills/ottonet-skill/scripts/install_adapters.py . --agents claude` | Reads architecture maps & module rules |
-| **GitHub Copilot** | `.github/copilot-instructions.md` | `python3 ~/.ottonet/skills/ottonet-skill/scripts/install_adapters.py . --agents copilot` | Enforces team conventions & soft deletes |
-| **Windsurf** | `.windsurfrules` | `python3 ~/.ottonet/skills/ottonet-skill/scripts/install_adapters.py . --agents windsurf` | Injects runtime invariants into memory |
-| **Cline / Roo Code** | `.clinerules` | `python3 ~/.ottonet/skills/ottonet-skill/scripts/install_adapters.py . --agents cline` | Autonomous workflow profile |
-| **OpenCode** | `OPENCODE.md` | `python3 ~/.ottonet/skills/ottonet-skill/scripts/install_adapters.py . --agents opencode` | Direct agent context integration |
-| **OpenAI Codex** | `CODEX.md` | `python3 ~/.ottonet/skills/ottonet-skill/scripts/install_adapters.py . --agents codex` | System instruction prompt |
-
----
-
-## CLI Reference
-
-```bash
-# Universal single-target inspection (File, Route, Entity, SQL Table, or Module)
-ottonet inspect src/Services/OrderService.cs --method SubmitOrder
-ottonet inspect "/api/orders"
-ottonet inspect Order
-ottonet inspect Invoices
-ottonet inspect Orders
-
-# Targeted analysis commands
-ottonet scan [path]                                   # Full architectural scan
-ottonet routes --search "checkout" --method POST     # Fast filtered route lookup
-ottonet schema [EntityName]                           # Extract schema & Mermaid ERD
-ottonet rules <ModuleName>                            # Extract business logic & guards
-ottonet wiring                                        # Trace DI & Scrutor decorators
-ottonet switch --task 102 --domain billing            # Switch active bounded context
-```
-
----
-
-## Repository Structure
-
-```
-.
-├── ottonet.py                         # Single-entrypoint universal CLI
-├── skills/ottonet-skill/              # Core Antigravity skill & intelligence scripts
-│   ├── SKILL.md                       # Skill specification
-│   ├── scripts/                       # Roslyn bridge, route cataloger, schema & invariant miners
-│   └── adapters/                      # Multi-agent native configuration templates
-├── tools/Ottonet.Roslyn/              # High-speed native C# Roslyn AST compiler tool
-└── tests/                             # Test runners, mock fixtures & benchmark suite
 ```
 
 ---
