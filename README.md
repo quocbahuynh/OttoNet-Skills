@@ -69,23 +69,125 @@ Benchmarked across **13 real-world open-source enterprise ASP.NET repositories**
 
 ---
 
-## Quickstart
+## Installation & Setup
+
+Ottonet operates in two modes:
+1. **Global Workstation Sidecar (Recommended):** Installed once in your user directory, accessible from any .NET solution on your machine.
+2. **Embedded Repository Sidecar:** Bundled directly into a specific project or team repository via Git submodule.
 
 ### Prerequisites
-- Python 3.9+ (Zero external dependencies; standard library only)
-- *(Optional)* .NET 8.0+ SDK (Enables Roslyn compiler AST mode)
+- **Python 3.9+** (Standard library only; zero pip dependencies)
+- *(Optional)* **.NET 8.0+ SDK** (Enables 100% official Microsoft Roslyn compiler AST mode; falls back to Python lexer if absent)
 
-### Installation
-Clone the repository or add it as a submodule to your workspace:
+---
+
+### Method A: Global Workstation Setup (Recommended)
+
+1. Clone Ottonet into a permanent location on your workstation:
 ```bash
-git clone https://github.com/your-org/ottonet.git
-cd ottonet
+git clone https://github.com/quocbahuynh/OttoNet-Skills.git ~/.ottonet
 ```
 
-Sync AI agent configurations (generates adapter files for Cursor, Claude, Copilot, Windsurf, Cline, OpenCode, Codex):
+2. Add the `ottonet` CLI alias to your shell profile (`~/.zshrc` or `~/.bashrc`):
 ```bash
-python skills/ottonet-skill/scripts/install_adapters.py
+echo 'alias ottonet="python3 ~/.ottonet/ottonet.py"' >> ~/.zshrc
+source ~/.zshrc
 ```
+
+3. *(Optional)* Build the native Roslyn AST tool for maximum parsing speed:
+```bash
+dotnet build ~/.ottonet/tools/Ottonet.Roslyn/Ottonet.Roslyn.csproj -c Release
+```
+
+Now you can run `ottonet` inside **any** ASP.NET repository:
+```bash
+cd /path/to/any-dotnet-project
+ottonet scan
+ottonet inspect Order
+ottonet inspect "/api/orders"
+```
+
+---
+
+### Method B: Embedding in a Target .NET Solution
+
+To equip an existing ASP.NET team repository with Ottonet:
+
+1. Add Ottonet as a Git submodule inside your solution:
+```bash
+cd /path/to/your-solution
+git submodule add https://github.com/quocbahuynh/OttoNet-Skills.git .ottonet
+```
+
+2. Generate native instructions for all AI coding agents used by your team:
+```bash
+python3 .ottonet/skills/ottonet-skill/scripts/install_adapters.py .
+```
+This automatically writes configuration files (`.cursorrules`, `CLAUDE.md`, `.github/copilot-instructions.md`, `.windsurfrules`, `.clinerules`, `CODEX.md`, `OPENCODE.md`) to your repository root.
+
+---
+
+## Agent-Specific Integration Guide
+
+Ottonet provides tailored integration adapters so your AI coding assistant invokes Ottonet autonomously in the background:
+
+### 1. Google Antigravity
+Ottonet is built natively as an Antigravity Skill.
+- **Global Skill (Available across all Antigravity conversations):**
+  ```bash
+  mkdir -p ~/.gemini/antigravity/skills
+  ln -s ~/.ottonet/skills/ottonet-skill ~/.gemini/antigravity/skills/ottonet-skill
+  ```
+- **Workspace Skill (Restricted to a single project):**
+  Copy `skills/ottonet-skill` into your workspace at `<project_root>/.gemini/antigravity/skills/ottonet-skill`.
+  *Antigravity automatically detects the skill and activates Principal .NET Architect instincts on all ASP.NET solutions.*
+
+### 2. Cursor
+In your project root, run:
+```bash
+python3 ~/.ottonet/skills/ottonet-skill/scripts/install_adapters.py . --agents cursor
+```
+This creates `.cursorrules`. Cursor will automatically reference architectural master keys, invoke `ottonet inspect`, and use targeted method zoom-in without manual prompts.
+
+### 3. Claude Code (CLI)
+In your project root, run:
+```bash
+python3 ~/.ottonet/skills/ottonet-skill/scripts/install_adapters.py . --agents claude
+```
+This writes `CLAUDE.md` to your project root. Claude Code respects the architectural constraints, examines Scrutor wiring, and queries modular catalogs automatically.
+
+### 4. GitHub Copilot
+In your project root, run:
+```bash
+python3 ~/.ottonet/skills/ottonet-skill/scripts/install_adapters.py . --agents copilot
+```
+This generates `.github/copilot-instructions.md`, enforcing team patterns, soft-delete invariants, and controller inheritance across Copilot Chat and inline edits.
+
+### 5. Windsurf, Cline / Roo Code, OpenCode, Codex
+Run the installer with your agent of choice:
+```bash
+# Windsurf
+python3 ~/.ottonet/skills/ottonet-skill/scripts/install_adapters.py . --agents windsurf
+
+# Cline / Roo Code
+python3 ~/.ottonet/skills/ottonet-skill/scripts/install_adapters.py . --agents cline
+
+# OpenCode
+python3 ~/.ottonet/skills/ottonet-skill/scripts/install_adapters.py . --agents opencode
+
+# OpenAI Codex / ChatGPT
+python3 ~/.ottonet/skills/ottonet-skill/scripts/install_adapters.py . --agents codex
+```
+
+---
+
+## Autonomous Operation (How AI Agents Use Ottonet)
+
+Once installed, **you do not need to run commands manually.** Your AI assistant operates Ottonet autonomously:
+
+1. **On Solution Discovery:** The agent silently runs `ottonet scan` to determine the 4 Master Keys (`Bootstrap`, `API`, `Domain`, `Persistence`) and map cross-cutting invariants.
+2. **On Feature & Route Investigation:** When you ask about a feature, the agent queries `ottonet inspect "/api/target"` or reads `.codebase-intel/entrypoints/modules/<Mod>.md` instead of dumping hundreds of irrelevant routes.
+3. **On Method Refactoring:** The agent runs `ottonet inspect <file> --method <name>` to load the exact method body while keeping surrounding methods skeletonized—preventing token bloat, hallucinations, and context loss.
 
 ---
 
