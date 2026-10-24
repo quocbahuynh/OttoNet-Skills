@@ -69,19 +69,37 @@ Benchmarked across **13 real-world open-source enterprise ASP.NET repositories**
 
 ---
 
-## Installation & Setup
+## Installation
 
-Ottonet operates in two modes:
-1. **Global Workstation Sidecar (Recommended):** Installed once in your user directory, accessible from any .NET solution on your machine.
-2. **Embedded Repository Sidecar:** Bundled directly into a specific project or team repository via Git submodule.
+### Instant Install (Recommended)
 
-### Prerequisites
-- **Python 3.9+** (Standard library only; zero pip dependencies)
-- *(Optional)* **.NET 8.0+ SDK** (Enables 100% official Microsoft Roslyn compiler AST mode; falls back to Python lexer if absent)
+Install Ottonet Skill directly into your active coding agent or project using [skills.sh](https://skills.sh):
+
+```bash
+npx skills add quocbahuynh/OttoNet-Skills --skill '*'
+```
+
+#### Common Installation Scopes:
+
+```bash
+# 1. Install to current repository (auto-detects active coding agents)
+npx skills add quocbahuynh/OttoNet-Skills --skill '*'
+
+# 2. Install globally (user-level across all workspaces on your workstation)
+npx skills add quocbahuynh/OttoNet-Skills -g --skill '*'
+
+# 3. Non-interactive install for all skills & all agents without prompts
+npx skills add quocbahuynh/OttoNet-Skills --all
+
+# 4. Target specific coding agents (e.g. cursor, claude-code, copilot)
+npx skills add quocbahuynh/OttoNet-Skills --skill '*' --agent cursor claude-code
+```
 
 ---
 
-### Method A: Global Workstation Setup (Recommended)
+### Alternative: Standalone CLI Setup (No Node.js Required)
+
+If you prefer using Ottonet as a standalone Python CLI without `npx`:
 
 1. Clone Ottonet into a permanent location on your workstation:
 ```bash
@@ -109,11 +127,11 @@ ottonet inspect "/api/orders"
 
 ---
 
-### Method B: Embedding in a Target .NET Solution
+### Alternative: Embedded in a Team Solution
 
-To equip an existing ASP.NET team repository with Ottonet:
+To bundle Ottonet directly into an existing team repository:
 
-1. Add Ottonet as a Git submodule inside your solution:
+1. Add Ottonet as a Git submodule:
 ```bash
 cd /path/to/your-solution
 git submodule add https://github.com/quocbahuynh/OttoNet-Skills.git .ottonet
