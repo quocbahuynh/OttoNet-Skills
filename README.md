@@ -67,6 +67,12 @@ npx skills add quocbahuynh/OttoNet-Skills --skill '*'
 # Install globally (user-level across all workspaces on your workstation)
 npx skills add quocbahuynh/OttoNet-Skills -g --skill '*'
 
+# Install for specific agents (e.g. Cursor, Claude Code, GitHub Copilot, Windsurf, Cline)
+npx skills add quocbahuynh/OttoNet-Skills --skill '*' --agent cursor
+npx skills add quocbahuynh/OttoNet-Skills --skill '*' --agent claude-code
+npx skills add quocbahuynh/OttoNet-Skills --skill '*' --agent copilot
+npx skills add quocbahuynh/OttoNet-Skills --skill '*' --agent windsurf cline
+
 # Non-interactive install for all skills & all agents without prompts
 npx skills add quocbahuynh/OttoNet-Skills --all
 ```
