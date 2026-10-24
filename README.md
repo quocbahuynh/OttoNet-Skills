@@ -7,44 +7,27 @@
 [![Python](https://img.shields.io/badge/Python-3.9%2B-3776AB)](https://www.python.org/)
 [![Multi-Agent](https://img.shields.io/badge/AI%20Agents-Antigravity%20%7C%20Cursor%20%7C%20Claude%20%7C%20Copilot%20%7C%20Windsurf%20%7C%20Cline%20%7C%20OpenCode%20%7C%20Codex-success)](#multi-agent-compatibility)
 
+```bash
+npx skills add quocbahuynh/OttoNet-Skills --skill '*'
+```
+
 ---
 
 ## Overview
 
-Large-scale enterprise .NET codebases—spanning .NET Framework 4.5 monoliths to modern .NET 10 microservices—consistently overwhelm AI coding assistants. Repositories containing 200,000 to 500,000+ lines of code exhaust context windows, hallucinate cross-project dependencies, and remain blind to runtime patterns like Scrutor decorators, reflection-based dependency injection, and procedural guards.
+Enterprise .NET codebases (200,000 to 500,000+ lines of code) consistently overwhelm AI coding assistants with massive context windows, invisible runtime wiring (Scrutor decorators, reflection DI), and complex controller hierarchies.
 
-**Ottonet** is a lightweight, zero-dependency intelligence sidecar that bridges this gap. It analyzes solutions in sub-second timeframes, distill architecture, schemas, and invariants into high-density reference maps, and feeds AI coding agents exactly what they need—reducing token consumption by **86% to 96%** while preventing hallucinated architectures.
+**Ottonet** is a zero-dependency intelligence sidecar that analyzes ASP.NET solutions in sub-second timeframes. It distills 2M+ token solutions into dense, structured architectural maps under 3,500 tokens—slashing token consumption by **86% to 96%** while eliminating hallucinated architectures.
 
 ---
 
-## Core Capabilities
+## 5 Core Architect Weapons
 
-### 1. Universal Single-Command Investigator (`ottonet inspect`)
-Eliminates context switching and command memorization. Pass any target, and Ottonet resolves it automatically:
-- **File path** (`src/Services/OrderService.cs`) &rarr; Generates an AST skeleton with method signatures and side-effect annotations.
-- **Route / Verb** (`/api/orders` or `POST /api/orders`) &rarr; Locates matching endpoints, controller actions, HTTP verbs, and exact source file lines.
-- **Entity / Table** (`Order` or `Invoices`) &rarr; Generates primary key, foreign key, 1-to-many collection schemas, and raw SQL/Dapper queries.
-- **Module / Domain** (`Billing` or `Orders`) &rarr; Compiles distilled business rules, state machine transitions, and procedural HTTP response guards.
-
-### 2. Hybrid Roslyn AST & Targeted Method Zoom-In
-- **Dual-Engine Execution:** When the .NET SDK is available, Ottonet leverages native Roslyn (`Microsoft.CodeAnalysis.CSharp`) for compiler-level AST precision. In lightweight environments, it seamlessly falls back to a zero-dependency Python lexer.
-- **Targeted Method Zoom-In:** When modifying a single method in a 2,500-line service, Ottonet preserves **100% full-body fidelity** for the targeted method while skeletonizing non-relevant methods into dense one-line summaries annotating side-effects (`Mutates: ... | Calls: ... | Throws: ...`).
-
-### 3. Modular Entrypoint Cataloger & Search
-- Handles standard MVC controllers, generic base controller inheritance (`CrudController<T>`), primary constructors, Minimal APIs (`MapGroup`, `IEndpointGroup`), FastEndpoints, Carter modules, and gRPC services.
-- Automatically partitions monolith route tables into bounded contexts (`.codebase-intel/entrypoints/modules/<Module>.md`), with sub-50ms CLI filtering via `--search` and `--method`.
-
-### 4. Entity Schema & Raw SQL / Dapper Distiller
-- Reverse-engineers domain models, EF Core `DbSet<T>` definitions, `sealed class`, `record`, and primary constructors without scanning massive DbContext files.
-- **Heuristic SQL Invariant Miner:** Parses embedded SQL strings (`FROM <table>`, `JOIN <table> ON ...`, `INSERT INTO ...`, `UPDATE ...`) in Dapper, ADO.NET, and repository implementations, mapping inferred foreign keys and query parameters (`@Param`) into Mermaid ER diagrams.
-
-### 5. Semantic Logic & Procedural Preconditions Miner
-- **Domain Invariants:** Captures custom domain exceptions (`*Exception : DomainException`), guard clauses (`Ensure.That`), and mathematical algorithms.
-- **Procedural HTTP Guards:** Captures business checks in traditional controllers (`if (amount <= 0) return BadRequest(...)`, `NotFound`, `Conflict`, `Results.BadRequest`).
-- **State Machines:** Reconstructs domain lifecycle states from status enums.
-
-### 6. Git-Aware Incremental Cache
-Tracks file modification timestamps combined with the current Git `HEAD` commit reference. Cache invalidation occurs automatically upon branch checkout or pull, eliminating stale cache poisoning.
+- **Universal Investigator (`ottonet inspect <target>`):** One unified command to inspect files, routes, entities, Dapper tables, or business modules with automatic target resolution.
+- **Hybrid Roslyn AST & Targeted Method Zoom-In:** Compiler-level syntax tree precision via native Roslyn (`Microsoft.CodeAnalysis.CSharp`) with zero-dependency Python lexer fallback. Preserves 100% full-body fidelity for target methods while skeletonizing surrounding code with side-effect annotations (`Mutates`, `Calls`, `Throws`).
+- **Modular Route Partitions & Search:** Automatically groups monolith route catalogs into bounded contexts (`.codebase-intel/entrypoints/modules/<Mod>.md`) with sub-50ms CLI filtering (`--search`, `--method`).
+- **Entity & Raw SQL / Dapper Distiller:** Reverse-engineers EF Core classes, `sealed class`, `record`, and embedded raw SQL/Dapper `JOIN ON` tables into Mermaid ER diagrams.
+- **Semantic Invariant Miner:** Captures domain exceptions, mathematical formulas, state machine lifecycles, and procedural HTTP response guards (`BadRequest`, `NotFound`, `Conflict`).
 
 ---
 
@@ -58,7 +41,11 @@ Benchmarked across **13 real-world open-source enterprise ASP.NET repositories**
 | **Ardalis CleanArchitecture** | FastEndpoints / Domain Events | 23 | 9 Ent + 9 SQL | 29 Domain + 5 HTTP | 0.35s | 96,561 | 17,448 | **81.9%** |
 | **Microsoft eShop** | Aspire / Microservices / gRPC | 46 | 48 Ent + 8 SQL | 7 Domain + 10 HTTP | 0.58s | 232,290 | 23,708 | **89.8%** |
 | **Kamil Grzybek Modular Monolith** | Modular Monolith / DDD / CQRS | 72 | 97 Ent + 6 SQL | 5 Domain | 1.05s | 350,601 | 62,928 | **82.1%** |
+| **Amichai Mantinband Clean Arch** | C# 12 Primary Ctors + ErrorOr | 13 | 3 Ent + 0 SQL | 2 Domain | 0.19s | 42,962 | 7,996 | **81.4%** |
+| **Conduit RealWorld Spec App** | Feature Folders / Vertical Slices | 19 | 7 Ent + 3 SQL | 15 Domain | 0.12s | 61,884 | 7,681 | **87.6%** |
 | **Jason Taylor Northwind Traders** | N-Tier / Controller Inheritance | 26 | 15 Ent + 1 SQL | 4 Domain | 0.41s | 462,328 | 9,261 | **98.0%** |
+| **Ivan Paulovich Clean Arch Manga** | Hexagonal Banking + API Versioning | 23 | 5 Ent + 3 SQL | 0 Domain | 0.22s | 75,611 | 8,834 | **88.3%** |
+| **NikiforovAll Minimal API** | Carter Modules + Minimal APIs | 7 | 0 Ent + 1 SQL | 0 Domain | 0.03s | 2,304 | 1,971 | **14.5%** |
 | **Eduardo Pires Equinox** | DDD / Event Sourcing | 23 | 8 Ent + 1 SQL | 1 Domain + 7 HTTP | 0.15s | 41,292 | 7,610 | **81.6%** |
 | **SimplCommerce** | E-Commerce (44 Modules) | 344 | 99 Ent + 9 SQL | 140 HTTP Guards | 1.29s | 560,438 | 115,842 | **79.3%** |
 | **Pentatomic Billing System** | Subscription Billing / Invoices | 6 | 3 Ent + 0 SQL | 43 Calculations | 0.14s | 52,976 | 7,835 | **85.2%** |
@@ -69,205 +56,67 @@ Benchmarked across **13 real-world open-source enterprise ASP.NET repositories**
 
 ---
 
-## Installation
+## Installation & Setup
 
-### Instant Install (Recommended)
-
-Install Ottonet Skill directly into your active coding agent or project using [skills.sh](https://skills.sh):
-
+### 1. Instant Install via Agent Skills CLI (Recommended)
+Installs Ottonet directly into your project and configures active AI agents:
 ```bash
-npx skills add quocbahuynh/OttoNet-Skills --skill '*'
-```
-
-#### Common Installation Scopes:
-
-```bash
-# 1. Install to current repository (auto-detects active coding agents)
+# Install to current repository (auto-detects Cursor, Antigravity, Claude, Copilot, etc.)
 npx skills add quocbahuynh/OttoNet-Skills --skill '*'
 
-# 2. Install globally (user-level across all workspaces on your workstation)
+# Install globally (user-level across all workspaces on your workstation)
 npx skills add quocbahuynh/OttoNet-Skills -g --skill '*'
 
-# 3. Non-interactive install for all skills & all agents without prompts
+# Non-interactive install for all skills & all agents without prompts
 npx skills add quocbahuynh/OttoNet-Skills --all
-
-# 4. Target specific coding agents (e.g. cursor, claude-code, copilot)
-npx skills add quocbahuynh/OttoNet-Skills --skill '*' --agent cursor claude-code
 ```
 
----
-
-### Alternative: Standalone CLI Setup (No Node.js Required)
-
-If you prefer using Ottonet as a standalone Python CLI without `npx`:
-
-1. Clone Ottonet into a permanent location on your workstation:
+### 2. Standalone Python CLI Setup (No Node.js Required)
 ```bash
 git clone https://github.com/quocbahuynh/OttoNet-Skills.git ~/.ottonet
-```
+echo 'alias ottonet="python3 ~/.ottonet/ottonet.py"' >> ~/.zshrc && source ~/.zshrc
 
-2. Add the `ottonet` CLI alias to your shell profile (`~/.zshrc` or `~/.bashrc`):
-```bash
-echo 'alias ottonet="python3 ~/.ottonet/ottonet.py"' >> ~/.zshrc
-source ~/.zshrc
-```
-
-3. *(Optional)* Build the native Roslyn AST tool for maximum parsing speed:
-```bash
+# Optional: compile native Roslyn parser for maximum throughput
 dotnet build ~/.ottonet/tools/Ottonet.Roslyn/Ottonet.Roslyn.csproj -c Release
-```
-
-Now you can run `ottonet` inside **any** ASP.NET repository:
-```bash
-cd /path/to/any-dotnet-project
-ottonet scan
-ottonet inspect Order
-ottonet inspect "/api/orders"
-```
-
----
-
-### Alternative: Embedded in a Team Solution
-
-To bundle Ottonet directly into an existing team repository:
-
-1. Add Ottonet as a Git submodule:
-```bash
-cd /path/to/your-solution
-git submodule add https://github.com/quocbahuynh/OttoNet-Skills.git .ottonet
-```
-
-2. Generate native instructions for all AI coding agents used by your team:
-```bash
-python3 .ottonet/skills/ottonet-skill/scripts/install_adapters.py .
-```
-This automatically writes configuration files (`.cursorrules`, `CLAUDE.md`, `.github/copilot-instructions.md`, `.windsurfrules`, `.clinerules`, `CODEX.md`, `OPENCODE.md`) to your repository root.
-
----
-
-## Agent-Specific Integration Guide
-
-Ottonet provides tailored integration adapters so your AI coding assistant invokes Ottonet autonomously in the background:
-
-### 1. Google Antigravity
-Ottonet is built natively as an Antigravity Skill.
-- **Global Skill (Available across all Antigravity conversations):**
-  ```bash
-  mkdir -p ~/.gemini/antigravity/skills
-  ln -s ~/.ottonet/skills/ottonet-skill ~/.gemini/antigravity/skills/ottonet-skill
-  ```
-- **Workspace Skill (Restricted to a single project):**
-  Copy `skills/ottonet-skill` into your workspace at `<project_root>/.gemini/antigravity/skills/ottonet-skill`.
-  *Antigravity automatically detects the skill and activates Principal .NET Architect instincts on all ASP.NET solutions.*
-
-### 2. Cursor
-In your project root, run:
-```bash
-python3 ~/.ottonet/skills/ottonet-skill/scripts/install_adapters.py . --agents cursor
-```
-This creates `.cursorrules`. Cursor will automatically reference architectural master keys, invoke `ottonet inspect`, and use targeted method zoom-in without manual prompts.
-
-### 3. Claude Code (CLI)
-In your project root, run:
-```bash
-python3 ~/.ottonet/skills/ottonet-skill/scripts/install_adapters.py . --agents claude
-```
-This writes `CLAUDE.md` to your project root. Claude Code respects the architectural constraints, examines Scrutor wiring, and queries modular catalogs automatically.
-
-### 4. GitHub Copilot
-In your project root, run:
-```bash
-python3 ~/.ottonet/skills/ottonet-skill/scripts/install_adapters.py . --agents copilot
-```
-This generates `.github/copilot-instructions.md`, enforcing team patterns, soft-delete invariants, and controller inheritance across Copilot Chat and inline edits.
-
-### 5. Windsurf, Cline / Roo Code, OpenCode, Codex
-Run the installer with your agent of choice:
-```bash
-# Windsurf
-python3 ~/.ottonet/skills/ottonet-skill/scripts/install_adapters.py . --agents windsurf
-
-# Cline / Roo Code
-python3 ~/.ottonet/skills/ottonet-skill/scripts/install_adapters.py . --agents cline
-
-# OpenCode
-python3 ~/.ottonet/skills/ottonet-skill/scripts/install_adapters.py . --agents opencode
-
-# OpenAI Codex / ChatGPT
-python3 ~/.ottonet/skills/ottonet-skill/scripts/install_adapters.py . --agents codex
-```
-
----
-
-## Autonomous Operation (How AI Agents Use Ottonet)
-
-Once installed, **you do not need to run commands manually.** Your AI assistant operates Ottonet autonomously:
-
-1. **On Solution Discovery:** The agent silently runs `ottonet scan` to determine the 4 Master Keys (`Bootstrap`, `API`, `Domain`, `Persistence`) and map cross-cutting invariants.
-2. **On Feature & Route Investigation:** When you ask about a feature, the agent queries `ottonet inspect "/api/target"` or reads `.codebase-intel/entrypoints/modules/<Mod>.md` instead of dumping hundreds of irrelevant routes.
-3. **On Method Refactoring:** The agent runs `ottonet inspect <file> --method <name>` to load the exact method body while keeping surrounding methods skeletonized—preventing token bloat, hallucinations, and context loss.
-
----
-
-## CLI Reference
-
-### Universal Inspection
-```bash
-# Inspect a specific file with Roslyn AST skeletonization
-python ottonet.py inspect src/Services/OrderService.cs
-
-# Zoom into a specific method with 100% full body fidelity
-python ottonet.py inspect src/Services/OrderService.cs --method ProcessOrderAsync
-
-# Inspect a route path or verb
-python ottonet.py inspect "/api/orders"
-python ottonet.py inspect "POST /api/orders"
-
-# Inspect an entity or raw SQL table
-python ottonet.py inspect Order
-python ottonet.py inspect Invoices
-
-# Inspect a module or bounded context
-python ottonet.py inspect Orders
-```
-
-### Targeted Commands
-```bash
-# Full architectural scan (Entrypoints, Schemas, DI Wiring, Invariants)
-python ottonet.py scan [path_to_solution]
-
-# Route catalog with instant keyword and method filtering
-python ottonet.py routes --search "checkout" --method POST
-
-# Entity relationship extraction & Mermaid ERD generation
-python ottonet.py schema [EntityName] [path_to_solution]
-
-# Extract business algorithms, formulas, and procedural guards
-python ottonet.py rules <ModuleName> [path_to_solution]
-
-# Trace runtime DI wiring and Scrutor decorators
-python ottonet.py wiring [path_to_solution]
-
-# Switch task and bounded context card
-python ottonet.py switch --task 102 --domain billing [path_to_solution]
 ```
 
 ---
 
 ## Multi-Agent Compatibility
 
-Ottonet provides first-class instruction sets and integration rules for all major AI coding agents:
+Ottonet equips AI coding agents to operate with **zero-click autonomy** (the agent executes `ottonet scan` and `ottonet inspect` in the background without user intervention):
 
-| AI Coding Agent | Configuration File | Integration Mode |
-| :--- | :--- | :--- |
-| **Google Antigravity** | `skills/ottonet-skill/SKILL.md` | Native Skill |
-| **Cursor** | `.cursorrules` | System Rule |
-| **Claude Code** | `CLAUDE.md` | Workspace Context |
-| **GitHub Copilot** | `.github/copilot-instructions.md` | Workspace Instructions |
-| **Windsurf** | `.windsurfrules` | Memory Rule |
-| **Cline / Roo Code** | `.clinerules` | Workflow Profile |
-| **OpenCode** | `OPENCODE.md` / `.opencoderules` | Agent Configuration |
-| **OpenAI Codex / ChatGPT** | `CODEX.md` / `.codexrules` | Repository Prompt |
+| AI Coding Agent | Config File | Setup Command | Autonomous Action |
+| :--- | :--- | :--- | :--- |
+| **Google Antigravity** | `skills/ottonet-skill/SKILL.md` | `ln -s ~/.ottonet/skills/ottonet-skill ~/.gemini/antigravity/skills/` | Native Skill auto-activation on .NET code |
+| **Cursor** | `.cursorrules` | `python3 ~/.ottonet/skills/ottonet-skill/scripts/install_adapters.py . --agents cursor` | Enforces Master Keys & background inspect |
+| **Claude Code** | `CLAUDE.md` | `python3 ~/.ottonet/skills/ottonet-skill/scripts/install_adapters.py . --agents claude` | Reads architecture maps & module rules |
+| **GitHub Copilot** | `.github/copilot-instructions.md` | `python3 ~/.ottonet/skills/ottonet-skill/scripts/install_adapters.py . --agents copilot` | Enforces team conventions & soft deletes |
+| **Windsurf** | `.windsurfrules` | `python3 ~/.ottonet/skills/ottonet-skill/scripts/install_adapters.py . --agents windsurf` | Injects runtime invariants into memory |
+| **Cline / Roo Code** | `.clinerules` | `python3 ~/.ottonet/skills/ottonet-skill/scripts/install_adapters.py . --agents cline` | Autonomous workflow profile |
+| **OpenCode** | `OPENCODE.md` | `python3 ~/.ottonet/skills/ottonet-skill/scripts/install_adapters.py . --agents opencode` | Direct agent context integration |
+| **OpenAI Codex** | `CODEX.md` | `python3 ~/.ottonet/skills/ottonet-skill/scripts/install_adapters.py . --agents codex` | System instruction prompt |
+
+---
+
+## CLI Reference
+
+```bash
+# Universal single-target inspection (File, Route, Entity, SQL Table, or Module)
+ottonet inspect src/Services/OrderService.cs --method SubmitOrder
+ottonet inspect "/api/orders"
+ottonet inspect Order
+ottonet inspect Invoices
+ottonet inspect Orders
+
+# Targeted analysis commands
+ottonet scan [path]                                   # Full architectural scan
+ottonet routes --search "checkout" --method POST     # Fast filtered route lookup
+ottonet schema [EntityName]                           # Extract schema & Mermaid ERD
+ottonet rules <ModuleName>                            # Extract business logic & guards
+ottonet wiring                                        # Trace DI & Scrutor decorators
+ottonet switch --task 102 --domain billing            # Switch active bounded context
+```
 
 ---
 
@@ -276,43 +125,22 @@ Ottonet provides first-class instruction sets and integration rules for all majo
 ```
 .
 ├── ottonet.py                         # Single-entrypoint universal CLI
-├── skills/
-│   └── ottonet-skill/
-│       ├── SKILL.md                   # Antigravity skill specification
-│       └── scripts/
-│           ├── catalog_entrypoints.py  # Route resolver & modular cataloger
-│           ├── csharp_skeleton.py      # Roslyn AST & Python brace lexer zoom-in
-│           ├── detect_architecture.py  # TargetFramework & MSBuild analyzer
-│           ├── detect_conventions.py   # Code style & naming convention detector
-│           ├── distill_entity_schema.py# Entity & Dapper SQL table extractor
-│           ├── domain_manager.py       # Task & context card switcher
-│           ├── extract_business_rules.py# Invariant, formula, & guard miner
-│           ├── install_adapters.py     # Multi-agent adapter generator
-│           ├── intel_init.py           # Safe workspace initializer
-│           ├── resolve_master_keys.py  # 4 Master Keys discriminator
-│           ├── scan_invariants.py      # Cross-cutting invariant detector
-│           └── trace_di_decorators.py  # Scrutor & runtime DI tracer
-├── tools/
-│   └── Ottonet.Roslyn/                # High-speed native C# Roslyn analyzer
-│       ├── Ottonet.Roslyn.csproj
-│       └── Program.cs
-└── tests/
-    ├── run_tests.py                   # 5-suite comprehensive verification test
-    ├── benchmark_all_repos.py         # Automated real-world benchmark runner
-    └── fixtures/                      # Mock legacy, clean arch, & FastEndpoints
+├── skills/ottonet-skill/              # Core Antigravity skill & intelligence scripts
+│   ├── SKILL.md                       # Skill specification
+│   ├── scripts/                       # Roslyn bridge, route cataloger, schema & invariant miners
+│   └── adapters/                      # Multi-agent native configuration templates
+├── tools/Ottonet.Roslyn/              # High-speed native C# Roslyn AST compiler tool
+└── tests/                             # Test runners, mock fixtures & benchmark suite
 ```
 
 ---
 
 ## Zero Git Pollution Guarantee
 
-Ottonet never pollutes your repository history:
-- All generated intelligence maps and caches are isolated strictly inside `.codebase-intel/`.
-- Every `.codebase-intel/` directory is automatically configured with a self-contained `.gitignore` and registered in Git exclusions.
-- Clean working trees remain 100% untouched.
+All generated intelligence maps, manifests, and indexes are isolated strictly inside `.codebase-intel/` and ignored by Git. Your repository working tree remains 100% pristine.
 
 ---
 
 ## License
 
-This project is licensed under the [MIT License](LICENSE).
+Licensed under the [MIT License](LICENSE).
