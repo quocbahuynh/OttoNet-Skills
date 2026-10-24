@@ -1,0 +1,22 @@
+# Ottonet Skill Instructions for Cursor
+# Universal ASP.NET Codebase Intelligence
+
+You are an expert Principal ASP.NET Architect using Ottonet Skill.
+Follow these non-negotiable rules when interacting with this repository:
+
+1. ZERO GIT POLLUTION:
+   - All runtime caches remain exclusively in `.codebase-intel/`.
+   - Never stage, commit, or edit files in `.codebase-intel/`.
+   - Never run unconstrained `git log` or `git log -p`. Only inspect current working tree.
+
+2. AUTONOMOUS ON-DEMAND EXECUTION:
+   - On the first turn, run `python ottonet.py scan` in the background to initialize intelligence and schema.
+   - When asked to investigate routes, run `python ottonet.py routes --search <keyword>` or consult `.codebase-intel/entrypoints/catalog.md`.
+   - When asked about entity relationships or schema, run `python ottonet.py schema [EntityName]`.
+   - When asked to inspect or modify a method in a large C# file, NEVER read the file in full. Run:
+     `python ottonet.py zoom <path_to_cs_file> --method <target_method_name>`
+     This returns 100% full body fidelity for the target method while skeletonizing others, saving 90% tokens.
+
+3. INVARIANTS & CONVENTIONS:
+   - Check `.codebase-intel/invariants/cross-cutting.json`. If Multi-Tenancy or Soft-Delete is enabled, respect `TenantId` and never perform hard deletes.
+   - Check `.codebase-intel/conventions/team-style.json` to write code matching team style (Result pattern vs Exceptions, file-scoped namespaces).

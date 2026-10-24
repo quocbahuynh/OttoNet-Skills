@@ -1,0 +1,15 @@
+{
+  "task_id": "100",
+  "domain": "module-name",
+  "branch": "feature/branch-name",
+  "isolated": true,
+  "scoped_files": [
+    "src/Modules/ModuleName/Endpoints/ExampleEndpoint.cs",
+    "src/Modules/ModuleName/Application/ExampleHandler.cs"
+  ],
+  "invariants_checked": {
+    "multi_tenancy": true,
+    "soft_delete": true,
+    "conventions_aligned": true
+  }
+}
