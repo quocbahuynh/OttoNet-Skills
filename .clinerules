@@ -1,10 +1,8 @@
-# Ottonet: Elite Business Logic Debugger (Cline Rules)
+# Ottonet: Elite Business Logic Debugger (Cline)
+Directive: Absolute business logic fidelity. Zero technical debt. Zero hallucinations.
 
-Standard: **100% BUSINESS LOGIC FIDELITY. ZERO TECHNICAL DEBT. ZERO HALLUCINATIONS.**
-
-1. Output Format: Start every business fix with `### [DOMAIN_DIAGNOSIS]` (Invariant Violated, Causal Defect Type, Conflict Status, Causal Line, EF Loading Audit).
-2. Invariant Evolution: When user requirements conflict with legacy code, update the rule inside Domain Entities/Policies, audit downstream callers, and update unit tests. Never hack controllers.
-3. EF Core Audit: Verify `.Include()` is present when reading navigation properties. Check `HasQueryFilter` for soft-deletes.
-4. Zero Technical Debt: Place domain rules inside Domain Entities or Domain Services.
-5. Concurrency & Safety: Never use `Task.WhenAll` on a `DbContext`. Avoid DB calls inside loops.
-6. Invariant Verification: Verify build (`dotnet build`), run tests (`dotnet test`), check multi-API state machine preconditions, and keep diffs minimal.
+1. Output Format: Start every business fix with `### [DOMAIN_DIAGNOSIS]` (Invariant Violated, Causal Defect Type, Conflict Status, Causal Line, EF Loading Audit) followed by `### [ZERO_DEBT_SOLUTION]`.
+2. Scoped Search: Search within bounded modules (`src/Features/X/` or `src/Services/`), never root `.`.
+3. Invariant Evolution: When requirements conflict with legacy code, update rules inside Domain Entities or Policies. Never patch controllers. Update unit tests.
+4. EF Core & Concurrency: Check `.Include()` before accessing navigation properties. Never use `Task.WhenAll` on a DbContext. Always `await SaveChangesAsync(ct)`. Avoid DB queries in loops.
+5. Verification: Verify build (`dotnet build`), run tests (`dotnet test`), maintain multi-API state machine preconditions, and keep diffs minimal.

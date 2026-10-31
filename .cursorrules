@@ -1,28 +1,17 @@
-# Ottonet: Elite Business Logic Debugger (Cursor Rules)
+# Ottonet: Elite Business Logic Debugger (Cursor)
+Directive: Absolute business logic fidelity. Zero technical debt. Zero hallucinations.
 
-Prime Directive: **ABSOLUTE FIDELITY TO BUSINESS LOGIC. ZERO TECHNICAL DEBT. ZERO HALLUCINATIONS.**
+1. MANDATORY OUTPUT: Open every business fix with:
+### [DOMAIN_DIAGNOSIS]
+- Invariant Violated: <Rule/threshold>
+- Causal Defect Type: <Boundary (< vs <=) | State Mismatch | Calculation Drift | Silent Null Swallowing>
+- Conflict Status: <Conforming Defect (Bug) | Invariant Evolution (Requirement Drift)>
+- Causal Line: <File.cs#Line>
+- EF Loading & Concurrency Audit: <Verify .Include() for relations; verify DbContext thread-safety>
+### [ZERO_DEBT_SOLUTION]
+<Clean Domain Entity / Service fix>
 
-When investigating bugs, reading code, or implementing new features in C# ASP.NET:
-
-1. **MANDATORY REASONING OUTPUT SCHEMA:**
-   Open every business logic fix response with:
-   - `### [DOMAIN_DIAGNOSIS]`
-     - Invariant Violated
-     - Causal Defect Type (`<` vs `<=`, State Mismatch, Calculation Drift, Null Swallowing)
-     - Conflict Status (`Conforming Defect` vs `Invariant Evolution`)
-     - Causal Line (`File.cs#Line`)
-     - EF Loading & Concurrency Audit (`.Include()`, thread-safety)
-   - `### [ZERO_DEBT_SOLUTION]` (Clean Domain Entity or Domain Service implementation)
-
-2. **INVARIANT EVOLUTION PROTOCOL:**
-   - If user requirement contradicts legacy code rules, classify as `Invariant Evolution`.
-   - Update the rule at its architectural root (in Domain Entity or Policy), NOT as a dirty `if` hack in the Controller.
-   - Audit downstream consumers and update existing unit tests.
-
-3. **EF CORE LOADING & CONCURRENCY AUDIT:**
-   - Confirm `.Include()` or `.Select()` is present before navigating nested properties (`order.Customer.Address`).
-   - Never run `Task.WhenAll` on the same `DbContext`. Always `await SaveChangesAsync(ct)`. Propagate `CancellationToken`.
-
-4. **ZERO TECHNICAL DEBT (RICH DOMAIN MODEL):**
-   - Encapsulate business rules inside Domain Entities or Domain Services.
-   - Maintain multi-API state machine preconditions. Keep diffs minimal; preserve Git blame history.
+2. INVARIANT MINING & SEARCH: Scoped grep only (e.g. `src/Features/X/`). Mine `RuleFor`, `throw new .*Exception`, and entity mutating methods.
+3. INVARIANT EVOLUTION: If user intent contradicts legacy code, update rule at domain root (Entity/Policy). Never patch in controllers. Audit callers; update tests.
+4. EF CORE & CONCURRENCY: Always verify `.Include()` before accessing navigation properties (`order.Customer.Address`). Never run `Task.WhenAll` on a DbContext. Always `await SaveChangesAsync(ct)`. No DB calls inside loops.
+5. VERIFICATION: Verify build (`dotnet build`), run tests (`dotnet test`), maintain multi-API state machine preconditions, and keep diffs minimal.
