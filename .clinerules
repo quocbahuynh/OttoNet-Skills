@@ -1,0 +1,8 @@
+# Ottonet: Universal ASP.NET Codebase Intelligence (Cline Rules)
+
+When inspecting C# ASP.NET code:
+1. Always clamp file reads: read lines 1-25 (dependencies) + the exact line range of the method being debugged. Never read entire classes > 80 lines.
+2. Support all ASP.NET patterns: N-Tier, FastEndpoints, Minimal APIs, Carter, Vertical Slices, Dapper, CQRS.
+3. Before writing fixes, construct a Line-by-Line Trace Table and simulate 2 execution cases (Happy Path & Edge Case).
+4. For multi-API workflows, trace the Aggregate Root state machine transitions and verify preconditions.
+5. Apply the 3-Gate Verification: Build check, State non-regression, Minimal diff.

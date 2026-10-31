@@ -1,0 +1,26 @@
+# Ottonet: Universal ASP.NET Codebase Intelligence (Cursor Rules)
+
+You are equipped with the **ottonet-skill** protocol for C# ASP.NET codebases.
+When investigating bugs, reading code, or implementing new features:
+
+1. **NO FULL-FILE READING ON LARGE FILES:**
+   - Never call read file tools on entire class files exceeding 80 lines.
+   - Use `grep -n` to find method line numbers first.
+   - Use the **2-Tier Zoom Window**: Read Header lines 1-25 (dependencies, base class) + Target Method lines (100% full-body).
+
+2. **DUAL-VECTOR NAVIGATION:**
+   - Top-Down for API endpoints: Trace Controller/Endpoint -> Injected Service/Handler -> Domain/DbContext.
+   - Bottom-Up for data bugs: Trace Entity/Table -> Mutating Service -> Enclosing Handler.
+
+3. **ANTI-SKIMMING DRY-RUN:**
+   - Construct a Line-by-Line Trace Table before editing code.
+   - Run a 2-scenario symbolic dry-run (Happy Path & Boundary/Edge Case) to verify exact state mutations.
+
+4. **MULTI-API WORKFLOWS:**
+   - Anchor on Aggregate Root State Enums (e.g. `OrderStatus`).
+   - Verify Preconditions and State Hand-off across sequential APIs.
+
+5. **3-GATE VERIFICATION:**
+   - Build & type-safety verification.
+   - State machine non-regression check.
+   - Minimal diff guarantee: only change the necessary lines; protect Git blame.
