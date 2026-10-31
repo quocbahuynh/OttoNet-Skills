@@ -21,7 +21,46 @@ When investigating a business logic defect, construct this causal trace in your 
 
 ---
 
-## 2. The 3 Golden Rules of Zero Technical Debt in Business Logic Fixes
+## 2. EF Core Eager Loading & Concurrency Audit
+
+Before finalizing any query or mutation:
+
+### 1. Navigation Property Loading Audit
+- If code touches nested properties (e.g. `order.Customer.Address.PostalCode`), verify that the LINQ query explicitly eager-loaded the relationship:
+  ```csharp
+  // VULNERABLE TO RUNTIME NullReferenceException:
+  var order = await _context.Orders.FirstOrDefaultAsync(o => o.Id == id, ct);
+  var zip = order.Customer.Address.PostalCode; // CRASH! Customer is null
+
+  // SAFE:
+  var order = await _context.Orders
+      .Include(o => o.Customer)
+          .ThenInclude(c => c.Address)
+      .FirstOrDefaultAsync(o => o.Id == id, ct);
+  ```
+
+### 2. Optimistic Concurrency Conflict Audit
+- When updating high-contention resources (inventory balances, seat reservations, bank balances), inspect if the entity defines a concurrency token:
+  ```csharp
+  public class Account
+  {
+      public decimal Balance { get; private set; }
+      [Timestamp]
+      public byte[] RowVersion { get; private set; } = null!;
+  }
+  ```
+- Wrap updates in a concurrency catch block if retry logic is required:
+  ```csharp
+  catch (DbUpdateConcurrencyException ex)
+  {
+      // Reload and re-apply business invariants or abort with Conflict HTTP 409
+      throw new DomainConflictException("The record was modified by another transaction. Please retry.");
+  }
+  ```
+
+---
+
+## 3. The 3 Golden Rules of Zero Technical Debt in Business Logic Fixes
 
 ### Rule 1: Never Patch in the Presentation Layer (Controller / Endpoint)
 - **Bad (Technical Debt):**
@@ -51,14 +90,3 @@ When investigating a business logic defect, construct this causal trace in your 
 ### Rule 3: Use Value Objects for Complex Domain Concepts
 - Do not pass loose primitives (like `string currency, decimal amount`) if the codebase uses or would benefit from a `Money` or `Address` Value Object.
 - Ensure rounding and currency matching are encapsulated within the Value Object.
-
----
-
-## 3. The Elite Debugger's Checklist for Edge Cases
-
-Before submitting a business logic fix, verify:
-- [ ] **Exact Boundary Equality:** Did the requirement state "above 100" (`> 100`) or "100 and above" (`>= 100`)?
-- [ ] **Zero and Negative Input Handling:** What happens if the input quantity, price, or discount is `0` or negative?
-- [ ] **Nullability & Null-Safety:** Are all optional navigation properties checked before accessing nested properties?
-- [ ] **Timezone & Temporal Invariants:** Does the logic compare UTC with Local time? Always ensure `DateTimeOffset.UtcNow` or `DateTime.UtcNow` consistency.
-- [ ] **Idempotency:** Can this method be called twice with the same inputs without causing duplicate billing, duplicate status transitions, or double discounts?

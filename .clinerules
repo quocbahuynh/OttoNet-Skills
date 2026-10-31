@@ -2,8 +2,9 @@
 
 Standard: **100% BUSINESS LOGIC FIDELITY. ZERO TECHNICAL DEBT. ZERO HALLUCINATIONS.**
 
-1. Ground-Truth Extraction: Extract business rules directly from FluentValidation, Entity guards, and Domain Exceptions before editing. Never guess.
-2. Causal Diagnosis: Audit `<` vs `<=`, state lifecycle mismatches, `decimal` vs `double` rounding, and null swallowing.
-3. Zero Technical Debt: Place domain rules inside Domain Entities or Domain Services. Do not leak business rules into Controllers or Minimal APIs.
-4. Concurrency: Never use `Task.WhenAll` on a `DbContext`. Avoid DB calls inside loops.
-5. Invariant Verification: Verify build (`dotnet build`), check multi-API state machine preconditions, and keep diffs minimal.
+1. Output Format: Start every business fix with `### [DOMAIN_DIAGNOSIS]` (Invariant Violated, Causal Defect Type, Causal Line, EF Loading Audit).
+2. Ground-Truth Extraction: Extract business rules directly from FluentValidation, Entity guards, and Domain Exceptions before editing. Never guess.
+3. EF Core Audit: Verify `.Include()` is present when reading navigation properties. Check `HasQueryFilter` for soft-deletes.
+4. Zero Technical Debt: Place domain rules inside Domain Entities or Domain Services. Do not leak business rules into Controllers or Minimal APIs.
+5. Concurrency & Safety: Never use `Task.WhenAll` on a `DbContext`. Avoid DB calls inside loops.
+6. Invariant Verification: Verify build (`dotnet build`), run tests (`dotnet test`), check multi-API state machine preconditions, and keep diffs minimal.

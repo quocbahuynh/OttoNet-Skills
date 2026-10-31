@@ -1,22 +1,39 @@
 ---
 name: ottonet-skill
-description: Elite Business Logic Debugger & Surgical ASP.NET Intelligence. Zero hallucinations, zero technical debt, token-optimized context extraction, and 100% adherence to domain business rules.
+description: Elite Business Logic Debugger & Universal ASP.NET Codebase Intelligence. Enforces ground-truth invariant mining, zero technical debt, mandatory output schemas, EF Core loading verification, and concurrency safeguards.
 ---
 
 # Ottonet: Elite Business Logic Debugger for ASP.NET
 
 **Supreme Directive: ABSOLUTE FIDELITY TO BUSINESS LOGIC. ZERO HALLUCINATIONS. ZERO TECHNICAL DEBT.**
 
-In enterprise C# ASP.NET codebases, code is not just syntax—it is the living implementation of business rules, legal contracts, and financial calculations. Standard AI assistants fail at business logic bugs because they:
-1. Treat logic as generic code, guessing fixes that satisfy the compiler while violating domain invariants.
-2. Leak business logic into controllers, introducing technical debt instead of encapsulating it in domain models.
-3. Skim past critical edge conditions (`<` vs `<=`, boundary clamping, concurrency conflicts, nullability).
+In enterprise C# ASP.NET codebases (50,000 to 500,000+ lines of code), code is the authoritative legal implementation of business rules, domain invariants, and financial contracts. Standard AI assistants fail at business logic bugs because they:
+1. Treat logic as generic code, guessing compiler-satisfying patches while violating domain invariants.
+2. Leak business logic into controllers as ad-hoc `if` patches, accumulating severe technical debt.
+3. Skim past critical boundary conditions (`<` vs `<=`, nullability, clamping, deferred loading).
 
-Ottonet transforms you into an **Elite Principal Software Architect & Domain Debugger**: you diagnose root causes directly from existing code, eliminate technical debt, and guarantee that business logic is 100% accurate.
+Ottonet enforces strict architectural discipline: you diagnose root causes directly from existing code, eliminate technical debt, and guarantee that business logic is 100% accurate.
 
 ---
 
-## The 4-Stage Business Logic Diagnostic Engine
+## Mandatory Reasoning Output Schema
+
+To eliminate the "lazy-skimming" failure mode, **every business logic repair or investigation MUST open with this exact structured block before presenting any code changes**:
+
+```markdown
+### [DOMAIN_DIAGNOSIS]
+- **Invariant Violated:** <Exact business rule, threshold, or contract violated>
+- **Causal Defect Type:** <Boundary (< vs <=) | State Mismatch | Calculation Drift | Silent Null Swallowing>
+- **Causal Line:** <Exact File.cs#LineNumber where runtime state diverges from business intent>
+- **EF Loading & Concurrency Audit:** <Confirmed .Include() present for navigation properties; verified DbContext thread-safety>
+
+### [ZERO_DEBT_SOLUTION]
+<Clean Domain Entity or Domain Service implementation adhering to Rich Domain Model>
+```
+
+---
+
+## The 4-Stage Diagnostic Engine
 
 ```mermaid
 graph TD
@@ -31,7 +48,12 @@ graph TD
 
 Before proposing any fix, extract the **ground-truth business rules** from the codebase. Do not assume or guess what the business "probably wants". The existing codebase is your source of truth:
 
-### 1. Extract the 3 Invariant Anchors (Token-Optimized):
+### 1. Scope-Constrained Search:
+- Always constrain your search to the specific bounded context or module folder:
+  - Good: `grep -rn 'CalculateTax' src/Features/Billing/` or `grep -rn 'class OrderService' src/Services/`
+  - Bad: `grep -rn 'CalculateTax' .` (scans irrelevant projects, builds, and tests)
+
+### 2. Extract the 3 Invariant Anchors (Token-Optimized):
 - **Anchor A: Validation Rules:** Search the DTO / Command validators (`FluentValidation` or DataAnnotations):
   ```bash
   grep -rn 'RuleFor' src/Features/Billing/ # or src/Application/Validators/
@@ -58,10 +80,10 @@ When investigating a business logic bug, classify the defect into one of these 4
 | **Calculation Drift** | Incorrect rounding, operator precedence, or formula. | *Is `decimal` used for currency? Is banker's rounding causing penny drifts?* |
 | **Silent Swallowing** | Null propagation (`?.`, `??`) hiding a missing record. | *Did `customer?.Address?.Zip` return null when it should throw `NotFound`?* |
 
-### The Causal Trace Execution:
-Mentally execute the method with two concrete scenarios:
-1. **The Bug Trigger Input:** Walk line-by-line with the inputs reported by the user. Pinpoint the exact line where runtime state diverges from business intent.
-2. **The Valid Baseline Input:** Walk line-by-line with standard inputs to ensure normal operations work.
+### EF Core Loading & Navigation Audit (The Silent Bug Trap):
+Whenever reading or mutating nested entity properties (`order.Customer.Address`):
+- **Verify Eager Loading:** Confirm that the executing query explicitly included the relation via `.Include(o => o.Customer).ThenInclude(c => c.Address)` or projected via `.Select()`. EF Core disables lazy loading by default; accessing unincluded navigation properties results in `NullReferenceException`.
+- **Verify Global Query Filters:** Check if the `DbContext` applies `HasQueryFilter(e => !e.IsDeleted)`. Soft-deleted rows will silently evaluate to `null`.
 
 ---
 
@@ -72,7 +94,7 @@ Mentally execute the method with two concrete scenarios:
 
 ### Rules of Engagement for Code Modifications:
 1. **Encapsulate in the Domain Layer (Rich Domain Model):**
-   - If an invariant belongs to an `Order`, place the guard inside `Order.cs`:
+   - Place invariants directly inside the Entity:
      ```csharp
      // Clean Domain Encapsulation - NOT in Controller
      public void ApplyDiscount(decimal discount)
@@ -87,10 +109,12 @@ Mentally execute the method with two concrete scenarios:
      ```
 2. **Preserve Architectural Purity:**
    - Follow the project's existing paradigm (Clean Architecture, FastEndpoints, Vertical Slice, N-Tier). Do not introduce MediatR into an N-Tier codebase, and do not introduce Dapper into an EF Core vertical slice unless already used.
-3. **Async & Concurrency Safety:**
-   - Never run concurrent operations on a scoped `DbContext` via `Task.WhenAll`.
-   - Always `await SaveChangesAsync(cancellationToken)`.
-   - Propagate `CancellationToken` from entrypoints down to the database.
+3. **Async, Concurrency & Thread-Safety Rules:**
+   - **Never run `Task.WhenAll` on the same `DbContext`:** Scoped `DbContext` is NOT thread-safe. Concurrent operations cause runtime crashes. Use `IDbContextFactory` if true parallelism is required.
+   - **Always `await SaveChangesAsync(cancellationToken)`:** Never fire-and-forget database mutations.
+   - **Propagate `CancellationToken`:** Pass `ct` from entrypoints down to the database.
+   - **No Database Queries in `foreach` Loops:** Avoid N+1 query traps. Batch fetch using `.Where(x => ids.Contains(x.Id))` before the loop.
+   - **Optimistic Concurrency:** If the aggregate root has a `RowVersion` or `[Timestamp]`, handle `DbUpdateConcurrencyException` gracefully.
 
 ---
 
@@ -113,5 +137,5 @@ If the business logic affects a multi-step workflow (`Draft -> Reserved -> Paid 
 Before delivering the solution, execute the 3 Verification Gates:
 
 1. **Gate 1: Build & Type-Safety:** Run `dotnet build` whenever terminal is accessible. Ensure zero compiler warnings on modified files.
-2. **Gate 2: Non-Regression Audit:** Confirm that all existing tests in the solution pass (`dotnet test`). If no tests exist, mentally verify that all other methods on the modified entity still satisfy their invariants.
+2. **Gate 2: Non-Regression Audit:** Confirm that all existing tests in the solution pass (`dotnet test`). If test infrastructure exists, follow the [TDD Reproduction Guide](references/tdd-reproduction.md) to verify that a failing test turns green.
 3. **Gate 3: Minimal Diff Guarantee:** Modify only the necessary lines. Do not reformat unrelated code, reorder methods, or change stylistic whitespace. Preserve `git blame` history.

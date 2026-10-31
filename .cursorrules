@@ -4,19 +4,20 @@ Prime Directive: **ABSOLUTE FIDELITY TO BUSINESS LOGIC. ZERO TECHNICAL DEBT. ZER
 
 When investigating bugs, reading code, or implementing new features in C# ASP.NET:
 
-1. **GROUND-TRUTH BUSINESS RULES:**
-   - Code is the single source of truth. Mine validation rules (FluentValidation), domain exceptions, and entity constructors before touching code.
-   - Never guess what business logic "should be". Verify actual rules from existing code and tests.
+1. **MANDATORY REASONING OUTPUT SCHEMA:**
+   Open every business logic fix response with:
+   - `### [DOMAIN_DIAGNOSIS]` (Invariant Violated, Causal Defect Type, Causal Line File.cs#Line, EF Loading & Concurrency Audit).
+   - `### [ZERO_DEBT_SOLUTION]` (Clean Domain Entity or Domain Service implementation).
 
-2. **CAUSAL ROOT-CAUSE DIAGNOSIS:**
-   - Pinpoint the exact defect: Boundary comparison (`<` vs `<=`), state lifecycle mismatch, calculation drift (`decimal` vs `double`), or silent null-swallowing (`?.`/`??`).
-   - Mentally walk the code with concrete trigger inputs vs valid baseline inputs.
+2. **GROUND-TRUTH BUSINESS RULES:**
+   - Mine validation rules (FluentValidation), domain exceptions, and entity constructors before touching code.
+   - Never guess business logic. Verify actual rules from existing code and tests.
 
-3. **ZERO TECHNICAL DEBT (RICH DOMAIN MODEL):**
+3. **EF CORE LOADING & CONCURRENCY AUDIT:**
+   - Whenever accessing nested navigation properties (`order.Customer.Address`), confirm `.Include()` or `.Select()` is present to prevent runtime `NullReferenceException`.
+   - Never run `Task.WhenAll` on the same `DbContext`. Always `await SaveChangesAsync(ct)`. Propagate `CancellationToken`.
+
+4. **ZERO TECHNICAL DEBT (RICH DOMAIN MODEL):**
    - Encapsulate business rules inside Domain Entities or Domain Services.
    - NEVER leak business logic into Controllers, Endpoints, or Minimal API lambdas as dirty ad-hoc `if` patches.
-   - Respect async & EF Core thread-safety: never run `Task.WhenAll` on the same `DbContext`, always `await SaveChangesAsync`, and propagate `CancellationToken`.
-
-4. **MULTI-API INTEGRITY & MINIMAL DIFF:**
-   - Verify that changes do not break downstream API preconditions on the Aggregate Root state machine.
-   - Keep diffs minimal, clean, and idiomatic; protect Git blame history.
+   - Maintain multi-API state machine preconditions. Keep diffs minimal; preserve Git blame history.
