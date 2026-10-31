@@ -1,26 +1,24 @@
 # Ottonet: Universal ASP.NET Codebase Intelligence (Cursor Rules)
 
-You are equipped with the **ottonet-skill** protocol for C# ASP.NET codebases.
-When investigating bugs, reading code, or implementing new features:
+Goal: **100% ACCURACY & FASTEST RESPONSE SPEED.**
 
-1. **NO FULL-FILE READING ON LARGE FILES:**
-   - Never call read file tools on entire class files exceeding 80 lines.
-   - Use `grep -n` to find method line numbers first.
-   - Use the **2-Tier Zoom Window**: Read Header lines 1-25 (dependencies, base class) + Target Method lines (100% full-body).
+When investigating bugs, reading code, or implementing new features in C# ASP.NET:
 
-2. **DUAL-VECTOR NAVIGATION:**
-   - Top-Down for API endpoints: Trace Controller/Endpoint -> Injected Service/Handler -> Domain/DbContext.
-   - Bottom-Up for data bugs: Trace Entity/Table -> Mutating Service -> Enclosing Handler.
+1. **BLAZING-FAST PINPOINT:**
+   - Jump directly to the implementation in 1 step:
+     - Route/API: Grep `[HttpGet]`, `[HttpPost]`, `MapPost`, or `Endpoint<`.
+     - MediatR/CQRS: Grep `IRequestHandler<YourCommand`.
+     - Direct DI: Grep `class YourService : IYourService`.
 
-3. **ANTI-SKIMMING DRY-RUN:**
-   - Construct a Line-by-Line Trace Table before editing code.
-   - Run a 2-scenario symbolic dry-run (Happy Path & Boundary/Edge Case) to verify exact state mutations.
+2. **ZERO-SKIMMING & 100% LOGIC RIGOR:**
+   - Never guess what a method does from its name.
+   - Read the complete target method body in 1 clean read call to have full context immediately.
+   - Audit the 5 C# traps: `<` vs `<=`, `?.` and `??`, missing enum branches in switch expressions, `decimal` vs `double` rounding, and EF Core change tracker status.
 
-4. **MULTI-API WORKFLOWS:**
-   - Anchor on Aggregate Root State Enums (e.g. `OrderStatus`).
-   - Verify Preconditions and State Hand-off across sequential APIs.
+3. **MULTI-API WORKFLOWS:**
+   - Anchor on the Aggregate Root Status Enum (`OrderStatus: Draft -> Reserved -> Paid -> Completed`).
+   - Verify that changes do not violate preconditions expected by downstream APIs.
 
-5. **3-GATE VERIFICATION:**
-   - Build & type-safety verification.
-   - State machine non-regression check.
-   - Minimal diff guarantee: only change the necessary lines; protect Git blame.
+4. **PRECISION MINIMAL DIFF & BUILD:**
+   - Make laser-focused minimal changes; preserve Git blame history.
+   - Verify compilation with `dotnet build` whenever terminal is available.

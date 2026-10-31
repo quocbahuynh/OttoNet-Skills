@@ -1,10 +1,10 @@
 # Ottonet
 
-**Universal Codebase Intelligence & Surgical Navigation for ASP.NET Solutions**
+**Universal ASP.NET Codebase Intelligence — Engineered for 100% Accuracy & Blazing-Fast Navigation**
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![.NET](https://img.shields.io/badge/.NET-4.5%20to%2010.0-512BD4)](https://dotnet.microsoft.com/)
-[![Zero-Code](https://img.shields.io/badge/Architecture-Pure%20Cognitive%20Skill-success)](skills/ottonet-skill/SKILL.md)
+[![Accuracy](https://img.shields.io/badge/Focus-100%25%20Accuracy%20%26%20Speed-orange)](skills/ottonet-skill/SKILL.md)
 [![Multi-Agent](https://img.shields.io/badge/AI%20Agents-Antigravity%20%7C%20Cursor%20%7C%20Claude%20%7C%20Copilot%20%7C%20Windsurf%20%7C%20Cline-success)](#installation)
 
 ```bash
@@ -13,63 +13,42 @@ npx skills add quocbahuynh/OttoNet-Skills --skill '*'
 
 ---
 
-## The Problem
+## Triết Lý: Chính Xác 100% & Tốc Độ Nhanh Nhất
 
-Enterprise C# ASP.NET codebases (50,000 to 500,000+ lines of code) consistently break AI coding assistants:
-- **The Skimming Trap:** When an AI dumps entire 800-line service classes into context, transformer attention degrades. It skims over code, misses boundary validations (`<` vs `<=`, nullability, clamping), and hallucinates nonexistent conventions.
-- **Inversion of Control (IoC) Blindness:** Indirection patterns (MediatR, generic repositories, Scrutor reflection DI, controller inheritance) cause generic file packagers (like Repomix) to dump thousands of lines of irrelevant DTO boilerplate while missing the actual handler.
-- **Multi-API Workflow Desynchronization:** Real enterprise features span 3 to 5 sequential APIs (`Draft -> Submit -> Pay -> Complete`). Modifying one endpoint without understanding the underlying state machine breaks downstream preconditions.
+Trong các codebase C# ASP.NET lớn (50.000 đến 500.000+ dòng code), vấn đề lớn nhất của AI không phải là thiếu chỗ chứa token, mà là **đọc lướt (skimming) dẫn đến hiểu sai logic nghiệp vụ**, đoán mò kiến trúc (IoC, MediatR, Controller inheritance), và tốn quá nhiều lượt gọi công cụ vòng vo.
+
+**Ottonet** cắt bỏ toàn bộ thủ tục rườm rà, tập trung tuyệt đối vào:
+1. **Tìm đúng điểm nóng trong 1 bước (Blazing-Fast Traversal):** Dò thẳng từ Route/Method đến đúng implementation mà không đoán mò.
+2. **Thấu đáo 100% logic (Zero-Skimming Rigor):** Đọc trọn vẹn method mục tiêu trong 1 lượt gọi, soi kỹ toàn bộ rẽ nhánh `if-else`, toán tử biên (`<` vs `<=`), nullability, và EF Core change tracking.
+3. **Workflow đa API vững chắc:** Neo theo vòng đời trạng thái (`Status Lifecycle`), đảm bảo sửa 1 API không làm gãy các bước kế tiếp trong chuỗi nghiệp vụ.
 
 ---
 
-## The Solution: Pure Cognitive Surgical Intelligence
+## Khả Năng Thích Ứng Toàn Diện (Universal Architecture)
 
-**Ottonet** is a zero-dependency, pure cognitive agent skill that forces AI coding assistants to investigate ASP.NET codebases with surgical precision—slashing token consumption by **90%+** while achieving **100% logic accuracy**.
-
-### 1. The 2-Tier Zoom Window (Token Optimization Engine)
-Instead of reading 1,200-line classes into context, Ottonet clamps reads into two surgical tiers:
-- **Tier 1 (Scope Header ~20 lines):** Namespace, base classes, and constructor DI injections (identifies `_dbContext`, `_mediator`, `_paymentGateway`).
-- **Tier 2 (Target Method Body ~40–60 lines):** The exact lines of the target method with **100% full-body fidelity** (every single variable, if-branch, loop, and exception).
-- **Result:** ~700 tokens consumed instead of 15,000+ tokens (**92% reduction**) with zero loss of execution fidelity.
-
-### 2. Line-by-Line Trace Table & Symbolic Dry-Run
-Before proposing code changes, the AI must construct:
-- A structured **Line-by-Line Trace Table** (`[Line # | Statement | Mutated State | Invariant]`).
-- A **2-Scenario Symbolic Dry-Run** (Happy Path & Edge/Failure Case) simulating concrete inputs through the method.
-- **Result:** Eliminates reading-skimming. Forces the model's transformer attention to evaluate every operator and guard.
-
-### 3. Universal ASP.NET Architecture Navigation
-Not all codebases use MediatR. Ottonet provides Dual-Vector traversal across all 7 major ASP.NET archetypes:
+Ottonet không hardcode theo bất kỳ thư viện nào mà hỗ trợ toàn diện mọi kiến trúc ASP.NET:
 - **N-Tier / Layered:** Controller &rarr; `IService` &rarr; `Service` &rarr; `IRepository` &rarr; `DbContext`.
-- **FastEndpoints / REPR:** `Endpoint<TRequest, TResponse>` with `HandleAsync`.
+- **FastEndpoints / REPR:** `Endpoint<TRequest, TResponse>` với `HandleAsync`.
 - **Minimal APIs & Carter:** `app.MapGet`/`MapPost`, Route Groups, `ICarterModule`.
 - **Vertical Slice Architecture:** Co-located `Features/Orders/CreateOrder/`.
 - **Dapper & Micro-ORMs:** Direct SQL strings, `IDbConnection`, and stored procedure mappings.
 - **Modular Monolith & DDD:** Bounded contexts and in-memory event handlers.
-- **Legacy Web API 2 / MVC:** `ApiController` fat actions and EF6.
-
-### 4. Multi-API Workflow Tracing
-Maps complex business processes across multiple APIs by anchoring on the **Aggregate Root State Machine** (`OrderStatus`, `InvoiceState`). Ensures that changes to API $N$ never break the preconditions of API $N+1$.
-
-### 5. The 3-Gate Verification Protocol
-- **Gate 1:** Build & type-safety verification via `dotnet build`.
-- **Gate 2:** State machine non-regression check.
-- **Gate 3:** Minimal diff guarantee (preserves git blame and surrounding structure).
+- **Legacy Web API 2 / MVC:** `ApiController` actions and EF6.
 
 ---
 
-## Installation
+## Cài Đặt (1 Lệnh Duy Nhất)
 
-Install Ottonet Skill directly into your active coding agent or project using [skills.sh](https://skills.sh):
+Cài đặt trực tiếp vào AI Agent hoặc workspace của bạn qua [skills.sh](https://skills.sh):
 
 ```bash
-# Install to current repository (auto-detects Cursor, Antigravity, Claude, Copilot, etc.)
+# Cài đặt cho workspace hiện tại (tự động nhận diện Cursor, Antigravity, Claude, Copilot, etc.)
 npx skills add quocbahuynh/OttoNet-Skills --skill '*'
 
-# Install globally across all workspaces
+# Cài đặt toàn cục (global trên toàn máy tính)
 npx skills add quocbahuynh/OttoNet-Skills -g --skill '*'
 
-# Install for a specific agent
+# Cài đặt cho từng agent cụ thể
 npx skills add quocbahuynh/OttoNet-Skills --skill '*' --agent cursor
 npx skills add quocbahuynh/OttoNet-Skills --skill '*' --agent claude-code
 npx skills add quocbahuynh/OttoNet-Skills --skill '*' --agent copilot
@@ -78,9 +57,9 @@ npx skills add quocbahuynh/OttoNet-Skills --skill '*' --agent windsurf cline
 
 ---
 
-## Zero Extra Dependencies
+## Zero Dependencies
 
-Ottonet contains **zero Python scripts**, **zero extra C# binary projects**, and **zero external runtime dependencies**. It is a pure cognitive skill that turns your AI assistant into a disciplined senior ASP.NET software architect.
+Không dùng Python, không thêm project C# phụ, không sinh binary rác vào repository. Ottonet hoạt động thuần túy như một bộ não định hướng và kỷ luật tư duy cho AI Agent.
 
 ---
 
