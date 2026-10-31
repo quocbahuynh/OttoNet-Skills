@@ -1,6 +1,6 @@
 ---
 name: ottonet-skill
-description: Elite Business Logic Debugger for ASP.NET. Enforces 100% domain fidelity, zero technical debt, mandatory diagnosis schemas, EF Core eager loading, and concurrency safeguards.
+description: Elite Business Logic Debugger for ASP.NET. Enforces 100% domain fidelity, zero technical debt, mandatory diagnosis schemas, EF Core loading, domain events, tenant isolation, and concurrency safeguards.
 ---
 
 # Ottonet: Elite ASP.NET Business Logic Debugger
@@ -32,10 +32,13 @@ Every business logic repair MUST open with this exact block before presenting an
 - **Conforming Defect:** Fix implementation bug (boundary `<` vs `<=`, math precision, null check).
 - **Invariant Evolution (Requirement Drift):** If user intent contradicts legacy code, update rule at its domain root (Entity/Policy). Never patch in controllers. Audit downstream callers; update unit tests.
 
-## 4. EF Core & Concurrency Invariants
+## 4. EF Core, Concurrency & Enterprise Invariants
 - **Navigation Loading:** If accessing nested relations (`order.Customer.Address`), ensure `.Include().ThenInclude()` or `.Select()` projection exists. Never rely on disabled lazy loading. Check `HasQueryFilter` for soft-deletes.
 - **Async Thread-Safety:** Never run `Task.WhenAll` on a scoped `DbContext`. Always `await SaveChangesAsync(ct)`. Propagate `CancellationToken`.
 - **No Loops in DB Queries:** Never query DB inside `foreach` (N+1). Batch fetch via `.Where(x => ids.Contains(x.Id))`.
+- **Domain Events & Outbox:** On state mutations (e.g. `order.Cancel()`), verify if `AddDomainEvent(...)` or Outbox messages must be emitted for downstream services.
+- **Tenant Isolation:** If entity has `TenantId` / `OrgId`, never bypass tenant filters in queries or inserts.
+- **Temporal Invariants:** Ban `DateTime.Now`; enforce `DateTimeOffset.UtcNow` / `TimeProvider` for all billing, expiration, and SLA calculations.
 - **Concurrency:** Handle `DbUpdateConcurrencyException` when modifying entities with `RowVersion` / `[Timestamp]`.
 
 ## 5. Multi-API Workflow Integrity
