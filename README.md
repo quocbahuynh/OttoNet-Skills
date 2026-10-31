@@ -4,7 +4,7 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![.NET](https://img.shields.io/badge/.NET-4.5%20to%2010.0-512BD4)](https://dotnet.microsoft.com/)
-[![Accuracy](https://img.shields.io/badge/Focus-100%25%20Accuracy%20%26%20Speed-orange)](skills/ottonet-skill/SKILL.md)
+[![Focus](https://img.shields.io/badge/Focus-100%25%20Accuracy%20%26%20Speed-orange)](skills/ottonet-skill/SKILL.md)
 [![Multi-Agent](https://img.shields.io/badge/AI%20Agents-Antigravity%20%7C%20Cursor%20%7C%20Claude%20%7C%20Copilot%20%7C%20Windsurf%20%7C%20Cline-success)](#installation)
 
 ```bash
@@ -13,22 +13,22 @@ npx skills add quocbahuynh/OttoNet-Skills --skill '*'
 
 ---
 
-## Triết Lý: Chính Xác 100% & Tốc Độ Nhanh Nhất
+## Philosophy: 100% Accuracy & Maximum Inference Speed
 
-Trong các codebase C# ASP.NET lớn (50.000 đến 500.000+ dòng code), vấn đề lớn nhất của AI không phải là thiếu chỗ chứa token, mà là **đọc lướt (skimming) dẫn đến hiểu sai logic nghiệp vụ**, đoán mò kiến trúc (IoC, MediatR, Controller inheritance), và tốn quá nhiều lượt gọi công cụ vòng vo.
+In large C# ASP.NET codebases (50,000 to 500,000+ lines of code), the primary failure mode of AI is **reading-skimming**, guessing Inversion of Control (IoC/DI/MediatR) wiring, and wasting tool round-trips.
 
-**Ottonet** cắt bỏ toàn bộ thủ tục rườm rà, tập trung tuyệt đối vào:
-1. **Tìm đúng điểm nóng trong 1 bước (Blazing-Fast Traversal):** Dò thẳng từ Route/Method đến đúng implementation mà không đoán mò.
-2. **Thấu đáo 100% logic (Zero-Skimming Rigor):** Đọc trọn vẹn method mục tiêu trong 1 lượt gọi, soi kỹ toàn bộ rẽ nhánh `if-else`, toán tử biên (`<` vs `<=`), nullability, và EF Core change tracking.
-3. **Workflow đa API vững chắc:** Neo theo vòng đời trạng thái (`Status Lifecycle`), đảm bảo sửa 1 API không làm gãy các bước kế tiếp trong chuỗi nghiệp vụ.
+**Ottonet** strips out all procedural overhead and enforces:
+1. **1-Step Pinpoint Traversal:** Resolve from Route or Symbol directly to implementation in a single search step.
+2. **Zero-Skimming Rigor:** Read complete target method context in one tool call, auditing boundary operators (`<` vs `<=`), nullability, enum exhaustiveness, and EF Core change tracker status.
+3. **Multi-API State Machine Tracing:** Anchor complex workflows to Aggregate Root status transitions (`Draft -> Reserved -> Paid -> Completed`), ensuring changes in one API never break downstream preconditions.
 
 ---
 
-## Khả Năng Thích Ứng Toàn Diện (Universal Architecture)
+## Universal Architecture Support
 
-Ottonet không hardcode theo bất kỳ thư viện nào mà hỗ trợ toàn diện mọi kiến trúc ASP.NET:
+Ottonet works across all 7 major ASP.NET architectural archetypes:
 - **N-Tier / Layered:** Controller &rarr; `IService` &rarr; `Service` &rarr; `IRepository` &rarr; `DbContext`.
-- **FastEndpoints / REPR:** `Endpoint<TRequest, TResponse>` với `HandleAsync`.
+- **FastEndpoints / REPR:** `Endpoint<TRequest, TResponse>` with `HandleAsync`.
 - **Minimal APIs & Carter:** `app.MapGet`/`MapPost`, Route Groups, `ICarterModule`.
 - **Vertical Slice Architecture:** Co-located `Features/Orders/CreateOrder/`.
 - **Dapper & Micro-ORMs:** Direct SQL strings, `IDbConnection`, and stored procedure mappings.
@@ -37,18 +37,18 @@ Ottonet không hardcode theo bất kỳ thư viện nào mà hỗ trợ toàn di
 
 ---
 
-## Cài Đặt (1 Lệnh Duy Nhất)
+## Installation
 
-Cài đặt trực tiếp vào AI Agent hoặc workspace của bạn qua [skills.sh](https://skills.sh):
+Install directly into your AI coding assistant or workspace via [skills.sh](https://skills.sh):
 
 ```bash
-# Cài đặt cho workspace hiện tại (tự động nhận diện Cursor, Antigravity, Claude, Copilot, etc.)
+# Install to current repository (auto-detects Cursor, Antigravity, Claude, Copilot, etc.)
 npx skills add quocbahuynh/OttoNet-Skills --skill '*'
 
-# Cài đặt toàn cục (global trên toàn máy tính)
+# Install globally across all workspaces
 npx skills add quocbahuynh/OttoNet-Skills -g --skill '*'
 
-# Cài đặt cho từng agent cụ thể
+# Install for a specific agent
 npx skills add quocbahuynh/OttoNet-Skills --skill '*' --agent cursor
 npx skills add quocbahuynh/OttoNet-Skills --skill '*' --agent claude-code
 npx skills add quocbahuynh/OttoNet-Skills --skill '*' --agent copilot
@@ -59,7 +59,7 @@ npx skills add quocbahuynh/OttoNet-Skills --skill '*' --agent windsurf cline
 
 ## Zero Dependencies
 
-Không dùng Python, không thêm project C# phụ, không sinh binary rác vào repository. Ottonet hoạt động thuần túy như một bộ não định hướng và kỷ luật tư duy cho AI Agent.
+No Python scripts, no secondary C# projects, and no binary clutter in your repository. Ottonet functions as a pure cognitive mental model and execution protocol for AI agents.
 
 ---
 
