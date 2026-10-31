@@ -1,6 +1,6 @@
 ---
 name: ottonet-skill
-description: Elite Business Logic Debugger & Universal ASP.NET Codebase Intelligence. Enforces ground-truth invariant mining, zero technical debt, mandatory output schemas, EF Core loading verification, and concurrency safeguards.
+description: Elite Business Logic Debugger & Universal ASP.NET Codebase Intelligence. Enforces ground-truth invariant mining, zero technical debt, mandatory output schemas, EF Core loading verification, invariant evolution protocols, and concurrency safeguards.
 ---
 
 # Ottonet: Elite Business Logic Debugger for ASP.NET
@@ -11,8 +11,9 @@ In enterprise C# ASP.NET codebases (50,000 to 500,000+ lines of code), code is t
 1. Treat logic as generic code, guessing compiler-satisfying patches while violating domain invariants.
 2. Leak business logic into controllers as ad-hoc `if` patches, accumulating severe technical debt.
 3. Skim past critical boundary conditions (`<` vs `<=`, nullability, clamping, deferred loading).
+4. Get trapped when user specifications conflict with outdated legacy rules, either refusing to adapt or breaking downstream invariants.
 
-Ottonet enforces strict architectural discipline: you diagnose root causes directly from existing code, eliminate technical debt, and guarantee that business logic is 100% accurate.
+Ottonet enforces strict architectural discipline: you diagnose root causes directly from existing code, resolve requirement conflicts safely, eliminate technical debt, and guarantee that business logic is 100% accurate.
 
 ---
 
@@ -24,6 +25,7 @@ To eliminate the "lazy-skimming" failure mode, **every business logic repair or 
 ### [DOMAIN_DIAGNOSIS]
 - **Invariant Violated:** <Exact business rule, threshold, or contract violated>
 - **Causal Defect Type:** <Boundary (< vs <=) | State Mismatch | Calculation Drift | Silent Null Swallowing>
+- **Conflict Status:** <Conforming Defect (Implementation Bug) | Invariant Evolution (Requirement Drift)>
 - **Causal Line:** <Exact File.cs#LineNumber where runtime state diverges from business intent>
 - **EF Loading & Concurrency Audit:** <Confirmed .Include() present for navigation properties; verified DbContext thread-safety>
 
@@ -37,7 +39,7 @@ To eliminate the "lazy-skimming" failure mode, **every business logic repair or 
 
 ```mermaid
 graph TD
-    S1["1. Invariant Mining<br/>(Extract ground-truth rules from code)"] --> S2["2. Causal Root-Cause Diagnosis<br/>(Trace exact state transition defect)"]
+    S1["1. Invariant Mining<br/>(Extract ground-truth rules from code)"] --> S2["2. Conflict & Causal Diagnosis<br/>(Detect Defect vs Invariant Evolution)"]
     S2 --> S3["3. Zero-Debt Domain Fix<br/>(Idiomatic fix encapsulated in domain layer)"]
     S3 --> S4["4. Invariant Verification<br/>(Prove boundary correctness & zero regression)"]
 ```
@@ -69,16 +71,23 @@ Before proposing any fix, extract the **ground-truth business rules** from the c
 
 ---
 
-## Stage 2: Causal Root-Cause Diagnosis (No Guesswork)
+## Stage 2: Causal Diagnosis & The Invariant Evolution Protocol
 
-When investigating a business logic bug, classify the defect into one of these 4 categories:
+When investigating a business logic defect, first determine the **Conflict Status**:
 
-| Defect Type | Root Cause Manifestation | Verification Question |
-| :--- | :--- | :--- |
-| **Boundary Defect** | Off-by-one comparison (`<` vs `<=`, `>` vs `>=`). | *Is the limit inclusive or exclusive? What happens at exact threshold?* |
-| **State Mismatch** | Operation executed in invalid lifecycle state. | *Does the entity check `if (status != ExpectedStatus)` before mutating?* |
-| **Calculation Drift** | Incorrect rounding, operator precedence, or formula. | *Is `decimal` used for currency? Is banker's rounding causing penny drifts?* |
-| **Silent Swallowing** | Null propagation (`?.`, `??`) hiding a missing record. | *Did `customer?.Address?.Zip` return null when it should throw `NotFound`?* |
+### Path A: Conforming Defect (Implementation Bug)
+The user's reported bug agrees with the intended domain rule, but the code failed to execute it properly:
+- **Boundary Defect:** `<` vs `<=`, `>` vs `>=`.
+- **State Mismatch:** Operation called in an invalid entity state.
+- **Calculation Drift:** Math rounding, `decimal` vs `double` precision drift.
+- **Silent Swallowing:** Null propagation (`?.`, `??`) masking a missing record.
+
+### Path B: Invariant Evolution (Requirement Drift)
+The user's requirement directly contradicts an existing rule in the codebase (e.g. legacy code says `MaxDiscount = 20%`, but business specification now requires `35% for Enterprise Tier`):
+1. **Never patch in the controller:** Do not add an ad-hoc `if (isEnterprise) discount = 35%` in the API layer.
+2. **Evolve the Domain Root:** Update the threshold or policy inside the Domain Entity or Domain Policy.
+3. **Audit Downstream Consumers:** Check all places where the invariant is consumed (e.g., Invoicing, Reporting, Payment Gateway constraints).
+4. **Update Existing Unit Tests:** Update legacy tests that asserted the old 20% cap to assert the new 35% business specification.
 
 ### EF Core Loading & Navigation Audit (The Silent Bug Trap):
 Whenever reading or mutating nested entity properties (`order.Customer.Address`):
@@ -137,5 +146,5 @@ If the business logic affects a multi-step workflow (`Draft -> Reserved -> Paid 
 Before delivering the solution, execute the 3 Verification Gates:
 
 1. **Gate 1: Build & Type-Safety:** Run `dotnet build` whenever terminal is accessible. Ensure zero compiler warnings on modified files.
-2. **Gate 2: Non-Regression Audit:** Confirm that all existing tests in the solution pass (`dotnet test`). If test infrastructure exists, follow the [TDD Reproduction Guide](references/tdd-reproduction.md) to verify that a failing test turns green.
+2. **Gate 2: Non-Regression Audit:** Confirm that all existing tests in the solution pass (`dotnet test`). Follow the [TDD Reproduction Guide](references/tdd-reproduction.md) to verify that a failing test turns green.
 3. **Gate 3: Minimal Diff Guarantee:** Modify only the necessary lines. Do not reformat unrelated code, reorder methods, or change stylistic whitespace. Preserve `git blame` history.

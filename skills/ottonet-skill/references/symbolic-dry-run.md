@@ -21,7 +21,57 @@ When investigating a business logic defect, construct this causal trace in your 
 
 ---
 
-## 2. EF Core Eager Loading & Concurrency Audit
+## 2. Invariant Evolution Walkthrough (Handling Requirement Drift)
+
+### Scenario: The Legacy Cap vs. New Business Tier
+- **Legacy Code (written 1 year ago):**
+  ```csharp
+  public class OrderDiscountPolicy
+  {
+      public const decimal MaxAllowedDiscount = 0.20m; // 20% cap hardcoded
+      public decimal Calculate(Order order)
+      {
+          if (order.DiscountRate > MaxAllowedDiscount)
+              throw new InvalidDiscountException("Discount cannot exceed 20%.");
+          return order.Subtotal * order.DiscountRate;
+      }
+  }
+  ```
+- **New User Requirement:**
+  *"Enterprise Tier accounts are now approved for up to 35% discount, but the system crashes with `InvalidDiscountException`."*
+
+### How Ottonet Resolves This Without Technical Debt:
+1. **Detect Conflict Status:** `Invariant Evolution (Requirement Drift)`.
+2. **Never Apply Controller Band-Aid:** Do NOT do this in the controller:
+   ```csharp
+   // WRONG! Technical debt hack in controller
+   if (account.IsEnterprise) { /* bypass policy */ }
+   ```
+3. **Evolve the Domain Policy (Clean Architecture):**
+   ```csharp
+   // RIGHT! Update policy at its architectural root
+   public class OrderDiscountPolicy
+   {
+       public decimal GetMaxAllowedDiscount(AccountTier tier) => tier switch
+       {
+           AccountTier.Enterprise => 0.35m,
+           _ => 0.20m
+       };
+
+       public decimal Calculate(Order order, AccountTier tier)
+       {
+           var cap = GetMaxAllowedDiscount(tier);
+           if (order.DiscountRate > cap)
+               throw new InvalidDiscountException($"Discount exceeds allowed limit of {cap:P0}.");
+           return order.Subtotal * order.DiscountRate;
+       }
+   }
+   ```
+4. **Update Existing Unit Tests:** Update the test that asserted the hardcoded 20% cap to test both standard tiers (20%) and enterprise tiers (35%).
+
+---
+
+## 3. EF Core Eager Loading & Concurrency Audit
 
 Before finalizing any query or mutation:
 
@@ -60,7 +110,7 @@ Before finalizing any query or mutation:
 
 ---
 
-## 3. The 3 Golden Rules of Zero Technical Debt in Business Logic Fixes
+## 4. The 3 Golden Rules of Zero Technical Debt in Business Logic Fixes
 
 ### Rule 1: Never Patch in the Presentation Layer (Controller / Endpoint)
 - **Bad (Technical Debt):**

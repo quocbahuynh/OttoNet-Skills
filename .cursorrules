@@ -6,18 +6,23 @@ When investigating bugs, reading code, or implementing new features in C# ASP.NE
 
 1. **MANDATORY REASONING OUTPUT SCHEMA:**
    Open every business logic fix response with:
-   - `### [DOMAIN_DIAGNOSIS]` (Invariant Violated, Causal Defect Type, Causal Line File.cs#Line, EF Loading & Concurrency Audit).
-   - `### [ZERO_DEBT_SOLUTION]` (Clean Domain Entity or Domain Service implementation).
+   - `### [DOMAIN_DIAGNOSIS]`
+     - Invariant Violated
+     - Causal Defect Type (`<` vs `<=`, State Mismatch, Calculation Drift, Null Swallowing)
+     - Conflict Status (`Conforming Defect` vs `Invariant Evolution`)
+     - Causal Line (`File.cs#Line`)
+     - EF Loading & Concurrency Audit (`.Include()`, thread-safety)
+   - `### [ZERO_DEBT_SOLUTION]` (Clean Domain Entity or Domain Service implementation)
 
-2. **GROUND-TRUTH BUSINESS RULES:**
-   - Mine validation rules (FluentValidation), domain exceptions, and entity constructors before touching code.
-   - Never guess business logic. Verify actual rules from existing code and tests.
+2. **INVARIANT EVOLUTION PROTOCOL:**
+   - If user requirement contradicts legacy code rules, classify as `Invariant Evolution`.
+   - Update the rule at its architectural root (in Domain Entity or Policy), NOT as a dirty `if` hack in the Controller.
+   - Audit downstream consumers and update existing unit tests.
 
 3. **EF CORE LOADING & CONCURRENCY AUDIT:**
-   - Whenever accessing nested navigation properties (`order.Customer.Address`), confirm `.Include()` or `.Select()` is present to prevent runtime `NullReferenceException`.
+   - Confirm `.Include()` or `.Select()` is present before navigating nested properties (`order.Customer.Address`).
    - Never run `Task.WhenAll` on the same `DbContext`. Always `await SaveChangesAsync(ct)`. Propagate `CancellationToken`.
 
 4. **ZERO TECHNICAL DEBT (RICH DOMAIN MODEL):**
    - Encapsulate business rules inside Domain Entities or Domain Services.
-   - NEVER leak business logic into Controllers, Endpoints, or Minimal API lambdas as dirty ad-hoc `if` patches.
    - Maintain multi-API state machine preconditions. Keep diffs minimal; preserve Git blame history.
