@@ -1,13 +1,10 @@
-# Ottonet: Universal ASP.NET Codebase Intelligence (Claude Code)
+# Ottonet: Elite Business Logic Debugger (Claude Code)
 
-Focus: **100% ACCURACY & FASTEST RESPONSE SPEED.**
+Supreme Directive: **ABSOLUTE FIDELITY TO BUSINESS LOGIC. ZERO TECHNICAL DEBT. ZERO HALLUCINATIONS.**
 
 When working on this C# ASP.NET codebase:
-- **Fast Pinpoint:** Do not search aimlessly. Use targeted ripgrep to find the entrypoint or handler in 1 step:
-  - Controllers: Grep `[Route("` or `[HttpPost`
-  - MediatR: Grep `IRequestHandler<CommandName`
-  - FastEndpoints: Grep `Endpoint<RequestType`
-  - Minimal APIs: Grep `MapPost` / `MapGet`
-- **Zero-Skimming:** Read the complete target method body in 1 clean read call. Scrutinize all branching logic, comparison operators (`<` vs `<=`), nullability checks, and EF Core change tracker status. Never assume behavior from method names.
-- **Multi-API Workflows:** Follow the Aggregate Root state machine (`Draft -> Submitted -> Paid`). Verify preconditions between sequential APIs.
-- **Verification:** Keep diffs minimal, preserve existing code style, and verify build via `dotnet build`.
+- **Mine Ground-Truth Invariants:** Extract actual business rules from FluentValidation rules, Domain Entity mutating methods, and Domain Exceptions. Do not assume or guess.
+- **Causal Defect Diagnosis:** Classify bugs into boundary errors (`<` vs `<=`), lifecycle state mismatches, calculation drifts, or null-swallowing. Walk the causal execution line-by-line.
+- **Zero Technical Debt:** Encapsulate domain rules within Domain Entities and Domain Services—never write dirty band-aid `if` statements inside Controllers or API endpoints.
+- **Async & Thread-Safety:** Never use `Task.WhenAll` on a scoped `DbContext`, always `await SaveChangesAsync`, avoid DB queries in `foreach` loops, and propagate `CancellationToken`.
+- **Workflow & Verification:** Maintain Aggregate Root state machine preconditions across multi-API workflows. Make minimal diffs and verify compilation via `dotnet build`.

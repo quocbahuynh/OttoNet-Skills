@@ -1,24 +1,22 @@
-# Ottonet: Universal ASP.NET Codebase Intelligence (Cursor Rules)
+# Ottonet: Elite Business Logic Debugger (Cursor Rules)
 
-Goal: **100% ACCURACY & FASTEST RESPONSE SPEED.**
+Prime Directive: **ABSOLUTE FIDELITY TO BUSINESS LOGIC. ZERO TECHNICAL DEBT. ZERO HALLUCINATIONS.**
 
 When investigating bugs, reading code, or implementing new features in C# ASP.NET:
 
-1. **BLAZING-FAST PINPOINT:**
-   - Jump directly to the implementation in 1 step:
-     - Route/API: Grep `[HttpGet]`, `[HttpPost]`, `MapPost`, or `Endpoint<`.
-     - MediatR/CQRS: Grep `IRequestHandler<YourCommand`.
-     - Direct DI: Grep `class YourService : IYourService`.
+1. **GROUND-TRUTH BUSINESS RULES:**
+   - Code is the single source of truth. Mine validation rules (FluentValidation), domain exceptions, and entity constructors before touching code.
+   - Never guess what business logic "should be". Verify actual rules from existing code and tests.
 
-2. **ZERO-SKIMMING & 100% LOGIC RIGOR:**
-   - Never guess what a method does from its name.
-   - Read the complete target method body in 1 clean read call to have full context immediately.
-   - Audit the 5 C# traps: `<` vs `<=`, `?.` and `??`, missing enum branches in switch expressions, `decimal` vs `double` rounding, and EF Core change tracker status.
+2. **CAUSAL ROOT-CAUSE DIAGNOSIS:**
+   - Pinpoint the exact defect: Boundary comparison (`<` vs `<=`), state lifecycle mismatch, calculation drift (`decimal` vs `double`), or silent null-swallowing (`?.`/`??`).
+   - Mentally walk the code with concrete trigger inputs vs valid baseline inputs.
 
-3. **MULTI-API WORKFLOWS:**
-   - Anchor on the Aggregate Root Status Enum (`OrderStatus: Draft -> Reserved -> Paid -> Completed`).
-   - Verify that changes do not violate preconditions expected by downstream APIs.
+3. **ZERO TECHNICAL DEBT (RICH DOMAIN MODEL):**
+   - Encapsulate business rules inside Domain Entities or Domain Services.
+   - NEVER leak business logic into Controllers, Endpoints, or Minimal API lambdas as dirty ad-hoc `if` patches.
+   - Respect async & EF Core thread-safety: never run `Task.WhenAll` on the same `DbContext`, always `await SaveChangesAsync`, and propagate `CancellationToken`.
 
-4. **PRECISION MINIMAL DIFF & BUILD:**
-   - Make laser-focused minimal changes; preserve Git blame history.
-   - Verify compilation with `dotnet build` whenever terminal is available.
+4. **MULTI-API INTEGRITY & MINIMAL DIFF:**
+   - Verify that changes do not break downstream API preconditions on the Aggregate Root state machine.
+   - Keep diffs minimal, clean, and idiomatic; protect Git blame history.

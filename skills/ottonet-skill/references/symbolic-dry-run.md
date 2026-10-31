@@ -1,86 +1,64 @@
-# Symbolic Dry-Run & Anti-Skimming Cognitive Playbook
+# Symbolic Dry-Run & Business Logic Causal Diagnostic Playbook
 
-Why do AI models skim over C# code and miss critical bugs?
-Because LLMs generate predictions based on token probability. When reading a 30-line method, the model assumes standard behavior ("this looks like normal discount calculation") unless forced to compute state transitions line-by-line.
-
-This playbook provides the concrete protocol to force 100% token-by-token comprehension on any method.
+This playbook provides the concrete protocol to diagnose, trace, and repair subtle business logic bugs in C# ASP.NET without hallucinations or technical debt.
 
 ---
 
-## 1. The Line-by-Line Trace Table Template
+## 1. The 4-Column Causal Trace Table
 
-When inspecting a critical method during debugging or feature extension, construct this table:
+When investigating a business logic defect, construct this causal trace in your thinking process:
 
 ```markdown
-### Line-by-Line Execution Trace: `OrderService.CalculateFinalTotal`
+### Causal Trace: `InvoiceService.ApplySpecialDiscount`
 
-| Line # | Statement | Mutated State / Evaluated Branch | Business Rule / Guard Condition |
-| :--- | :--- | :--- | :--- |
-| `L82` | `if (order == null)` | `order` nullity | Guard: Throws `ArgumentNullException` |
-| `L85` | `if (order.Status != OrderStatus.Draft)` | `order.Status` | Invariant: Only drafts can be calculated. Throws `InvalidOperationException` |
-| `L89` | `var subtotal = order.Items.Sum(i => i.Price * i.Quantity);` | `subtotal` (decimal) | Accumulator: Must be >= 0 |
-| `L93` | `var discount = _discountService.GetDiscount(order.CustomerId);` | `discount` (decimal) | External dependency call |
-| `L96` | `if (discount > subtotal) discount = subtotal;` | `discount` clamp | Guard: Discount cannot exceed subtotal |
-| `L99` | `var taxRate = order.ShippingAddress.IsTaxExempt ? 0 : 0.08m;` | `taxRate` | Business Rule: Exempt check |
-| `L102`| `order.Tax = (subtotal - discount) * taxRate;` | `order.Tax` | Calculation: Tax applied after discount |
-| `L105`| `order.Total = (subtotal - discount) + order.Tax;` | `order.Total` | Invariant: Final total persisted |
+| Line # | Code Statement | Evaluated Condition / State Mutation | Domain Invariant / Business Rule | Defect Detected? |
+| :--- | :--- | :--- | :--- | :---: |
+| `L42` | `if (invoice.Status != InvoiceStatus.Unpaid)` | `invoice.Status == Unpaid` | Rule: Only unpaid invoices can be discounted. | No |
+| `L46` | `if (customer.Tier == Tier.VIP && invoice.Amount > 1000)` | Condition: `VIP` AND `> 1000` | Rule: VIP discount threshold is $1,000 inclusive (`>= 1000`). | **BUG!** Uses `>` instead of `>=`. |
+| `L50` | `discount = invoice.Amount * 0.15m;` | `discount = 150` | Formula: 15% discount for eligible VIPs. | No |
+| `L54` | `invoice.BalanceDue -= discount;` | `BalanceDue` mutation | Invariant: Balance due must not be negative. | Risk (no clamp) |
 ```
 
 ---
 
-## 2. The 2-Scenario Symbolic Dry-Run
+## 2. The 3 Golden Rules of Zero Technical Debt in Business Logic Fixes
 
-Immediately following the table, simulate execution with two specific test cases:
+### Rule 1: Never Patch in the Presentation Layer (Controller / Endpoint)
+- **Bad (Technical Debt):**
+  ```csharp
+  // In OrdersController.cs - WRONG! Leaks domain logic into API layer
+  if (dto.Total < 0) dto.Total = 0;
+  var order = new Order { Total = dto.Total };
+  ```
+- **Good (Clean Domain Encapsulation):**
+  ```csharp
+  // In Domain/Entities/Order.cs - RIGHT!
+  public void SetTotal(decimal total)
+  {
+      if (total < 0) throw new ArgumentOutOfRangeException(nameof(total), "Order total cannot be negative.");
+      Total = total;
+  }
+  ```
 
-### Scenario 1: Happy Path (Standard Business Case)
-- **Inputs:**
-  - `order.Status = OrderStatus.Draft`
-  - `Items = [ { Price: 50, Quantity: 2 } ]` &rarr; `subtotal = 100`
-  - `discount = 20`
-  - `IsTaxExempt = false` (`taxRate = 0.08`)
-- **Step-by-Step State Propagation:**
-  - `L82`: `order != null` &rarr; Pass.
-  - `L85`: `order.Status == Draft` &rarr; Pass.
-  - `L89`: `subtotal = 100`.
-  - `L93`: `discount = 20`.
-  - `L96`: `20 <= 100` &rarr; `discount = 20`.
-  - `L99`: `taxRate = 0.08`.
-  - `L102`: `order.Tax = (100 - 20) * 0.08 = 6.40`.
-  - `L105`: `order.Total = 80 + 6.40 = 86.40`.
-- **Verdict:** Logic holds for valid inputs.
+### Rule 2: Guard Every State Mutation with Lifecycle Preconditions
+- If an order is `Shipped`, it must NOT be possible to call `Cancel()` or `UpdateShippingAddress()`.
+- Explicitly enforce lifecycle guards:
+  ```csharp
+  if (Status == OrderStatus.Shipped || Status == OrderStatus.Completed)
+      throw new InvalidOrderStateException($"Cannot modify order in {Status} state.");
+  ```
 
----
-
-### Scenario 2: Boundary / Edge / Failure Case (Where Bugs Hide)
-- **Inputs:**
-  - `order.Status = OrderStatus.Draft`
-  - `Items = [ { Price: 10, Quantity: 1 } ]` &rarr; `subtotal = 10`
-  - `discount = 50` *(Discount exceeds subtotal)*
-  - `IsTaxExempt = true` (`taxRate = 0`)
-- **Step-by-Step State Propagation:**
-  - `L82`: Pass.
-  - `L85`: Pass.
-  - `L89`: `subtotal = 10`.
-  - `L93`: `discount = 50`.
-  - `L96`: `50 > 10` &rarr; clamped to `discount = 10`.
-  - `L99`: `IsTaxExempt == true` &rarr; `taxRate = 0`.
-  - `L102`: `order.Tax = (10 - 10) * 0 = 0`.
-  - `L105`: `order.Total = 0 + 0 = 0`.
-- **Verdict:** Clamping prevents negative order totals.
+### Rule 3: Use Value Objects for Complex Domain Concepts
+- Do not pass loose primitives (like `string currency, decimal amount`) if the codebase uses or would benefit from a `Money` or `Address` Value Object.
+- Ensure rounding and currency matching are encapsulated within the Value Object.
 
 ---
 
-## 3. The Top 5 Logic Traps to Scan For in C# ASP.NET
+## 3. The Elite Debugger's Checklist for Edge Cases
 
-When constructing the table and dry-run, explicitly audit for:
-
-1. **Strict Inequality vs. Non-Strict Inequality (`<` vs. `<=`, `>` vs. `>=`):**
-   - E.g., `if (age < 18)` vs `if (age <= 18)` or pagination `page * pageSize < total`.
-2. **Nullable Reference Types & Null Propagation (`?.` and `??`):**
-   - E.g., `customer?.BillingAddress?.PostalCode` silently evaluating to `null` instead of triggering a validation error.
-3. **Floating Point vs. Decimal Rounding:**
-   - E.g., using `double` / `float` instead of `decimal` for financial amounts, or `Math.Round` default banker's rounding (`MidpointRounding.ToEven`) causing off-by-one penny discrepancies.
-4. **Unhandled Enum Members in `switch` expressions:**
-   - E.g., `status switch { OrderStatus.Draft => ..., OrderStatus.Paid => ... }` throwing `SwitchExpressionException` when a new status is introduced.
-5. **Entity Framework Change Tracker Assumptions:**
-   - E.g., modifying a detached DTO or disconnected entity and assuming `_context.SaveChangesAsync()` will detect and persist the modification without `_context.Update(...)` or fetching the tracked entity first.
+Before submitting a business logic fix, verify:
+- [ ] **Exact Boundary Equality:** Did the requirement state "above 100" (`> 100`) or "100 and above" (`>= 100`)?
+- [ ] **Zero and Negative Input Handling:** What happens if the input quantity, price, or discount is `0` or negative?
+- [ ] **Nullability & Null-Safety:** Are all optional navigation properties checked before accessing nested properties?
+- [ ] **Timezone & Temporal Invariants:** Does the logic compare UTC with Local time? Always ensure `DateTimeOffset.UtcNow` or `DateTime.UtcNow` consistency.
+- [ ] **Idempotency:** Can this method be called twice with the same inputs without causing duplicate billing, duplicate status transitions, or double discounts?

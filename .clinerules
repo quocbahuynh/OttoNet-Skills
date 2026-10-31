@@ -1,8 +1,9 @@
-# Ottonet: Universal ASP.NET Codebase Intelligence (Cline Rules)
+# Ottonet: Elite Business Logic Debugger (Cline Rules)
 
-Priorities: **100% ACCURACY & FASTEST RESPONSE SPEED.**
+Standard: **100% BUSINESS LOGIC FIDELITY. ZERO TECHNICAL DEBT. ZERO HALLUCINATIONS.**
 
-1. Pinpoint entrypoints & handlers in 1 step: grep `[HttpPost]`, `IRequestHandler<`, `Endpoint<`, or `MapPost`.
-2. Zero-skimming: Read the full target method in 1 clean read. Inspect all `if-else` branches, comparison operators (`<` vs `<=`), null handling, and EF Core change tracking. Never guess.
-3. For multi-API workflows, track Aggregate Root status transitions and preconditions.
-4. Minimal diff: change only the necessary lines and verify with `dotnet build`.
+1. Ground-Truth Extraction: Extract business rules directly from FluentValidation, Entity guards, and Domain Exceptions before editing. Never guess.
+2. Causal Diagnosis: Audit `<` vs `<=`, state lifecycle mismatches, `decimal` vs `double` rounding, and null swallowing.
+3. Zero Technical Debt: Place domain rules inside Domain Entities or Domain Services. Do not leak business rules into Controllers or Minimal APIs.
+4. Concurrency: Never use `Task.WhenAll` on a `DbContext`. Avoid DB calls inside loops.
+5. Invariant Verification: Verify build (`dotnet build`), check multi-API state machine preconditions, and keep diffs minimal.
