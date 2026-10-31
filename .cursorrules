@@ -14,5 +14,5 @@ Directive: Absolute business logic fidelity. Zero technical debt. Zero hallucina
 2. INVARIANT MINING & SEARCH: Scoped grep only (e.g. `src/Features/X/`). Mine `RuleFor`, `throw new .*Exception`, and entity mutating methods.
 3. INVARIANT EVOLUTION: If user intent contradicts legacy code, update rule at domain root (Entity/Policy). Never patch in controllers. Audit callers; update tests.
 4. EF CORE & CONCURRENCY: Always verify `.Include()` before accessing navigation properties (`order.Customer.Address`). Never run `Task.WhenAll` on a DbContext. Always `await SaveChangesAsync(ct)`. No DB calls inside loops.
-5. ENTERPRISE GUARDS: Verify `AddDomainEvent` / Outbox emissions on state changes. Preserve `TenantId` / `OrgId` isolation. Ban `DateTime.Now`; enforce `DateTimeOffset.UtcNow` / `TimeProvider`.
+5. ENTERPRISE GUARDS: Verify `AddDomainEvent` / Outbox emissions on state changes. Preserve `TenantId` / `OrgId` isolation. Adhere strictly to project's existing time conventions (TimeProvider, IDateTime, or UTC); do NOT enforce arbitrary defaults.
 6. VERIFICATION: Verify build (`dotnet build`), run tests (`dotnet test`), maintain multi-API state machine preconditions, and keep diffs minimal.
