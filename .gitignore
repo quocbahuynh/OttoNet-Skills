@@ -22,6 +22,8 @@ TestResults/
 *.coverage
 *.coveragexml
 
-# Ottonet scratchpad
+# Ottonet scratchpad & skills.sh local install
 .scratchpad.md
 .codebase-intel/
+.agents/
+skills-lock.json
